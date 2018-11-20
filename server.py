@@ -32,6 +32,34 @@ def route_question(qid):
             filtered_answers.append(answer)
     return render_template('question.html', question = returned_question, answers = filtered_answers)
 
+
+@app.route('/form', methods=['GET'])
+def rout_ask_question():
+    return render_template('form.html')
+
+@app.route('/form', methods=['GET', 'POST'])
+def route_submit_question():
+    print('POST request received!')
+    questions = data_manager.get_all_data('question.csv')
+    id_list = []
+    for question in questions:
+        id_list.append(int(question[0]))
+    print(id_list)
+    id = str(max(id_list)+1)
+    print(id)
+    data = []
+    data.append(id)
+    data.append(str(int(time.time())))
+    data.append('0')
+    data.append('0')
+    data.append(request.form['title'])
+    data.append(request.form['question'])
+    data.append(request.form['image'])
+    questions.insert(0, data_manager.TITLE_LIST_Q)
+    questions.append(data)
+    data_manager.save_into_file(questions, 'question.csv')
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(
         port=8000,

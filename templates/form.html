@@ -5,6 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-
+    <form action="/form" method="post">
+			<label for="title"><h3>Title:<br></h3></label>
+			<textarea id="title" name="title" minlength="5" required></textarea>
+			<label for="question"><h3>Question:<br></h3></label>
+            <textarea id="question" name="question" required></textarea>
+			<label for="image"><h4>Image:<br></h4></label>
+            <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+			<br>
+			<br>
+			<button type="submit">Submit Question</button>
+		</form>
 </body>
 </html>
