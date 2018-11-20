@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <title>Ask Mate</title>
 </head>
+<style>
+	th, td {
+    		text-align: center;
+	}
+</style>
 <body>
     <h1>Ask Mate Open Beta</h1>
     <a href="/question">Ask a Question</a>
-    <table style="width:50%">
+    <table style="width:80%">
         <tr>
             <th>ID</th>
             <th>Submission Time</th>
@@ -15,6 +20,7 @@
             <th>Vote Number</th>
             <th>Title</th>
             <th>Message</th>
+            <th>Image</th>
         </tr>
         <tr>
             {% for items in questions %}

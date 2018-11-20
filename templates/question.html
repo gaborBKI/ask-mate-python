@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ question[4]}}</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
-<body>
+<style>
+	h3 {
+        position: relative;
+    		left: 90%;
+	}
+    .vote {
+        position: relative;
+    		left: 95%;
+	}
 
+    .count {
+        position: relative;
+        left: 95%;
+        }
+
+    .question {
+    background-color: tomato;
+    color: white;
+    margin: 20px;
+    padding: 20px;
+    padding-bottom: 0px;
+    border: 3px black;
+}
+</style>
+<body>
+    <h3>{{ question[1] }}</h3>
+    <h1>{{ question[4] }}</h1>
+    <div class="question">{{ question[5] }}<br>
+        <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
+            <i class="fas fa-arrow-down"></i> {{ question[3] }} </p>
+    </div>
 </body>
 </html>
