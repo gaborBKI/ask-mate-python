@@ -27,6 +27,7 @@ def route_question(qid):
             returned_question = question
             returned_question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(returned_question[1])))
     for answer in answers:
+        answer[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(answer[1])))
         if qid == int(answer[3]):
             filtered_answers.append(answer)
     return render_template('question.html', question = returned_question, answers = filtered_answers)

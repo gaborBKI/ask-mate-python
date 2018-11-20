@@ -8,13 +8,13 @@
 </head>
 <style>
 	h3 {
-        position: relative;
-    		left: 90%;
-	}
-    .vote {
-        position: relative;
-    		left: 95%;
-	}
+        margin-right: 100px;
+        text-align: right;
+	    }
+
+    .vote{
+        text-align: right;
+    }
 
     .count {
         position: relative;
@@ -22,8 +22,9 @@
         }
 
     .question {
-        background-color: tomato;
-        color: white;
+        border-radius: 25px;
+        background-color: #A0907F;
+        color: black;
         margin: 20px;
         padding: 20px;
         padding-bottom: 0px;
@@ -34,8 +35,9 @@
         }
 
     .answers {
-        background-color: tomato;
-        color: white;
+        border-radius: 25px;
+        background-color: #3B211F;
+        color: black;
         margin: 20px;
         padding: 20px;
         border: 3px black;
@@ -45,18 +47,26 @@
     }
 
     .even {
-        background-color: greenyellow;
-        color: deeppink;
+        border-radius: 25px;
+        background-color: #A0907F;
+        color: black;
         margin: 20px;
         padding: 20px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        width: 50%;
         border: 3px black;
     }
 
     .odd {
-        background-color: greenyellow;
-        color: deeppink;
+        border-radius: 25px;
+        background-color: #A0907F;
+        color: black;
         margin: 20px;
         padding: 20px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        width: 50%;
         border: 3px black;
     }
 
@@ -65,6 +75,10 @@
         width: 50%;
         position: relative;
         left: 25%;
+    }
+
+    .date {
+        padding: 5px;
     }
 </style>
 <body>
@@ -76,13 +90,27 @@
     </div>
     <img class="line" src="http://clipart-library.com/images/qcBXgnM4i.png" >
     <div class="answers">
-    {% for i in range(answers|length) %}
-        {% if i % 2 == 0 %}
-            <div class="even">{{ answers[i][4] }}</div>
-        {% else %}
-            <div class="odd">{{ answers[i][4] }}</div>
-        {% endif %}
-    {% endfor %}
+    {% if answers|length == 0 %}
+        <p class="even">No answers found</p>
+    {% else %}
+        {% for i in range(answers|length) %}
+            {% if i % 2 == 0 %}
+                <div class="even">
+                    <p class="date">{{ answers[i][1]}}</p>
+                    <p>{{ answers[i][4] }}</p>
+                    <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
+                    <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
+                </div>
+            {% else %}
+                <div class="odd">
+                    <p class="date">{{ answers[i][1]}}</p>
+                    <p>{{ answers[i][4] }}</p>
+                    <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
+                    <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     </div>
 </body>
 </html>
