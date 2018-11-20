@@ -22,13 +22,50 @@
         }
 
     .question {
-    background-color: tomato;
-    color: white;
-    margin: 20px;
-    padding: 20px;
-    padding-bottom: 0px;
-    border: 3px black;
-}
+        background-color: tomato;
+        color: white;
+        margin: 20px;
+        padding: 20px;
+        padding-bottom: 0px;
+        border: 3px black;
+        width: 80%;
+        position: relative;
+        left: 8%;
+        }
+
+    .answers {
+        background-color: tomato;
+        color: white;
+        margin: 20px;
+        padding: 20px;
+        border: 3px black;
+        width: 60%;
+        position: relative;
+        left: 20%;
+    }
+
+    .even {
+        background-color: greenyellow;
+        color: deeppink;
+        margin: 20px;
+        padding: 20px;
+        border: 3px black;
+    }
+
+    .odd {
+        background-color: greenyellow;
+        color: deeppink;
+        margin: 20px;
+        padding: 20px;
+        border: 3px black;
+    }
+
+    .line {
+        height: 50%;
+        width: 50%;
+        position: relative;
+        left: 25%;
+    }
 </style>
 <body>
     <h3>{{ question[1] }}</h3>
@@ -36,6 +73,16 @@
     <div class="question">{{ question[5] }}<br>
         <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
             <i class="fas fa-arrow-down"></i> {{ question[3] }} </p>
+    </div>
+    <img class="line" src="http://clipart-library.com/images/qcBXgnM4i.png" >
+    <div class="answers">
+    {% for i in range(answers|length) %}
+        {% if i % 2 == 0 %}
+            <div class="even">{{ answers[i][4] }}</div>
+        {% else %}
+            <div class="odd">{{ answers[i][4] }}</div>
+        {% endif %}
+    {% endfor %}
     </div>
 </body>
 </html>

@@ -19,10 +19,17 @@ def route_list():
 @app.route('/question/<int:qid>')
 def route_question(qid):
     questions = data_manager.get_all_data('question.csv')
+    answers = data_manager.get_all_data('answer.csv')
+    filtered_answers = []
+    returned_question = []
     for question in questions:
         if qid == int(question[0]):
-            question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(question[1])))
-            return render_template('question.html', question = question)
+            returned_question = question
+            returned_question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(returned_question[1])))
+    for answer in answers:
+        if qid == int(answer[3]):
+            filtered_answers.append(answer)
+    return render_template('question.html', question = returned_question, answers = filtered_answers)
 
 if __name__ == '__main__':
     app.run(
