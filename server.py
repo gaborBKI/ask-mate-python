@@ -14,8 +14,33 @@ def route_list():
     questions = data_manager.get_all_data('question.csv')
     for question in questions:
         question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(question[1])))
-    return render_template('list.html', questions = questions)
 
+    return render_template('list.html', questions = reversed(questions))
+
+@app.route('/delete',methods=['post'])
+def deletequestion():
+    id=request.form['questid']
+    questions= data_manager.get_all_data('question.csv')
+    for question in questions:
+        if int(question[0])==int(id):
+            questions.remove(question)
+
+    questions.insert(0, data_manager.TITLE_LIST_Q)
+
+    data_manager.save_into_file(questions,'question.csv')
+    answers = data_manager.get_all_data('answer.csv')
+
+    for i in range(len(answers)):
+
+        if i<len(answers) and int(answers[i][3]) == int(id) :
+            print(id,answers[i][3])
+            answers[i]=""
+            i-=1
+    answers.insert(0, data_manager.TITLE_LIST_A)
+
+    data_manager.save_into_file(answers,'answer.csv')
+
+    return redirect('/')
 
 @app.route('/question/<int:qid>')
 def route_question(qid):
@@ -67,7 +92,7 @@ def route_submit_question():
     questions.insert(0, data_manager.TITLE_LIST_Q)
     questions.append(data)
     data_manager.save_into_file(questions, 'question.csv')
-    return redirect('/')
+    return redirect(f'/question/{id}')
 
 
 if __name__ == '__main__':
