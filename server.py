@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+import csv
 import time
 import data_manager
 import connection
@@ -44,7 +44,15 @@ def rout_ask_question():
 
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
-    return render_template('form.html', answer = 1, qid = qid)
+    answers=data_manager.get_all_data("answer.csv")
+    id_list = []
+    for answer in answers:
+        id_list.append(int(answer[0]))
+    id = str(max(id_list) + 1)
+    with open("answer.csv","a") as file:
+        writer = csv.writer(file)
+        writer.writerow([id,int(time.time()),0,qid,request.form["answertext"]])
+    return redirect(f"/question/{qid}")
 
 
 @app.route('/ask_question', methods=['POST'])

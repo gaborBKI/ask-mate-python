@@ -12,13 +12,18 @@
     </script>
 </head>
 <style>
+    html{
+        height: 100%;
+        overflow: hidden;
+    }
     body {
         margin: 0;
         padding: 0;
         background: url("http://mozinormontreuil.fr/wp-content/uploads/2015/10/bg-parallax-diamond.jpg");
         background-attachment: fixed;
+        height: 100%;
     }
-    }
+
 	h3 {
         margin-right: 100px;
         text-align: right;
@@ -56,6 +61,8 @@
         width: 60%;
         position: relative;
         left: 20%;
+        overflow: auto;
+        height: 60%;
     }
 
     .even {
@@ -83,10 +90,9 @@
     }
 
     .line {
-        height: 50%;
-        width: 50%;
+        width: 20%;
         position: relative;
-        left: 25%;
+        left: 40%;
     }
 
     .date {
@@ -124,8 +130,12 @@
         {% endfor %}
     {% endif %}
         <form action="/answer/{{question[0]}}" method="post">
-        <input name="qid" type="text" hidden value="{{ question[0] }}">
-        <p align="right"><input type="submit" value="Send an Answer"></p>
+        <div align="center">
+            <textarea name="answertext" rows="12" cols="60"></textarea>
+            <p align="right"><input type="submit" value="Send an Answer"></p>
+        </div>
+
+
         </form>
     </div>
     <button onclick="window.location.href='/'">Go Back</button>
