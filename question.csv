@@ -1,6 +1,6 @@
 id,submission_time,view_number,vote_number,title,message,image
-0,1493368154,191,7,How to make lists in Python?,"I am totally new to this, any hints?",
-1,1493068124,21,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
+0,1493368154,193,7,How to make lists in Python?,"I am totally new to this, any hints?",
+1,1493068124,22,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
 
@@ -13,7 +13,7 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
 3,1542734936,10,0,Submit,Why can't I submit a question?,
-4,1542735136,5,0,Images,Can I post an image to this stuff?,Danny-devito.png
-5,1542735377,7,0,BUGGED!!!,Why is this such a bugfest?,
+4,1542735136,9,0,Images,Can I post an image to this stuff?,Danny-devito.png
+5,1542735377,10,0,BUGGED!!!,Why is this such a bugfest?,
 8,1542795515,101,0,Is it working?,Is this thing on?,
-9,1542820884,23,0,Long answers,Do long answers still get displayed outside of the div box?,
+9,1542820884,27,0,Long answers,Do long answers still get displayed outside of the div box?,

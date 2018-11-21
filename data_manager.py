@@ -16,6 +16,8 @@ def get_all_data(filename):
         next(reader, None)
         for line in reader:
             data.append(line)
+    for i in range(len(data)):
+        data[i] = [int(item) if item.isdigit() else item for item in data[i]]
     return data
 
 def save_into_file(data, filename):
