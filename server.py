@@ -24,23 +24,32 @@ def deletequestion():
     for question in questions:
         if int(question[0])==int(id):
             questions.remove(question)
-
     questions.insert(0, data_manager.TITLE_LIST_Q)
-
     data_manager.save_into_file(questions,'question.csv')
     answers = data_manager.get_all_data('answer.csv')
-
     for i in range(len(answers)):
-
         if i<len(answers) and int(answers[i][3]) == int(id) :
             print(id,answers[i][3])
             answers[i]=""
             i-=1
     answers.insert(0, data_manager.TITLE_LIST_A)
-
     data_manager.save_into_file(answers,'answer.csv')
-
     return redirect('/')
+
+
+@app.route('/delete_answer', methods=['post'])
+def delete_answer():
+    id = request.form['answer_id']
+    answers = data_manager.get_all_data('answer.csv')
+    qid = 0
+    for answer in answers:
+        if answer[0] == id:
+            qid = answer[3]
+            answers.remove(answer)
+    answers.insert(0, data_manager.TITLE_LIST_A)
+    data_manager.save_into_file(answers, 'answer.csv')
+    return redirect(f"/question/{qid}")
+
 
 @app.route('/question/<int:qid>')
 def route_question(qid):
