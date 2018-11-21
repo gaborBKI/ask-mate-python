@@ -16,6 +16,7 @@
         margin: 0;
         padding: 0;
         background: url("http://mozinormontreuil.fr/wp-content/uploads/2015/10/bg-parallax-diamond.jpg");
+        background-attachment: fixed;
     }
     }
 	h3 {
@@ -122,6 +123,10 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+        <form action="/answer/{{question[0]}}" method="post">
+        <input name="qid" type="text" hidden value="{{ question[0] }}">
+        <p align="right"><input type="submit" value="Send an Answer"></p>
+        </form>
     </div>
     <button onclick="window.location.href='/'">Go Back</button>
 </body>

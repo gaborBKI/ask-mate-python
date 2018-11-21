@@ -16,6 +16,7 @@ def route_list():
         question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(question[1])))
     return render_template('list.html', questions = questions)
 
+
 @app.route('/question/<int:qid>')
 def route_question(qid):
     questions = data_manager.get_all_data('question.csv')
@@ -36,11 +37,17 @@ def route_question(qid):
     return render_template('question.html', question = returned_question, answers = filtered_answers)
 
 
-@app.route('/form', methods=['GET'])
+@app.route('/ask_question', methods=['GET'])
 def rout_ask_question():
     return render_template('form.html')
 
-@app.route('/form', methods=['GET', 'POST'])
+
+@app.route('/answer/<qid>', methods=['POST'])
+def answer(qid):
+    return render_template('form.html', answer = 1, qid = qid)
+
+
+@app.route('/ask_question', methods=['POST'])
 def route_submit_question():
     print('POST request received!')
     questions = data_manager.get_all_data('question.csv')
@@ -48,18 +55,12 @@ def route_submit_question():
     for question in questions:
         id_list.append(int(question[0]))
     id = str(max(id_list)+1)
-    data = []
-    data.append(id)
-    data.append(str(int(time.time())))
-    data.append('0')
-    data.append('0')
-    data.append(request.form['title'])
-    data.append(request.form['question'])
-    data.append(request.form['image'])
+    data = [id, str(int(time.time())), '0', '0', request.form['title'], request.form['question'], request.form['image']]
     questions.insert(0, data_manager.TITLE_LIST_Q)
     questions.append(data)
     data_manager.save_into_file(questions, 'question.csv')
     return redirect('/')
+
 
 if __name__ == '__main__':
     app.run(
