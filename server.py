@@ -47,9 +47,7 @@ def route_submit_question():
     id_list = []
     for question in questions:
         id_list.append(int(question[0]))
-    print(id_list)
     id = str(max(id_list)+1)
-    print(id)
     data = []
     data.append(id)
     data.append(str(int(time.time())))
