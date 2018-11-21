@@ -26,14 +26,16 @@
     <h1 align="center">Rakás Túlfolyás</h1>
     <p align="center"><button onclick="window.location.href='/ask_question'">Ask a Question</button></p>
     <form action="/list" method="POST">
+            <p align="center">
             <select id="status" name="status">
-			    <option value="0">ID</option>
-			    <option value="1">Submitted</option>
-			    <option value="2">View</option>
-			    <option value="3">Votes</option>
-			    <option value="4">Title</option>
+			    <option value="0" name="qid" id="qid">ID</option>
+			    <option value="1" name="submitted" id="submitted">Submitted</option>
+			    <option value="2" name="view" id="view">View</option>
+			    <option value="3" name="votes" id="votes">Votes</option>
+			    <option value="4" name="title" id="title">Title</option>
 			  </select>
             <button type="submit">Sort</button>
+            </p>
     </form>
     <table style="width:80%" align="center">
         <tr>
