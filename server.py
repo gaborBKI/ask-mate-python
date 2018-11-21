@@ -18,7 +18,7 @@ def route_list():
     return render_template('list.html', questions = reversed(questions))
 
 @app.route('/delete',methods=['post'])
-def deletequestion():
+def delete_question():
     id=request.form['questid']
     questions= data_manager.get_all_data('question.csv')
     for question in questions:

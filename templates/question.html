@@ -5,11 +5,6 @@
     <title>{{ question[4]}}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <script>
-        function goBack() {
-            window.history.back()
-        }
-    </script>
 </head>
 <style>
     html{
@@ -24,6 +19,10 @@
         height: 100%;
     }
 
+    h1{
+        position: relative;
+        left: 5%;
+    }
 	h3 {
         margin-right: 100px;
         text-align: right;
@@ -32,11 +31,6 @@
     .vote{
         text-align: right;
     }
-
-    .count {
-        position: relative;
-        left: 95%;
-        }
 
     .question {
         border-radius: 25px;
@@ -71,7 +65,7 @@
         border-radius: 25px;
         background-color: #A0907F;
         color: black;
-        margin: 20px auto;
+        margin: 5px auto;
         padding: 20px;
         padding-bottom: 0px;
         padding-top: 0px;
@@ -88,7 +82,7 @@
         border-radius: 25px;
         background-color: #A0907F;
         color: black;
-        margin: 20px auto;
+        margin: 5px auto;
         padding: 20px;
         padding-bottom: 0px;
         padding-top: 0px;
@@ -111,6 +105,10 @@
         padding: 0%;
         margin: 0%;
     }
+
+    .wrap {
+       word-wrap: break-word;
+    }
 </style>
 <body>
     <h3>{{ question[1] }}</h3>
@@ -120,36 +118,36 @@
             <input type="number" hidden name="questid" value="{{question[0]}}">
             <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
         </form>
-        {{ question[5] }}<br>
+        <font size="4">{{ question[5] }}</font><br>
         <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
             <i class="fas fa-arrow-down"></i> {{ question[3] }} </p>
     </div>
     <img class="line" src="http://clipart-library.com/images/qcBXgnM4i.png" >
+    <p align="center"><button onclick="window.location.href='/'">Back</button></p>
     <div class="answers">
     {% if answers|length == 0 %}
-        <p class="even">No answers found</p>
+        <p class="even wrap"><font size="4">No answers found</font></p>
     {% else %}
         {% for i in range(answers|length) %}
             {% if i % 2 == 0 %}
             <form action="/delete_answer" method="POST">
-            <input type="number" hidden name="answer_id" value="{{answers[i][0]}}">
-            <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
-        </form>
-                <div class="even">
-
+                <input type="number" hidden name="answer_id" value="{{answers[i][0]}}">
+                <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
+            </form>
+                <div class="even wrap">
                     <p class="date">{{ answers[i][1]}}</p>
-                    <p>{{ answers[i][4] }}</p>
+                    <p><font size="4">{{ answers[i][4] }}</font></p>
                     <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
                     <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
                 </div>
             {% else %}
-        <form action="/deleteans" method="POST">
-            <input type="number" hidden name="questid" value="{{answers[i][0]}}">
-            <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
-        </form>
-                <div class="odd">
+            <form action="/delete_answer" method="POST">
+                <input type="number" hidden name="answer_id" value="{{answers[i][0]}}">
+                <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
+            </form>
+                <div class="odd wrap">
                     <p class="date">{{ answers[i][1]}}</p>
-                    <p>{{ answers[i][4] }}</p>
+                    <p><font size="4">{{ answers[i][4] }}</font></p>
                     <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
                     <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
                 </div>
@@ -157,14 +155,11 @@
         {% endfor %}
     {% endif %}
         <form action="/answer/{{question[0]}}" method="post">
-        <div align="center">
-            <textarea name="answertext" rows="12" cols="60" placeholder="Write an answer.."></textarea>
-            <p align="right"><input type="submit" value="Send an Answer"></p>
-        </div>
-
-
+            <div class="wrap" align="center">
+                <textarea name="answertext" rows="12" cols="60" placeholder="Write an answer..."></textarea>
+                <p align="right"><input type="submit" value="Send"></p>
+            </div>
         </form>
     </div>
-    <button onclick="window.location.href='/'">Go Back</button>
 </body>
 </html>
