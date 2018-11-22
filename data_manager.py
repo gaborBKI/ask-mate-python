@@ -8,7 +8,6 @@ TITLE_LIST_Q = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 
 TITLE_LIST_A = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 
 
-
 def get_all_data(filename):
     data = []
     with open(filename, 'r') as f:
@@ -28,5 +27,7 @@ def save_into_file(data, header_type, filename):
             if any(row):
                 writer.writerow(row)
 
-
-#time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+def append_answer_into_file(id, qid, text):
+    with open("answer.csv", "a") as file:
+        writer = csv.writer(file)
+        writer.writerow([id, int(time.time()), 0, qid, text])
