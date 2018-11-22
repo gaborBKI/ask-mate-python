@@ -6,24 +6,34 @@ import operator
 import connection
 import util
 
-# (sorted(l, key=operator.itemgetter(1))) - l = list, 1 = index to sort by
 
 app = Flask(__name__)
-
+@app.route('/question/<int:question_id>/vote/<direction>')
+def vote(question_id ,direction):
+    questions= data_manager.get_all_data('question.csv')
+    for question in questions:
+        if int(question[0])==int(question_id) and direction=="up":
+            question[3] += 1
+        elif int(question[0])==int(question_id) and direction=="down":
+            question[3] -= 1
+    questions.insert(0, data_manager.TITLE_LIST_Q)
+    data_manager.save_into_file(questions, 'question.csv')
+    return redirect(f"/question/{question_id}")
 
 @app.route('/')
-@app.route('/list', methods=['GET', 'POST'])
+@app.route('/list')
 def route_list():
+    status = request.args.get('status', default=0, type=int)
+    order = request.args.get('order', default=0, type=int)
     questions = data_manager.get_all_data('question.csv')
-    try:
-        session['status'] = int(request.form.get('status'))
-    except:
-        pass
-    if 'status' in session:
-        questions = sorted(questions, key=operator.itemgetter(session['status']))
     for question in questions:
         question[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(question[1])))
-    return render_template('list.html', questions = reversed(questions))
+    if 'status':
+        if order:
+            questions = sorted(questions, key=operator.itemgetter(status), reverse=True)
+        else:
+            questions = sorted(questions, key=operator.itemgetter(status))
+    return render_template('list.html', questions = questions)
 
 
 @app.route('/delete',methods=['post'])
@@ -79,11 +89,6 @@ def route_question(qid):
     return render_template('question.html', question = returned_question, answers = filtered_answers)
 
 
-@app.route('/ask_question', methods=['GET'])
-def rout_ask_question():
-    return render_template('form.html')
-
-
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answers=data_manager.get_all_data("answer.csv")
@@ -97,19 +102,25 @@ def answer(qid):
     return redirect(f"/question/{qid}")
 
 
-@app.route('/ask_question', methods=['POST'])
+
+
+
+@app.route('/ask_question', methods=['GET', 'POST'])
 def route_submit_question():
-    print('POST request received!')
-    questions = data_manager.get_all_data('question.csv')
-    id_list = []
-    for question in questions:
-        id_list.append(int(question[0]))
-    id = str(max(id_list)+1)
-    data = [id, str(int(time.time())), '0', '0', request.form['title'], request.form['question'], request.form['image']]
-    questions.insert(0, data_manager.TITLE_LIST_Q)
-    questions.append(data)
-    data_manager.save_into_file(questions, 'question.csv')
-    return redirect(f'/question/{id}')
+    if request.method == 'POST':
+        print('POST request received!')
+        questions = data_manager.get_all_data('question.csv')
+        id_list = []
+        for question in questions:
+            id_list.append(int(question[0]))
+        id = str(max(id_list)+1)
+        data = [id, str(int(time.time())), '0', '0', request.form['title'], request.form['question'], request.form['image']]
+        questions.insert(0, data_manager.TITLE_LIST_Q)
+        questions.append(data)
+        data_manager.save_into_file(questions, 'question.csv')
+        return redirect(f'/question/{id}')
+    else:
+        return render_template('form.html')
 
 
 if __name__ == '__main__':

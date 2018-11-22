@@ -119,8 +119,12 @@
             <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
         </form>
         <font size="4">{{ question[5] }}</font><br>
-        <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
-            <i class="fas fa-arrow-down"></i> {{ question[3] }} </p>
+
+        <p class="vote">
+            <a href="{{ url_for("vote", question_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+            <a href="{{ url_for("vote", question_id=question[0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+            {{ question[3] }}
+        </p>
     </div>
     <img class="line" src="http://clipart-library.com/images/qcBXgnM4i.png" >
     <p align="center"><button onclick="window.location.href='/'">Back</button></p>
