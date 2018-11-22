@@ -1,5 +1,5 @@
 id,submission_time,view_number,vote_number,title,message,image
-0,1493368154,193,7,How to make lists in Python?,"I am totally new to this, any hints?",
+0,1493368154,197,8,How to make lists in Python?,"I am totally new to this, any hints?",
 1,1493068124,36,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
@@ -12,10 +12,11 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 2,1493015432,1405,64,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,1542734936,13,1,Submit,Why can't I submit a question?,
-4,1542735136,10,0,Images,Can I post an image to this stuff?,Danny-devito.png
+3,1542734936,23,1,Submit,Why can't I submit a question?,
+4,1542735136,31,2,Images,Can I post an image to this stuff?,Danny-devito.png
 5,1542735377,12,0,BUGGED!!!,Why is this such a bugfest?,
 8,1542795515,102,0,Is it working?,Is this thing on?,
 9,1542820884,40,0,Long answers,Do long answers still get displayed outside of the div box?,
-10,1542883383,41,-2,Route,Where is this taking me?,
-11,1542883669,1,0,Routing,Is this working now?,
+10,1542895630,24,5,Ordering dictionaries in Python,"I have a dictionary of values read from two fields in a database: a string field and a numeric field. The string field is unique, so that is the key of the dictionary.
+
+I can sort on the keys, but how can I sort based on the values?",

@@ -12,61 +12,66 @@
         background: url("http://mozinormontreuil.fr/wp-content/uploads/2015/10/bg-parallax-diamond.jpg");
         background-attachment: fixed;
     }
+
     table, th, td {
         border-collapse: collapse;
         border-bottom: 1px solid;
         padding: 5px;
     }
 
-    tr{
+    tr {
         border: 1px solid;
     }
 </style>
 <body>
-    <h1 align="center">Rakás Túlfolyás</h1>
-    <p align="center"><button onclick="window.location.href='/ask_question'">Ask a Question</button></p>
-    <form action="/list">
-            <p align="center">
-            <select id="status" name="status">
-			    <option value="0" name="qid" id="qid">ID</option>
-			    <option value="1" name="submitted" id="submitted">Submitted</option>
-			    <option value="2" name="view" id="view">View</option>
-			    <option value="3" name="votes" id="votes">Votes</option>
-			    <option value="4" name="title" id="title">Title</option>
-			  </select>
-                <select id="order" name="order">
-			    <option value="0" name="Ascending" id="ascending">Ascending</option>
-			    <option value="1" name="Descending" id="descending">Descending</option>
+<h1 align="center">Rakás Túlfolyás</h1>
+<p align="center">
+    <button onclick="window.location.href='/ask_question'">Ask a Question</button>
+</p>
+<form action="/list">
+    <p align="center">
+        <select id="status" name="status">
+            {% for option in sort_options %}
+            <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
+            'selected' if current==loop.index0 }}>{{ option }}</option>
+            {% endfor %}
 
-			  </select>
-            <button type="submit">Sort</button>
-            </p>
-    </form>
-    <table style="width:80%" align="center">
-        <tr>
-            <th>ID</th>
-            <th>Submission Time</th>
-            <th>View Number</th>
-            <th>Vote Number</th>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            {% for items in questions %}
-        <tr>
-            {% for data in items %}
-                {% if loop.index0 == 4 %}
-                    <td><a href="/question/{{items[0]}}">{{data}}</a></td>
-                {% else %}
-                    <td>{{data}}</td>
-                {% endif %}
+        </select>
+        <select id="order" name="order">
+            {% for option in orderby %}
+            <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
+            'selected' if corder==loop.index0 }}>{{ option }}</option>
             {% endfor %}
-        </tr>
-            {% endfor %}
-        </tr>
-    </table>
-    <p>
+
+        </select>
+        <button type="submit">Sort</button>
     </p>
+</form>
+<table style="width:80%" align="center">
+    <tr>
+        <th>ID</th>
+        <th>Submission Time</th>
+        <th>View Number</th>
+        <th>Vote Number</th>
+        <th>Title</th>
+        <th>Message</th>
+        <th>Image</th>
+    </tr>
+    <tr>
+        {% for items in questions %}
+    <tr>
+        {% for data in items %}
+        {% if loop.index0 == 4 %}
+        <td><a href="/question/{{items[0]}}">{{data}}</a></td>
+        {% else %}
+        <td>{{data}}</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tr>
+</table>
+<p>
+</p>
 </body>
 </html>

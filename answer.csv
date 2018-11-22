@@ -1,4 +1,27 @@
 id,submission_time,vote_number,question_id,message,image
-0,1493398154,4,0,You need to use brackets: my_list = [],
-1,1493088154,35,0,Look it up in the Python docs,
+0,1493398154,5,0,You need to use brackets: my_list = [],
+1,1493088154,34,0,Look it up in the Python docs,
 2,1542820907,0,9,Idontknowwhatdoyouthinkaretheystillgettingdisplayedinawaythatishumanlynotevenreadableandalsoprettyugly?
+7,1542895377,4,4,Not yet...
+8,1542895383,12,4,It's treason then.
+9,1542895640,6,10,"It is not possible to sort a dictionary, only to get a representation of a dictionary that is sorted. Dictionaries are inherently orderless, but other types, such as lists and tuples, are not. So you need an ordered data type to represent sorted values, which will be a list—probably a list of tuples.
+
+For instance,
+
+import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(1))
+sorted_x will be a list of tuples sorted by the second element in each tuple. dict(sorted_x) == x.
+
+And for those wishing to sort on keys instead of values:
+
+import operator
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_x = sorted(x.items(), key=operator.itemgetter(0))
+In Python3 since unpacking is not allowed [1] we can use
+
+x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+sorted_by_value = sorted(x.items(), key=lambda kv: kv[1])"
+10,1542895654,2,10,"Thank you, it really helped!"
+11,1542895661,6,10,"No problem, just remember: some day, and that day may never come, I will call upon you to do a service for me. But until that day, consider this justice a gift on my daughter's wedding day."
+12,1542895698,6,3,"You can, you dimwit!"

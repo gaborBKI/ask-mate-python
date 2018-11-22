@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, url_for
 import csv
 import time
 import data_manager
@@ -8,21 +8,40 @@ import util
 
 
 app = Flask(__name__)
-@app.route('/question/<int:question_id>/vote/<direction>')
-def vote(question_id ,direction):
-    questions= data_manager.get_all_data('question.csv')
-    for question in questions:
-        if int(question[0])==int(question_id) and direction=="up":
-            question[3] += 1
-        elif int(question[0])==int(question_id) and direction=="down":
-            question[3] -= 1
-    questions.insert(0, data_manager.TITLE_LIST_Q)
-    data_manager.save_into_file(questions, 'question.csv')
+
+
+@app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
+def vote(type, type_id, direction, question_id):
+    change_vote(type, direction, type_id)
     return redirect(f"/question/{question_id}")
+
+
+def change_vote(type, direction, type_id):
+    data = data_manager.get_all_data(f'{type}.csv')
+    if type == 'question':
+        title_list = data_manager.TITLE_LIST_Q
+    else:
+        title_list = data_manager.TITLE_LIST_A
+    for row in data:
+        if row[0] == int(type_id) and direction == "up":
+            if type == 'question':
+                row[3] += 1
+            else:
+                row[2] += 1
+        elif row[0] == int(type_id) and direction == "down":
+            if type == 'question':
+                row[3] -= 1
+            else:
+                row[2] -= 1
+    data_manager.save_into_file(data, title_list, f'{type}.csv')
+
 
 @app.route('/')
 @app.route('/list')
 def route_list():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    orderby = ['Ascending','Descending']
+
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     questions = data_manager.get_all_data('question.csv')
@@ -33,7 +52,7 @@ def route_list():
             questions = sorted(questions, key=operator.itemgetter(status), reverse=True)
         else:
             questions = sorted(questions, key=operator.itemgetter(status))
-    return render_template('list.html', questions = questions)
+    return render_template('list.html', questions = questions, sort_options = sort_options,current=status,corder=order,orderby=orderby)
 
 
 @app.route('/delete',methods=['post'])
@@ -41,17 +60,15 @@ def delete_question():
     id=request.form['questid']
     questions= data_manager.get_all_data('question.csv')
     for question in questions:
-        if int(question[0])==int(id):
+        if question[0]==int(id):
             questions.remove(question)
-    questions.insert(0, data_manager.TITLE_LIST_Q)
-    data_manager.save_into_file(questions,'question.csv')
+    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
     answers = data_manager.get_all_data('answer.csv')
     for i in range(len(answers)):
         if i<len(answers) and int(answers[i][3]) == int(id) :
             answers[i]=""
             i-=1
-    answers.insert(0, data_manager.TITLE_LIST_A)
-    data_manager.save_into_file(answers,'answer.csv')
+    data_manager.save_into_file(answers, data_manager.TITLE_LIST_A, 'answer.csv')
     return redirect('/')
 
 
@@ -64,8 +81,7 @@ def delete_answer():
         if answer[0] == int(id):
             qid = answer[3]
             answers.remove(answer)
-    answers.insert(0, data_manager.TITLE_LIST_A)
-    data_manager.save_into_file(answers, 'answer.csv')
+    data_manager.save_into_file(answers, data_manager.TITLE_LIST_A, 'answer.csv')
     return redirect(f"/question/{qid}")
 
 
@@ -84,8 +100,7 @@ def route_question(qid):
         answer[1] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(answer[1])))
         if qid == int(answer[3]):
             filtered_answers.append(answer)
-    questions.insert(0, data_manager.TITLE_LIST_Q)
-    data_manager.save_into_file(questions, 'question.csv')
+    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
     return render_template('question.html', question = returned_question, answers = filtered_answers)
 
 
@@ -102,9 +117,6 @@ def answer(qid):
     return redirect(f"/question/{qid}")
 
 
-
-
-
 @app.route('/ask_question', methods=['GET', 'POST'])
 def route_submit_question():
     if request.method == 'POST':
@@ -115,9 +127,8 @@ def route_submit_question():
             id_list.append(int(question[0]))
         id = str(max(id_list)+1)
         data = [id, str(int(time.time())), '0', '0', request.form['title'], request.form['question'], request.form['image']]
-        questions.insert(0, data_manager.TITLE_LIST_Q)
         questions.append(data)
-        data_manager.save_into_file(questions, 'question.csv')
+        data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
         return redirect(f'/question/{id}')
     else:
         return render_template('form.html')

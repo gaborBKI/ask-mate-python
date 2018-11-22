@@ -119,10 +119,9 @@
             <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
         </form>
         <font size="4">{{ question[5] }}</font><br>
-
         <p class="vote">
-            <a href="{{ url_for("vote", question_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
-            <a href="{{ url_for("vote", question_id=question[0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+            <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+            <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
             {{ question[3] }}
         </p>
     </div>
@@ -140,9 +139,12 @@
             </form>
                 <div class="even wrap">
                     <p class="date">{{ answers[i][1]}}</p>
-                    <p><font size="4">{{ answers[i][4] }}</font></p>
-                    <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
-                    <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
+                    <font size="4">{{ answers[i][4] }}</font>
+                    <p class="vote">
+                    <a href="{{ url_for("vote", type="answer", question_id=answers[i][3], type_id=answers[i][0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+                    <a href="{{ url_for("vote", type="answer", question_id=answers[i][3], type_id=answers[i][0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+                    {{ answers[i][2] }}
+                    </p>
                 </div>
             {% else %}
             <form action="/delete_answer" method="POST">
@@ -151,9 +153,12 @@
             </form>
                 <div class="odd wrap">
                     <p class="date">{{ answers[i][1]}}</p>
-                    <p><font size="4">{{ answers[i][4] }}</font></p>
-                    <p class="vote"><a href="http://www.google.com"><i class="fas fa-arrow-up"></i></a>
-                    <i class="fas fa-arrow-down"></i> {{ answers[i][2] }} </p>
+                    <font size="4">{{ answers[i][4] }}</font>
+                    <p class="vote">
+                    <a href="{{ url_for("vote", type="answer", question_id=answers[i][3], type_id=answers[i][0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+                    <a href="{{ url_for("vote", type="answer", question_id=answers[i][3], type_id=answers[i][0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+                    {{ answers[i][2] }}
+                    </p>
                 </div>
             {% endif %}
         {% endfor %}

@@ -20,7 +20,8 @@ def get_all_data(filename):
         data[i] = [int(item) if item.strip('-').isdigit() else item for item in data[i]]
     return data
 
-def save_into_file(data, filename):
+def save_into_file(data, header_type, filename):
+    data.insert(0, header_type)
     with open(filename, 'w') as f:
         writer = csv.writer(f)
         for row in data:
