@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    .content {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    body {
+    margin: 0;
+    padding: 0;
+    background: url("http://mozinormontreuil.fr/wp-content/uploads/2015/10/bg-parallax-diamond.jpg");
+    background-attachment: fixed;
+    height: 100%;
+    }
+</style>
 <body>
+	<div class="content">
 	{% if answer %}
 		<p>Működik</p>
 		<p>{{ qid }}</p>
@@ -15,11 +30,13 @@
 			<label for="question"><h3>Question:<br></h3></label>
 			<textarea id="question" name="question" required></textarea>
 			<label for="image"><h4>Image:<br></h4></label>
-			<input type="file" id="image" name="image" accept="image/png, image/jpeg">
+			<input type="url" id="image" name="image" placeholder="https://example.com"
+       				pattern="https://.*" size="20">
 			<br>
 			<br>
 			<button type="submit">Submit Question</button>
 		</form>
 	{% endif %}
+    </div>
 </body>
 </html>
