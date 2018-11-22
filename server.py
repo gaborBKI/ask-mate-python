@@ -4,7 +4,6 @@ import data_manager
 import connection
 import util
 
-
 app = Flask(__name__)
 
 
@@ -18,20 +17,21 @@ def vote(type, type_id, direction, question_id):
 @app.route('/list')
 def route_list():
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    orderby = ['Ascending','Descending']
+    orderby = ['Ascending', 'Descending']
     questions = data_manager.get_all_data('question.csv')
     for question in questions:
         util.convert_time(question, 1)
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     questions = connection.get_order_by_user(order, questions, status)
-    return render_template('list.html', questions = questions, sort_options = sort_options,current=status,corder=order,orderby=orderby)
+    return render_template('list.html', questions=questions, sort_options=sort_options, current=status, corder=order,
+                           orderby=orderby)
 
 
-@app.route('/delete',methods=['post'])
+@app.route('/delete', methods=['post'])
 def delete_question():
-    id=request.form['questid']
-    questions= data_manager.get_all_data('question.csv')
+    id = request.form['questid']
+    questions = data_manager.get_all_data('question.csv')
     util.remove_question_by_id(id, questions)
     data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
     answers = data_manager.get_all_data('answer.csv')
@@ -44,8 +44,7 @@ def delete_question():
 def delete_answer():
     id = request.form['answer_id']
     answers = data_manager.get_all_data('answer.csv')
-    qid = 0
-    util.remove_answer_by_id(answers, id)
+    qid = util.remove_answer_by_id(answers, id)
     data_manager.save_into_file(answers, data_manager.TITLE_LIST_A, 'answer.csv')
     return redirect(f"/question/{qid}")
 
@@ -57,12 +56,12 @@ def route_question(qid):
     returned_question = util.get_question_by_id(qid, questions)
     filtered_answers = util.get_answer_by_id(answers, qid)
     data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-    return render_template('question.html', question = returned_question, answers = filtered_answers)
+    return render_template('question.html', question=returned_question, answers=filtered_answers)
 
 
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
-    answers=data_manager.get_all_data("answer.csv")
+    answers = data_manager.get_all_data("answer.csv")
     id_list = []
     for answer in answers:
         id_list.append(int(answer[0]))
@@ -76,11 +75,10 @@ def route_submit_question():
     if request.method == 'POST':
         print('POST request received!')
         questions = data_manager.get_all_data('question.csv')
-        id = util.generate_id_for_question(questions)
-        data = [id, str(int(time.time())), '0', '0', request.form['title'], request.form['question'], request.form['image']]
-        questions.append(data)
-        data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-        return redirect(f'/question/{id}')
+        question_id = util.generate_id_for_question(questions)
+        connection.get_question_by_user(question_id, questions, request.form['title'], request.form['question'],
+                                        request.form['image'])
+        return redirect(f'/question/{question_id}')
     else:
         return render_template('form.html')
 

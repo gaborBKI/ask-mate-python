@@ -9,8 +9,8 @@ def generate_id_for_question(questions):
     id_list = []
     for question in questions:
         id_list.append(int(question[0]))
-    id = str(max(id_list) + 1)
-    return id
+    question_id = str(max(id_list) + 1)
+    return question_id
 
 
 def get_question_by_id(qid, questions):
@@ -43,6 +43,7 @@ def remove_answer_by_id(answers, id):
         if answer[0] == int(id):
             qid = answer[3]
             answers.remove(answer)
+    return qid
 
 
 def remove_answers_to_deleted_question(answers, id):

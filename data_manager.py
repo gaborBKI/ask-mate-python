@@ -19,6 +19,7 @@ def get_all_data(filename):
         data[i] = [int(item) if item.strip('-').isdigit() else item for item in data[i]]
     return data
 
+
 def save_into_file(data, header_type, filename):
     data.insert(0, header_type)
     with open(filename, 'w') as f:
@@ -26,6 +27,7 @@ def save_into_file(data, header_type, filename):
         for row in data:
             if any(row):
                 writer.writerow(row)
+
 
 def append_answer_into_file(id, qid, text):
     with open("answer.csv", "a") as file:

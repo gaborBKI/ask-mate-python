@@ -1,5 +1,7 @@
 import data_manager
 import operator
+import time
+
 
 def change_vote(type, direction, type_id):
     data = data_manager.get_all_data(f'{type}.csv')
@@ -20,6 +22,7 @@ def change_vote(type, direction, type_id):
                 row[2] -= 1
     data_manager.save_into_file(data, title_list, f'{type}.csv')
 
+
 def get_order_by_user(order, questions, status):
     if 'status':
         if order:
@@ -27,3 +30,9 @@ def get_order_by_user(order, questions, status):
         else:
             questions = sorted(questions, key=operator.itemgetter(status))
     return questions
+
+
+def get_question_by_user(qid, question_list, title, question, image):
+    data = [qid, str(int(time.time())), '0', '0', title, question, image]
+    question_list.append(data)
+    data_manager.save_into_file(question_list, data_manager.TITLE_LIST_Q, 'question.csv')
