@@ -62,12 +62,10 @@ def route_question(qid):
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answers = data_manager.get_all_data("answer.csv")
-    id_list = []
-    for answer in answers:
-        id_list.append(int(answer[0]))
-    id = str(max(id_list) + 1)
+    id = util.generate_id(answers)
     data_manager.append_answer_into_file(id, qid, request.form["answertext"])
     return redirect(f"/question/{qid}")
+
 
 
 @app.route('/ask_question', methods=['GET', 'POST'])
@@ -75,7 +73,7 @@ def route_submit_question():
     if request.method == 'POST':
         print('POST request received!')
         questions = data_manager.get_all_data('question.csv')
-        question_id = util.generate_id_for_question(questions)
+        question_id = util.generate_id(questions)
         connection.get_question_by_user(question_id, questions, request.form['title'], request.form['question'],
                                         request.form['image'])
         return redirect(f'/question/{question_id}')

@@ -5,12 +5,12 @@ def convert_time(data, row):
     data[row] = time.strftime('%Y-%m-%d %H:%M', time.localtime(int(data[row])))
 
 
-def generate_id_for_question(questions):
+def generate_id(data):
     id_list = []
-    for question in questions:
-        id_list.append(int(question[0]))
-    question_id = str(max(id_list) + 1)
-    return question_id
+    for row in data:
+        id_list.append(int(row[0]))
+    id = str(max(id_list) + 1)
+    return id
 
 
 def get_question_by_id(qid, questions):

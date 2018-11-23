@@ -11,6 +11,7 @@
         height: 100%;
         overflow: hidden;
     }
+
     body {
         margin: 0;
         padding: 0;
@@ -119,6 +120,9 @@
             <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
         </form>
         <font size="4">{{ question[5] }}</font><br>
+        {% if question[6] %}
+        <p><a target="_blank" rel="noopener noreferrer" href="{{ question[6] }}">Open Attached Image</a></p>
+        {% endif %}
         <p class="vote">
             <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
             <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
@@ -138,7 +142,7 @@
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
-                    <p class="date">{{ answers[i][1]}}</p>
+                    <p class="date">{{ answers[i][1] }}</p>
                     <font size="4">{{ answers[i][4] }}</font>
                     <p class="vote">
                     <a href="{{ url_for("vote", type="answer", question_id=answers[i][3], type_id=answers[i][0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
@@ -165,7 +169,7 @@
     {% endif %}
         <form action="/answer/{{question[0]}}" method="post">
             <div class="wrap" align="center">
-                <textarea name="answertext" rows="12" cols="60" placeholder="Write an answer..."></textarea>
+                <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
                 <p align="right"><input type="submit" value="Send"></p>
             </div>
         </form>
