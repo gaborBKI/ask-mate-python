@@ -110,6 +110,34 @@
     .wrap {
        word-wrap: break-word;
     }
+
+    .spoilerbutton {
+        display: block;
+        margin: 0;
+    }
+
+    .spoiler {
+        overflow: hidden;
+        background: #f5f5f5;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .spoiler>div {
+        margin: 0;
+        overflow: hidden;
+        transition: all 1s ease;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .spoilerbutton[value="Show Image"]+.spoiler>div {
+      max-height: 0;
+    }
+
+    .spoilerbutton[value="Hide Image"]+.spoiler>div {
+        max-height: 400px;
+    }
 </style>
 <body>
     <h3>{{ question[1] }}</h3>
@@ -121,7 +149,11 @@
         </form>
         <font size="4">{{ question[5] }}</font><br>
         {% if question[6] %}
-        <p><a target="_blank" rel="noopener noreferrer" href="{{ question[6] }}">Open Attached Image</a></p>
+        <br>
+        <input class="spoilerbutton" type="button" value="Show Image" onclick="this.value=this.value=='Show Image'?'Hide Image':'Show Image';">
+        <div class="spoiler">
+            <div><img src="{{ question[6] }}" height="400"></div>
+        </div>
         {% endif %}
         <p class="vote">
             <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
