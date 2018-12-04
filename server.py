@@ -71,29 +71,6 @@ def answer(qid):
     return redirect(f"/question/{qid}")
 
 
-'''@app.route('/question/<int:qid>')
-def route_question(qid):
-    questions = data_manager.get_all_data('question.csv')
-    answers = data_manager.get_all_data('answer.csv')
-    returned_question = util.get_question_by_id(qid, questions)
-    filtered_answers = util.get_answer_by_id(answers, qid)
-    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-    return render_template('question.html', question=returned_question, answers=filtered_answers)'''
-
-
-'''@app.route('/ask_question', methods=['GET', 'POST'])
-def route_submit_question():
-    if request.method == 'POST':
-        print('POST request received!')
-        questions = data_manager.get_all_data('question.csv')
-        question_id = util.generate_id(questions)
-        connection.get_question_by_user(question_id, questions, request.form['title'], request.form['question'],
-                                        request.form['image'])
-        return redirect(f'/question/{question_id}')
-    else:
-        return render_template('form.html')'''
-
-
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
     app.run(

@@ -8,23 +8,20 @@ import util
 
 
 def change_vote(type, direction, type_id):
-    data = data_manager.get_all_data(f'{type}.csv')
+    questions = get_all_questions()
+    answers = get_all_answers()
     if type == 'question':
-        title_list = data_manager.TITLE_LIST_Q
-    else:
-        title_list = data_manager.TITLE_LIST_A
-    for row in data:
-        if row[0] == int(type_id) and direction == "up":
-            if type == 'question':
-                row[3] += 1
-            else:
-                row[2] += 1
-        elif row[0] == int(type_id) and direction == "down":
-            if type == 'question':
-                row[3] -= 1
-            else:
-                row[2] -= 1
-    data_manager.save_into_file(data, title_list, f'{type}.csv')
+        for question in questions:
+            if question['id'] == int(type_id) and direction == "up":
+                update_vote(1, type_id)
+            elif question['id'] == int(type_id) and direction == "down":
+                update_vote(-1, type_id)
+    elif type == 'answer':
+        for answer in answers:
+            if answer['id'] == int(type_id) and direction == "up":
+                answer['id'] += 1
+            elif question['id'] == int(type_id) and direction == "down":
+                answer['id'] -= 1
 
 
 def get_order_by_user(order, questions, status):
@@ -97,4 +94,13 @@ def delete_from_db(cursor, id, table):
     cursor.execute(""" DELETE FROM %(table)s WHERE id = %(id)s;
                         """, {'id': id,
                               'table': table})
+    return None
+
+
+@database_common.connection_handler
+def update_vote(cursor, direction, type_id):
+    cursor.execute(""" UPDATE question
+                        SET vote_number = vote_number + %(direction)s
+                        WHERE id = %(type_id)s;
+                        """, {'direction': direction, 'type_id': type_id})
     return None
