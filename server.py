@@ -16,8 +16,10 @@ def vote(type, type_id, direction, question_id):
 @app.route('/')
 @app.route('/list')
 def route_list():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    orderby = ['Ascending', 'Descending']
     questions = connection.get_all_questions()
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
 
 
 @app.route('/ask_question', methods=['GET', 'POST'])
