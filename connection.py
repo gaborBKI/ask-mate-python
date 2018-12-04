@@ -5,7 +5,7 @@ import database_common
 
 
 def change_vote(type, direction, type_id):
-    questions = get_all_questions()
+    questions = get_all_questions('id')
     answers = get_all_answers()
     if type == 'question':
         for question in questions:
@@ -31,11 +31,10 @@ def get_order_by_user(order, questions, status):
 
 
 @database_common.connection_handler
-def get_all_questions(cursor):
-    cursor.execute("""
-                        SELECT * FROM question
-                        ORDER BY id;
-                       """)
+def get_all_questions(cursor, order_by_what):
+    cursor.execute(sql.SQL(""" SELECT * FROM question
+                            ORDER BY {order_by_what};
+                            """).format(order_by_what=sql.Identifier(order_by_what)))
     questions = cursor.fetchall()
     return questions
 
@@ -52,7 +51,7 @@ def get_all_answers(cursor):
 
 @database_common.connection_handler
 def add_question(cursor, q_title, question, im_link):
-    dt = datetime.now()
+    dt = str(datetime.now())[:19]
     cursor.execute("""
                         INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
                         VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);
@@ -65,7 +64,7 @@ def add_question(cursor, q_title, question, im_link):
 
 @database_common.connection_handler
 def add_answer(cursor, question_id, message):
-    dt = datetime.now()
+    dt = str(datetime.now())[:19]
     cursor.execute("""
                         INSERT INTO answer (submission_time, vote_number, question_id, message)
                         VALUES (%(dt)s, 0, %(question_id)s, %(message)s);
@@ -98,4 +97,12 @@ def update_vote(cursor, tablename, direction, type_id):
                         SET vote_number = vote_number + %(direction)s
                         WHERE id = %(type_id)s;
                         """).format(table=sql.Identifier(tablename)), {'direction': direction, 'type_id': type_id})
+    return None
+
+
+@database_common.connection_handler
+def update_view_number(cursor, qid):
+    cursor.execute(""" UPDATE question SET view_number = view_number + 1
+                        WHERE id = %(qid)s;
+                        """, {'qid': qid})
     return None
