@@ -11,15 +11,15 @@ def change_vote(type, direction, type_id):
     if type == 'question':
         for question in questions:
             if question['id'] == int(type_id) and direction == "up":
-                update_vote(1, type_id)
+                update_vote_question(1, type_id)
             elif question['id'] == int(type_id) and direction == "down":
                 update_vote(-1, type_id)
     elif type == 'answer':
         for answer in answers:
             if answer['id'] == int(type_id) and direction == "up":
-                answer['id'] += 1
-            elif question['id'] == int(type_id) and direction == "down":
-                answer['id'] -= 1
+                update_vote_answer(1, type_id)
+            elif answer['id'] == int(type_id) and direction == "down":
+                update_vote_answer(-1, type_id)
 
 
 def get_order_by_user(order, questions, status):
@@ -102,14 +102,22 @@ def delete_question_answers(cursor, qid):
     cursor.execute(""" DELETE FROM answer   WHERE question_id = %(qid)s;
                        DELETE FROM comment   WHERE question_id = %(qid)s;
                        DELETE FROM question_tag   WHERE question_id = %(qid)s;
-                        """, {'qid': qid
-                              })
+                        """, {'qid': qid})
     return None
 
 
 @database_common.connection_handler
-def update_vote(cursor, direction, type_id):
+def update_vote_question(cursor, direction, type_id):
     cursor.execute(""" UPDATE question
+                        SET vote_number = vote_number + %(direction)s
+                        WHERE id = %(type_id)s;
+                        """, {'direction': direction, 'type_id': type_id})
+    return None
+
+
+@database_common.connection_handler
+def update_vote_answer(cursor, direction, type_id):
+    cursor.execute(""" UPDATE answer
                         SET vote_number = vote_number + %(direction)s
                         WHERE id = %(type_id)s;
                         """, {'direction': direction, 'type_id': type_id})
