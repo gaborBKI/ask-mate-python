@@ -199,7 +199,7 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-        <form action="/answer/{{question[0]}}" method="post">
+        <form action="/answer/{{question['id']}}" method="post">
             <div class="wrap" align="center">
                 <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
                 <p align="right"><input type="submit" value="Send"></p>

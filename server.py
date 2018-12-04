@@ -71,9 +71,8 @@ def delete_answer():
 
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
-    answers = data_manager.get_all_data("answer.csv")
-    id = util.generate_id(answers)
-    data_manager.append_answer_into_file(id, qid, request.form["answertext"])
+    answer_text = request.form["answertext"]
+    connection.add_answer(qid, answer_text)
     return redirect(f"/question/{qid}")
 
 
