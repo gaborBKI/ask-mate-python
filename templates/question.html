@@ -140,24 +140,24 @@
     }
 </style>
 <body>
-    <h3>{{ question[1] }}</h3>
-    <h1>{{ question[4] }}</h1>
+    <h3>{{ question['submission_time'] }}</h3>
+    <h1>{{ question['title'] }}</h1>
     <div class="question">
         <form action="/delete" method="POST">
-            <input type="number" hidden name="questid" value="{{question[0]}}">
+            <input type="number" hidden name="questid" value="{{question['id']}}">
             <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
         </form>
-        <font size="4">{{ question[5] }}</font><br>
-        {% if question[6] %}
+        <font size="4">{{ question['message'] }}</font><br>
+        {% if question['image'] %}
         <br>
         <input class="spoilerbutton" type="button" value="Show Image" onclick="this.value=this.value=='Show Image'?'Hide Image':'Show Image';">
         <div class="spoiler">
-            <div><img src="{{ question[6] }}" height="400"></div>
+            <div><img src="{{ question['image'] }}" height="400"></div>
         </div>
         {% endif %}
         <p class="vote">
-            <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
-            <a href="{{ url_for("vote", type="question", question_id=question[0], type_id=question[0], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+            <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+            <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
             {{ question[3] }}
         </p>
     </div>

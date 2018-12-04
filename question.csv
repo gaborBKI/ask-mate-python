@@ -1,27 +1,7 @@
 id,submission_time,view_number,vote_number,title,message,image
-0,1493368154,237,10,How to make lists in Python?,"I am totally new to this, any hints?",
-1,1493068124,63,19,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)",
-2,1493015432,1412,67,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,1542734936,39,-4,Submit,Why can't I submit a question?,
-4,1542735136,38,2,Images,Can I post an image to this stuff?,
-8,1542795515,108,2,Is it working?,Is this thing on?,
-9,1542820884,43,0,Long answers,Do long answers still get displayed outside of the div box?,
-10,1542895630,32,5,Ordering dictionaries in Python,"I have a dictionary of values read from two fields in a database: a string field and a numeric field. The string field is unique, so that is the key of the dictionary.
-
-I can sort on the keys, but how can I sort based on the values?",
-11,1542909220,29,3,Mentors,Who is your favourite mentor in Codecool?,
-13,1542912951,86,4,Do I look good?,"I am submitting a photo of myself, please tell me if I look good.",https://nyppagesix.files.wordpress.com/2016/03/148463pcn_thecomedian.jpg?quality=90&strip=all&w=618&h=410&crop=1
-14,1542916340,69,19,Sand?,What is your opinion on sand?,
-15,1542916405,21,7,Am I the only one?,Am I the only one who likes the mentors in the web room?,
-17,1542916480,27,69,Favourite number?,What is your favourite number? Mine is 69.,
-18,1542975858,26,3,Auto Indent,Is this thing on?,https://infostart.hu/images/site/articles/lead/2018/09/1536333971-zvClXTBXl_md.jpg
+id,submission_time,view_number,vote_number,title,message,image
+id,submission_time,view_number,vote_number,title,message,image
+id,submission_time,view_number,vote_number,title,message,image
+id,submission_time,view_number,vote_number,title,message,image
+id,submission_time,view_number,vote_number,title,message,image
+id,submission_time,view_number,vote_number,title,message,image

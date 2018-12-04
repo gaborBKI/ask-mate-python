@@ -34,18 +34,19 @@ def route_submit_question():
         return render_template('form.html')
 
 
-
-
-
 @app.route('/question/<int:qid>')
 def route_question(qid):
-    questions = data_manager.get_all_data('question.csv')
+    questions = connection.get_all_questions()
+    print(questions)
     answers = data_manager.get_all_data('answer.csv')
-    returned_question = util.get_question_by_id(qid, questions)
+    for question in questions:
+        if question['id'] == qid:
+            returned_question = question
     filtered_answers = util.get_answer_by_id(answers, qid)
     data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
     return render_template('question.html', question=returned_question, answers=filtered_answers)
 
+    #TODO question/questionid show question from SQL instead of csv
 
 @app.route('/delete', methods=['post'])
 def delete_question():
@@ -68,6 +69,14 @@ def delete_answer():
     return redirect(f"/question/{qid}")
 
 
+@app.route('/answer/<qid>', methods=['POST'])
+def answer(qid):
+    answers = data_manager.get_all_data("answer.csv")
+    id = util.generate_id(answers)
+    data_manager.append_answer_into_file(id, qid, request.form["answertext"])
+    return redirect(f"/question/{qid}")
+
+
 '''@app.route('/question/<int:qid>')
 def route_question(qid):
     questions = data_manager.get_all_data('question.csv')
@@ -76,15 +85,6 @@ def route_question(qid):
     filtered_answers = util.get_answer_by_id(answers, qid)
     data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
     return render_template('question.html', question=returned_question, answers=filtered_answers)'''
-
-
-@app.route('/answer/<qid>', methods=['POST'])
-def answer(qid):
-    answers = data_manager.get_all_data("answer.csv")
-    id = util.generate_id(answers)
-    data_manager.append_answer_into_file(id, qid, request.form["answertext"])
-    return redirect(f"/question/{qid}")
-
 
 
 '''@app.route('/ask_question', methods=['GET', 'POST'])
