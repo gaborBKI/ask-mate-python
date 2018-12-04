@@ -46,21 +46,16 @@ def route_question(qid):
 @app.route('/delete', methods=['post'])
 def delete_question():
     id = request.form['questid']
-    questions = data_manager.get_all_data('question.csv')
-    util.remove_question_by_id(id, questions)
-    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-    answers = data_manager.get_all_data('answer.csv')
-    util.remove_answers_to_deleted_question(answers, id)
-    data_manager.save_into_file(answers, data_manager.TITLE_LIST_A, 'answer.csv')
+    connection.delete_question_answers(id)
+
+    connection.delete_from_db(id, 'question')
     return redirect('/')
 
 
 @app.route('/delete_answer', methods=['post'])
 def delete_answer():
     id = request.form['answer_id']
-    answers = data_manager.get_all_data('answer.csv')
-    qid = util.remove_answer_by_id(answers, id)
-    data_manager.save_into_file(answers, data_manager.TITLE_LIST_A, 'answer.csv')
+    connection.delete_from_db(id, 'answer')
     return redirect(f"/question/{qid}")
 
 

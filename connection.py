@@ -1,10 +1,8 @@
-import util
 import data_manager
 import operator
 import time
 from datetime import datetime
 import database_common
-import util
 
 
 def change_vote(type, direction, type_id):
@@ -90,10 +88,22 @@ def add_answer(cursor, question_id, message):
 
 
 @database_common.connection_handler
-def delete_from_db(cursor, id, table):
-    cursor.execute(""" DELETE FROM %(table)s WHERE id = %(id)s;
-                        """, {'id': id,
-                              'table': table})
+def delete_from_db(cursor, id, tablename):
+    cursor.execute(
+
+        sql.SQL("DELETE FROM {table} where id = %(id)s ").
+            format(table=sql.Identifier(tablename)), {'id': id})
+
+    return None
+
+
+@database_common.connection_handler
+def delete_question_answers(cursor, qid):
+    cursor.execute(""" DELETE FROM answer   WHERE question_id = %(qid)s;
+                       DELETE FROM comment   WHERE question_id = %(qid)s;
+                       DELETE FROM question_tag   WHERE question_id = %(qid)s;
+                        """, {'qid': qid
+                              })
     return None
 
 
