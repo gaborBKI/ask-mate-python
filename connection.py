@@ -67,3 +67,11 @@ def add_question(cursor, q_title, question, im_link):
                    {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
     submitted_question = cursor.fetchall()
     return submitted_question
+
+
+@database_common.connection_handler
+def delete_from_db(cursor, id, table):
+    cursor.execute(""" DELETE FROM %(table)s WHERE id = %(id)s;
+                        """, {'id': id,
+                              'table': table})
+    return None
