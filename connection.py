@@ -3,7 +3,7 @@ import operator
 import time
 from datetime import datetime
 import database_common
-
+from psycopg2 import sql
 
 def change_vote(type, direction, type_id):
     data = data_manager.get_all_data(f'{type}.csv')
@@ -92,6 +92,19 @@ def add_answer(cursor, question_id, message):
 
 @database_common.connection_handler
 def delete_from_db(cursor, id, tablename):
+    print(id)
+    if tablename == "question":
+        cursor.execute("""     DELETE FROM comment   WHERE question_id = %(id)s;
+                               DELETE FROM comment   WHERE answer_id = (select id from answer where question_id = %(id)s);
+                               DELETE FROM answer   WHERE question_id = %(id)s;
+                               DELETE FROM question_tag   WHERE question_id = %(id)s;
+                                """, {'id': id
+                                      })
+    elif tablename == "answer":
+        cursor.execute("""     DELETE FROM comment   WHERE answer_id = %(id)s;
+                               DELETE FROM question_tag   WHERE question_id = %(id)s;
+                                """, {'id': id
+                                      })
     cursor.execute(
 
         sql.SQL("DELETE FROM {table} where id = %(id)s ").
@@ -100,11 +113,3 @@ def delete_from_db(cursor, id, tablename):
     return None
 
 
-@database_common.connection_handler
-def delete_question_answers(cursor, qid):
-    cursor.execute(""" DELETE FROM answer   WHERE question_id = %(qid)s;
-                       DELETE FROM comment   WHERE question_id = %(qid)s;
-                       DELETE FROM question_tag   WHERE question_id = %(qid)s;
-                        """, {'qid': qid
-                              })
-    return None

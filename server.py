@@ -46,7 +46,6 @@ def route_question(qid):
 @app.route('/delete', methods=['post'])
 def delete_question():
     id = request.form['questid']
-    connection.delete_question_answers(id)
 
     connection.delete_from_db(id, 'question')
     return redirect('/')
