@@ -1,6 +1,5 @@
-import data_manager
+from psycopg2 import sql
 import operator
-import time
 from datetime import datetime
 import database_common
 
@@ -11,15 +10,15 @@ def change_vote(type, direction, type_id):
     if type == 'question':
         for question in questions:
             if question['id'] == int(type_id) and direction == "up":
-                update_vote_question(1, type_id)
+                update_vote(type, 1, type_id)
             elif question['id'] == int(type_id) and direction == "down":
-                update_vote(-1, type_id)
+                update_vote(type, -1, type_id)
     elif type == 'answer':
         for answer in answers:
             if answer['id'] == int(type_id) and direction == "up":
-                update_vote_answer(1, type_id)
+                update_vote(type, 1, type_id)
             elif answer['id'] == int(type_id) and direction == "down":
-                update_vote_answer(-1, type_id)
+                update_vote(type, -1, type_id)
 
 
 def get_order_by_user(order, questions, status):
@@ -29,18 +28,6 @@ def get_order_by_user(order, questions, status):
         else:
             questions = sorted(questions, key=operator.itemgetter(status))
     return questions
-
-
-def get_question_by_user(qid, question_list, title, question, image):
-    data = [qid, str(int(time.time())), '0', '0', title, question, image]
-    question_list.append(data)
-    data_manager.save_into_file(question_list, data_manager.TITLE_LIST_Q, 'question.csv')
-
-
-def get_answer_by_user(qid):
-    answers = data_manager.get_all_data("answer.csv")
-    id = util.generate_id(answers)
-    data_manager.append_answer_into_file(id, qid, request.form["answertext"])
 
 
 @database_common.connection_handler
@@ -91,8 +78,7 @@ def add_answer(cursor, question_id, message):
 def delete_from_db(cursor, id, tablename):
     cursor.execute(
 
-        sql.SQL("DELETE FROM {table} where id = %(id)s ").
-            format(table=sql.Identifier(tablename)), {'id': id})
+        sql.SQL("DELETE FROM {table} where id = %(id)s ").format(table=sql.Identifier(tablename)), {'id': id})
 
     return None
 
@@ -107,18 +93,9 @@ def delete_question_answers(cursor, qid):
 
 
 @database_common.connection_handler
-def update_vote_question(cursor, direction, type_id):
-    cursor.execute(""" UPDATE question
+def update_vote(cursor, tablename, direction, type_id):
+    cursor.execute(sql.SQL(""" UPDATE {table}
                         SET vote_number = vote_number + %(direction)s
                         WHERE id = %(type_id)s;
-                        """, {'direction': direction, 'type_id': type_id})
-    return None
-
-
-@database_common.connection_handler
-def update_vote_answer(cursor, direction, type_id):
-    cursor.execute(""" UPDATE answer
-                        SET vote_number = vote_number + %(direction)s
-                        WHERE id = %(type_id)s;
-                        """, {'direction': direction, 'type_id': type_id})
+                        """).format(table=sql.Identifier(tablename)), {'direction': direction, 'type_id': type_id})
     return None
