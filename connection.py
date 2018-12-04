@@ -3,6 +3,7 @@ import operator
 import time
 from datetime import datetime
 import database_common
+import util
 
 
 def change_vote(type, direction, type_id):
@@ -54,6 +55,16 @@ def get_all_questions(cursor):
                        """)
     questions = cursor.fetchall()
     return questions
+
+
+@database_common.connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+                        SELECT * FROM answer
+                        ORDER BY id;
+                       """)
+    answers = cursor.fetchall()
+    return answers
 
 
 @database_common.connection_handler
