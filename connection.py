@@ -3,7 +3,7 @@ import operator
 import time
 from datetime import datetime
 import database_common
-from psycopg2 import sql
+
 
 def change_vote(type, direction, type_id):
     data = data_manager.get_all_data(f'{type}.csv')
@@ -57,6 +57,16 @@ def get_all_questions(cursor):
 
 
 @database_common.connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+                        SELECT * FROM answer
+                        ORDER BY id;
+                       """)
+    answers = cursor.fetchall()
+    return answers
+
+
+@database_common.connection_handler
 def add_question(cursor, q_title, question, im_link):
     dt = datetime.now()
     cursor.execute("""
@@ -67,6 +77,17 @@ def add_question(cursor, q_title, question, im_link):
                    {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
     submitted_question = cursor.fetchall()
     return submitted_question
+
+
+@database_common.connection_handler
+def add_answer(cursor, question_id, message):
+    dt = datetime.now()
+    cursor.execute("""
+                        INSERT INTO answer (submission_time, vote_number, question_id, message)
+                        VALUES (%(dt)s, 0, %(question_id)s, %(message)s);
+                       """,
+                   {'dt': dt, 'question_id': question_id, 'message': message})
+    return None
 
 
 @database_common.connection_handler
