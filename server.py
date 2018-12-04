@@ -16,16 +16,8 @@ def vote(type, type_id, direction, question_id):
 @app.route('/')
 @app.route('/list')
 def route_list():
-    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    orderby = ['Ascending', 'Descending']
-    questions = data_manager.get_all_data('question.csv')
-    for question in questions:
-        util.convert_time(question, 1)
-    status = request.args.get('status', default=0, type=int)
-    order = request.args.get('order', default=0, type=int)
-    questions = connection.get_order_by_user(order, questions, status)
-    return render_template('list.html', questions=questions, sort_options=sort_options, current=status, corder=order,
-                           orderby=orderby)
+    questions = connection.get_all_questions()
+    return render_template('list.html', questions=questions)
 
 
 @app.route('/delete', methods=['post'])

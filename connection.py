@@ -1,6 +1,7 @@
 import data_manager
 import operator
 import time
+import database_common
 
 
 def change_vote(type, direction, type_id):
@@ -42,3 +43,13 @@ def get_answer_by_user(qid):
     answers = data_manager.get_all_data("answer.csv")
     id = util.generate_id(answers)
     data_manager.append_answer_into_file(id, qid, request.form["answertext"])
+
+
+@database_common.connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+                        SELECT * FROM question
+                        ORDER BY id;
+                       """)
+    questions = cursor.fetchall()
+    return questions
