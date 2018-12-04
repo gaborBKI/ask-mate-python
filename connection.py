@@ -106,3 +106,11 @@ def update_view_number(cursor, qid):
                         WHERE id = %(qid)s;
                         """, {'qid': qid})
     return None
+
+
+@database_common.connection_handler
+def update_question_text(cursor, qid, edited_text):
+    cursor.execute(""" UPDATE question SET message = %(edited_text)s
+                        WHERE id = %(qid)s;
+                        """, {'qid': qid, 'edited_text': edited_text})
+    return None

@@ -34,21 +34,29 @@ def route_submit_question():
         return render_template('form.html')
 
 
+@app.route('/edit/<int:qid>', methods=['post'])
+@app.route('/question/<int:qid>', methods=['post'])
 @app.route('/question/<int:qid>')
 def route_question(qid):
+    if request.form.get('edit'):
+        editable = True
+    else:
+        editable = False
+    if request.form.get('save'):
+        connection.update_question_text(qid, request.form['updated'])
     questions = connection.get_all_questions('id')
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
     filtered_answers = data_manager.get_answers_to_question(answers, qid)
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, answers=filtered_answers)
+    return render_template('question.html', question=returned_question, answers=filtered_answers, editable=editable)
 
+#TODO editing form box is abismal, needs fixed.
 
 @app.route('/delete', methods=['post'])
 def delete_question():
     id = request.form['questid']
     connection.delete_question_answers(id)
-
     connection.delete_from_db(id, 'question')
     return redirect('/')
 
