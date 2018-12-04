@@ -33,3 +33,10 @@ def append_answer_into_file(id, qid, text):
     with open("answer.csv", "a") as file:
         writer = csv.writer(file)
         writer.writerow([id, int(time.time()), 0, qid, text])
+
+
+def get_latest_id(question):
+    question_id = 0
+    for data in question:
+        question_id += data['id']
+    return question_id

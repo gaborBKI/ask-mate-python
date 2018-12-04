@@ -1,6 +1,7 @@
 import data_manager
 import operator
 import time
+from datetime import datetime
 import database_common
 
 
@@ -53,3 +54,16 @@ def get_all_questions(cursor):
                        """)
     questions = cursor.fetchall()
     return questions
+
+
+@database_common.connection_handler
+def add_question(cursor, q_title, question, im_link):
+    dt = datetime.now()
+    cursor.execute("""
+                        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);
+                        SELECT id FROM question WHERE id=(SELECT max(id) FROM question);
+                       """,
+                   {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
+    submitted_question = cursor.fetchall()
+    return submitted_question

@@ -20,6 +20,33 @@ def route_list():
     return render_template('list.html', questions=questions)
 
 
+@app.route('/ask_question', methods=['GET', 'POST'])
+def route_submit_question():
+    if request.method == 'POST':
+        print('POST request received!')
+        title = request.form['title']
+        message = request.form['question']
+        image = request.form['image']
+        question = connection.add_question(title, message, image)
+        question_id = data_manager.get_latest_id(question)
+        return redirect(f"/question/{question_id}")
+    else:
+        return render_template('form.html')
+
+
+
+
+
+@app.route('/question/<int:qid>')
+def route_question(qid):
+    questions = data_manager.get_all_data('question.csv')
+    answers = data_manager.get_all_data('answer.csv')
+    returned_question = util.get_question_by_id(qid, questions)
+    filtered_answers = util.get_answer_by_id(answers, qid)
+    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
+    return render_template('question.html', question=returned_question, answers=filtered_answers)
+
+
 @app.route('/delete', methods=['post'])
 def delete_question():
     id = request.form['questid']
@@ -41,14 +68,14 @@ def delete_answer():
     return redirect(f"/question/{qid}")
 
 
-@app.route('/question/<int:qid>')
+'''@app.route('/question/<int:qid>')
 def route_question(qid):
     questions = data_manager.get_all_data('question.csv')
     answers = data_manager.get_all_data('answer.csv')
     returned_question = util.get_question_by_id(qid, questions)
     filtered_answers = util.get_answer_by_id(answers, qid)
     data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-    return render_template('question.html', question=returned_question, answers=filtered_answers)
+    return render_template('question.html', question=returned_question, answers=filtered_answers)'''
 
 
 @app.route('/answer/<qid>', methods=['POST'])
@@ -60,7 +87,7 @@ def answer(qid):
 
 
 
-@app.route('/ask_question', methods=['GET', 'POST'])
+'''@app.route('/ask_question', methods=['GET', 'POST'])
 def route_submit_question():
     if request.method == 'POST':
         print('POST request received!')
@@ -70,7 +97,7 @@ def route_submit_question():
                                         request.form['image'])
         return redirect(f'/question/{question_id}')
     else:
-        return render_template('form.html')
+        return render_template('form.html')'''
 
 
 if __name__ == '__main__':
