@@ -75,24 +75,20 @@ def add_answer(cursor, question_id, message):
 
 
 @database_common.connection_handler
-def delete_from_db(cursor, id, tablename):
+def delete_from_db(cursor, id, tablename, var_id):
     print(id)
     if tablename == "question":
-        cursor.execute("""     DELETE FROM comment   WHERE question_id = %(id)s;
-                               DELETE FROM comment   WHERE answer_id = (select id from answer where question_id = %(id)s);
-                               DELETE FROM answer   WHERE question_id = %(id)s;
-                               DELETE FROM question_tag   WHERE question_id = %(id)s;
-                                """, {'id': id
-                                      })
+        delete_from_db(id, 'comment', 'question_id')
+        delete_from_db(id, 'answer', 'question_id')
+        delete_from_db(id, 'question_tag', 'question_id')
+
     elif tablename == "answer":
-        cursor.execute("""     DELETE FROM comment   WHERE answer_id = %(id)s;
-                               DELETE FROM question_tag   WHERE question_id = %(id)s;
-                                """, {'id': id
-                                      })
+        delete_from_db(id, 'comment', 'answer_id')
+
     cursor.execute(
 
-        sql.SQL("DELETE FROM {table} where id = %(id)s ").
-            format(table=sql.Identifier(tablename)), {'id': id})
+        sql.SQL("DELETE FROM {table} where {varid} = %(id)s ").
+            format(table=sql.Identifier(tablename), varid=sql.Identifier(var_id)), {'id': id})
 
     return None
 
