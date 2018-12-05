@@ -8,17 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
-    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    order_direction = ['Ascending', 'Descending']
-    order = data_manager.get_order_by_what(sort_options)
-    direction = data_manager.get_order_direction(order_direction)
-    if direction == 'DESC':
-        questions = connection.get_all_questions_desc(order)
-        print(questions)
-    elif direction == 'ASC':
-        questions = connection.get_all_questions_asc(order)
-    else:
-        questions = connection.get_all_questions('id', '')
+    order_direction, questions, sort_options = get_question_list()
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
 
 
@@ -91,6 +81,21 @@ def search():
     searchvalue = '%' + request.args['searchval'] + '%'
     questions = connection.get_all_questions('id', searchvalue)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
+
+
+def get_question_list():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    order_direction = ['Ascending', 'Descending']
+    order = data_manager.get_order_by_what(sort_options)
+    direction = data_manager.get_order_direction(order_direction)
+    if direction == 'DESC':
+        questions = connection.get_all_questions_desc(order)
+        print(questions)
+    elif direction == 'ASC':
+        questions = connection.get_all_questions_asc(order)
+    else:
+        questions = connection.get_all_questions('id', '')
+    return order_direction, questions, sort_options
 
 
 if __name__ == '__main__':

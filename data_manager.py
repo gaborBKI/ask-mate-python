@@ -1,6 +1,3 @@
-import csv
-import os
-import time
 from flask import request
 
 def get_latest_id(question):
@@ -36,10 +33,8 @@ def get_order_by_what(sort_options):
 def get_order_direction(order_direction):
     direction = {'Ascending': 'ASC', 'Descending': 'DESC'}
     the_way = request.args.get('order', default=0, type=int)
-    print(the_way)
-    if the_way:
-        way_method = order_direction[the_way]
-        sorting_direction = direction[way_method]
-    else:
-        sorting_direction = None
+    way_method = order_direction[the_way]
+    sorting_direction = direction[way_method]
     return sorting_direction
+
+
