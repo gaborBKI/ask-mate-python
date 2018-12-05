@@ -36,12 +36,17 @@ def get_all_questions_desc(cursor, order_by_what):
     cursor.execute(sql.SQL(""" SELECT * FROM question
                             ORDER BY {order_by_what} DESC;
                             """).format(order_by_what=sql.Identifier(order_by_what)))
+    questions = cursor.fetchall()
+    return questions
+
 
 @database_common.connection_handler
 def get_all_questions_asc(cursor, order_by_what):
     cursor.execute(sql.SQL(""" SELECT * FROM question
                             ORDER BY {order_by_what} ASC;
                             """).format(order_by_what=sql.Identifier(order_by_what)))
+    questions = cursor.fetchall()
+    return questions
 
 
 @database_common.connection_handler

@@ -14,9 +14,11 @@ def route_list():
     direction = data_manager.get_order_direction(order_direction)
     if direction == 'DESC':
         questions = connection.get_all_questions_desc(order)
+        print(questions)
     elif direction == 'ASC':
         questions = connection.get_all_questions_asc(order)
-    questions = connection.get_all_questions('id', '')
+    else:
+        questions = connection.get_all_questions('id', '')
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
 
 
