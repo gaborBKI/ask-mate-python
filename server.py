@@ -86,12 +86,10 @@ def get_question_list():
     direction = data_manager.get_order_direction(order_direction)
     if direction == 'DESC':
         questions = connection.get_all_questions_desc(order)
-        print(questions)
     elif direction == 'ASC':
         questions = connection.get_all_questions_asc(order)
-    else:
-        questions = connection.get_all_questions('id', '')
     return order_direction, questions, sort_options
+
 
 def check_for_edit_or_save(qid):
     if request.form.get('edit'):
