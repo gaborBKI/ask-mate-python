@@ -10,7 +10,7 @@ app = Flask(__name__)
 def route_list():
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
     orderby = ['Ascending', 'Descending']
-    questions = connection.get_all_questions('id')
+    questions = connection.get_all_questions('id', "")
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
 
 
@@ -44,7 +44,7 @@ def route_question(qid):
         editable = False
     if request.form.get('save'):
         connection.update_question_text(qid, request.form['updated'])
-    questions = connection.get_all_questions('id')
+    questions = connection.get_all_questions('id', "")
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
     filtered_answers = data_manager.get_answers_to_question(answers, qid)
@@ -74,6 +74,16 @@ def answer(qid):
     answer_text = request.form["answertext"]
     connection.add_answer(qid, answer_text)
     return redirect(f"/question/{qid}")
+
+
+@app.route('/search')
+def search():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    orderby = ['Ascending', 'Descending']
+    searchvalue = '%' + request.args['searchval'] + '%'
+    questions = connection.get_all_questions('id', searchvalue)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
+
 
 
 if __name__ == '__main__':
