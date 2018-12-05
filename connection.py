@@ -22,10 +22,10 @@ def get_all_questions_asc(cursor, order_by_what):
 
 
 @database_common.connection_handler
-def get_all_questions(cursor, order_by_what, searchvalue, limit):
+def get_all_questions(cursor, order_by_what, searchvalue):
     if not searchvalue:
         cursor.execute(sql.SQL(""" SELECT * FROM question
-                                ORDER BY {order_by_what} limit 5;
+                                ORDER BY {order_by_what};
                                 """).format(order_by_what=sql.Identifier(order_by_what)))
     else:
 
@@ -35,10 +35,17 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 
                                                 """).format(order_by_what=sql.Identifier(order_by_what)),
                        {'searchvalue': searchvalue})
-
     questions = cursor.fetchall()
     return questions
 
+
+@database_common.connection_handler
+def get_limited_questions(cursor, order_by_what):
+    cursor.execute(sql.SQL(""" SELECT * FROM question
+                            ORDER BY {order_by_what} DESC LIMIT 5;
+                            """).format(order_by_what=sql.Identifier(order_by_what)))
+    questions = cursor.fetchall()
+    return questions
 
 @database_common.connection_handler
 def get_all_answers(cursor):
