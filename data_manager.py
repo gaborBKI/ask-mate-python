@@ -1,4 +1,6 @@
 from flask import request
+import connection
+
 
 def get_latest_id(question):
     question_id = 0
@@ -38,3 +40,27 @@ def get_order_direction(order_direction):
     return sorting_direction
 
 
+def change_vote(type, direction, type_id):
+    questions = connection.get_all_questions('id', '')
+    answers = connection.get_all_answers()
+    if type == 'question':
+        for question in questions:
+            if question['id'] == int(type_id) and direction == "up":
+                connection.update_vote(type, 1, type_id)
+            elif question['id'] == int(type_id) and direction == "down":
+                connection.update_vote(type, -1, type_id)
+    elif type == 'answer':
+        for answer in answers:
+            if answer['id'] == int(type_id) and direction == "up":
+                connection.update_vote(type, 1, type_id)
+            elif answer['id'] == int(type_id) and direction == "down":
+                connection.update_vote(type, -1, type_id)
+
+
+def get_order_by_user(order, questions, status):
+    if 'status':
+        if order:
+            questions = sorted(questions, key=operator.itemgetter(status), reverse=True)
+        else:
+            questions = sorted(questions, key=operator.itemgetter(status))
+    return questions

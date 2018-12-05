@@ -5,6 +5,9 @@ import connection
 app = Flask(__name__)
 
 
+#TODO make sure check_for_edit_or_save and get_question_list functions are moved to data_manager
+
+
 @app.route('/')
 @app.route('/list')
 def route_list():
@@ -14,7 +17,7 @@ def route_list():
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
 def vote(type, type_id, direction, question_id):
-    connection.change_vote(type, direction, type_id)
+    data_manager.change_vote(type, direction, type_id)
     return redirect(f"/question/{question_id}")
 
 
@@ -36,12 +39,7 @@ def route_submit_question():
 @app.route('/question/<int:qid>', methods=['post'])
 @app.route('/question/<int:qid>')
 def route_question(qid):
-    if request.form.get('edit'):
-        editable = True
-    else:
-        editable = False
-    if request.form.get('save'):
-        connection.update_question_text(qid, request.form['updated'])
+    editable = check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "")
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
@@ -49,12 +47,10 @@ def route_question(qid):
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, answers=filtered_answers, editable=editable)
 
-#TODO editing form box is abismal, needs fixed.
 
 @app.route('/delete', methods=['post'])
 def delete_question():
     id = request.form['questid']
-
     connection.delete_from_db(id, 'question', 'id')
     return redirect('/')
 
@@ -96,6 +92,15 @@ def get_question_list():
     else:
         questions = connection.get_all_questions('id', '')
     return order_direction, questions, sort_options
+
+def check_for_edit_or_save(qid):
+    if request.form.get('edit'):
+        editable = True
+    else:
+        editable = False
+    if request.form.get('save'):
+        connection.update_question_text(qid, request.form['updated'])
+    return editable
 
 
 if __name__ == '__main__':

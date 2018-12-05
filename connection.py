@@ -5,31 +5,6 @@ from datetime import datetime
 import database_common
 from psycopg2 import sql
 
-def change_vote(type, direction, type_id):
-    questions = get_all_questions('id')
-    answers = get_all_answers()
-    if type == 'question':
-        for question in questions:
-            if question['id'] == int(type_id) and direction == "up":
-                update_vote(type, 1, type_id)
-            elif question['id'] == int(type_id) and direction == "down":
-                update_vote(type, -1, type_id)
-    elif type == 'answer':
-        for answer in answers:
-            if answer['id'] == int(type_id) and direction == "up":
-                update_vote(type, 1, type_id)
-            elif answer['id'] == int(type_id) and direction == "down":
-                update_vote(type, -1, type_id)
-
-
-def get_order_by_user(order, questions, status):
-    if 'status':
-        if order:
-            questions = sorted(questions, key=operator.itemgetter(status), reverse=True)
-        else:
-            questions = sorted(questions, key=operator.itemgetter(status))
-    return questions
-
 
 @database_common.connection_handler
 def get_all_questions_desc(cursor, order_by_what):
