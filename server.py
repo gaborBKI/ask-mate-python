@@ -12,11 +12,14 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
+    status = request.args.get('status', default=0, type=int)
+    order = request.args.get('order', default=0, type=int)
     if request.path == "/list":
         order_direction, questions, sort_options = data_manager.get_question_list()
     else:
         order_direction, questions, sort_options = data_manager.get_limited_questions()
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
+                           current=status, corder=order)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
