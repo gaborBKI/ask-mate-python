@@ -203,7 +203,8 @@
         {% for i in range(answers|length) %}
             {% if i % 2 == 0 %}
             <form action="/delete_answer" method="POST">
-                <input type="number" hidden name="answer_id" value="{{ answer['id'] }}">
+                <input type="number" hidden name="answer_id" value="{{ answers[0]['id'] }}">
+                <input type="number" hidden name="question_id" value="{{ question['id'] }}">
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
