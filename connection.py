@@ -1,8 +1,9 @@
-from psycopg2 import sql
+import data_manager
 import operator
+import time
 from datetime import datetime
 import database_common
-
+from psycopg2 import sql
 
 def change_vote(type, direction, type_id):
     questions = get_all_questions('id')
@@ -74,21 +75,24 @@ def add_answer(cursor, question_id, message):
 
 
 @database_common.connection_handler
-def delete_from_db(cursor, id, tablename):
+def delete_from_db(cursor, id, tablename, var_id):
+    print(id)
+    if tablename == "question":
+        delete_from_db(id, 'comment', 'question_id')
+        delete_from_db(id, 'answer', 'question_id')
+        delete_from_db(id, 'question_tag', 'question_id')
+
+    elif tablename == "answer":
+        delete_from_db(id, 'comment', 'answer_id')
+
     cursor.execute(
 
-        sql.SQL("DELETE FROM {table} where id = %(id)s ").format(table=sql.Identifier(tablename)), {'id': id})
+        sql.SQL("DELETE FROM {table} where {varid} = %(id)s ").
+            format(table=sql.Identifier(tablename), varid=sql.Identifier(var_id)), {'id': id})
 
     return None
 
 
-@database_common.connection_handler
-def delete_question_answers(cursor, qid):
-    cursor.execute(""" DELETE FROM answer   WHERE question_id = %(qid)s;
-                       DELETE FROM comment   WHERE question_id = %(qid)s;
-                       DELETE FROM question_tag   WHERE question_id = %(qid)s;
-                        """, {'qid': qid})
-    return None
 
 
 @database_common.connection_handler
