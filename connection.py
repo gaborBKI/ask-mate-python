@@ -56,10 +56,12 @@ def get_all_questions(cursor, order_by_what, searchvalue):
                                 ORDER BY {order_by_what};
                                 """).format(order_by_what=sql.Identifier(order_by_what)))
     else:
+
         cursor.execute(sql.SQL(""" SELECT * FROM question where title like %(searchvalue)s or message like %(searchvalue)s 
-                                    or where id in (select question_id from answer where answer.message like %(searchvalue)s)
-                                        ORDER BY {order_by_what};
-                                        """).format(order_by_what=sql.Identifier(order_by_what)),
+                                    or id in (select question_id from answer where answer.message like  %(searchvalue)s)
+                                                ORDER BY {order_by_what};
+
+                                                """).format(order_by_what=sql.Identifier(order_by_what)),
                        {'searchvalue': searchvalue})
 
     questions = cursor.fetchall()
