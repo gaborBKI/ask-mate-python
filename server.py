@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 
 #TODO make sure check_for_edit_or_save and get_question_list functions are moved to data_manager
+#TODO add corder and order back so the html order menus remember that status
 
 
 @app.route('/')

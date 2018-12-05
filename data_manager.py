@@ -23,6 +23,7 @@ def get_question_to_show(qid, questions):
             returned_question = question
     return returned_question
 
+
 def get_order_by_what(sort_options):
     sort_by = {'ID': 'id', 'Submitted': 'submission_time', 'Views': 'view_number', 'Rating': 'vote_number',
                'Title': 'title'}

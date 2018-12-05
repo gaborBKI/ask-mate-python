@@ -1,6 +1,3 @@
-import data_manager
-import operator
-import time
 from datetime import datetime
 import database_common
 from psycopg2 import sql

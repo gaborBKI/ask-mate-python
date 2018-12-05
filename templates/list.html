@@ -24,7 +24,7 @@
     }
 
 
-    tr:hover{
+    #rows:hover{
         background: pink;
     }
 
@@ -45,14 +45,14 @@
     <p align="center">
         <select id="status" name="status">
             {% for option in sort_options %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-                'selected' if current==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                        {{ 'selected' if current==loop.index0 }}>{{ option }}</option>
             {% endfor %}
         </select>
         <select id="order" name="order">
             {% for option in orderby %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-                'selected' if corder==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                        {{ 'selected' if corder==loop.index0 }}>{{ option }}</option>
             {% endfor %}
         </select>
         <button type="submit">Sort</button>
@@ -78,7 +78,7 @@
         <th>Image</th>
     </tr>
     {% for item in questions %}
-     <tr>
+     <tr id="rows">
         <td>{{ item.id }}</td>
         <td>{{ item.submission_time }}</td>
         <td>{{ item.view_number }}</td>
