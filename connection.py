@@ -32,6 +32,19 @@ def get_order_by_user(order, questions, status):
 
 
 @database_common.connection_handler
+def get_all_questions_desc(cursor, order_by_what):
+    cursor.execute(sql.SQL(""" SELECT * FROM question
+                            ORDER BY {order_by_what} DESC;
+                            """).format(order_by_what=sql.Identifier(order_by_what)))
+
+@database_common.connection_handler
+def get_all_questions_asc(cursor, order_by_what):
+    cursor.execute(sql.SQL(""" SELECT * FROM question
+                            ORDER BY {order_by_what} ASC;
+                            """).format(order_by_what=sql.Identifier(order_by_what)))
+
+
+@database_common.connection_handler
 def get_all_questions(cursor, order_by_what, searchvalue):
     if not searchvalue:
         cursor.execute(sql.SQL(""" SELECT * FROM question
@@ -99,8 +112,6 @@ def delete_from_db(cursor, id, tablename, var_id):
             format(table=sql.Identifier(tablename), varid=sql.Identifier(var_id)), {'id': id})
 
     return None
-
-
 
 
 @database_common.connection_handler
