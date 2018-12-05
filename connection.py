@@ -32,33 +32,18 @@ def get_order_by_user(order, questions, status):
 
 
 @database_common.connection_handler
-<<<<<<< HEAD
-def get_all_questions(cursor, order_by_what):
-    cursor.execute(sql.SQL(""" SELECT * FROM question
-                            ORDER BY {order_by_what} ASC;
-                            """).format(order_by_what=sql.Identifier(order_by_what)))
-    questions = cursor.fetchall()
-    return questions
-
-
-@database_common.connection_handler
-def get_all_questions_desc(cursor, order_by_what):
-    cursor.execute(sql.SQL(""" SELECT * FROM question
-                            ORDER BY {order_by_what} DESC;
-                            """).format(order_by_what=sql.Identifier(order_by_what)))
-=======
 def get_all_questions(cursor, order_by_what, searchvalue):
     if not searchvalue:
         cursor.execute(sql.SQL(""" SELECT * FROM question
                                 ORDER BY {order_by_what};
                                 """).format(order_by_what=sql.Identifier(order_by_what)))
     else:
-        cursor.execute(sql.SQL(""" SELECT * FROM question where title like %(searchvalue)s or message like %(searchvalue)s
+        cursor.execute(sql.SQL(""" SELECT * FROM question where title like %(searchvalue)s or message like %(searchvalue)s 
+                                    or where id in (select question_id from answer where answer.message like %(searchvalue)s)
                                         ORDER BY {order_by_what};
                                         """).format(order_by_what=sql.Identifier(order_by_what)),
                        {'searchvalue': searchvalue})
 
->>>>>>> 44121e71d03e1b9c08566cae8fde3a974c676e3c
     questions = cursor.fetchall()
     return questions
 
