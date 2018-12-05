@@ -9,9 +9,14 @@ app = Flask(__name__)
 @app.route('/list')
 def route_list():
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    orderby = ['Ascending', 'Descending']
-    questions = connection.get_all_questions('id')
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
+    order_direction = ['Ascending', 'Descending']
+    order = data_manager.get_order_by_what(sort_options)
+    direction = data_manager.get_order_direction(order_direction)
+    if direction == 'DESC':
+        questions = connection.get_all_questions_desc(order)
+    else:
+        questions = connection.get_all_questions(order)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')

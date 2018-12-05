@@ -32,17 +32,15 @@
     <p align="center">
         <select id="status" name="status">
             {% for option in sort_options %}
-            <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-            'selected' if current==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
+                'selected' if current==loop.index0 }}>{{ option }}</option>
             {% endfor %}
-
         </select>
         <select id="order" name="order">
             {% for option in orderby %}
-            <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-            'selected' if corder==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
+                'selected' if corder==loop.index0 }}>{{ option }}</option>
             {% endfor %}
-
         </select>
         <button type="submit">Sort</button>
     </p>
