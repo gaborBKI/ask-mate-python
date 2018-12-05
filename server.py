@@ -16,8 +16,10 @@ def vote(type, type_id, direction, question_id):
 @app.route('/')
 @app.route('/list')
 def route_list():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    orderby = ['Ascending', 'Descending']
     questions = connection.get_all_questions()
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
 
 
 @app.route('/ask_question', methods=['GET', 'POST'])
@@ -63,29 +65,6 @@ def answer(qid):
     answer_text = request.form["answertext"]
     connection.add_answer(qid, answer_text)
     return redirect(f"/question/{qid}")
-
-
-'''@app.route('/question/<int:qid>')
-def route_question(qid):
-    questions = data_manager.get_all_data('question.csv')
-    answers = data_manager.get_all_data('answer.csv')
-    returned_question = util.get_question_by_id(qid, questions)
-    filtered_answers = util.get_answer_by_id(answers, qid)
-    data_manager.save_into_file(questions, data_manager.TITLE_LIST_Q, 'question.csv')
-    return render_template('question.html', question=returned_question, answers=filtered_answers)'''
-
-
-'''@app.route('/ask_question', methods=['GET', 'POST'])
-def route_submit_question():
-    if request.method == 'POST':
-        print('POST request received!')
-        questions = data_manager.get_all_data('question.csv')
-        question_id = util.generate_id(questions)
-        connection.get_question_by_user(question_id, questions, request.form['title'], request.form['question'],
-                                        request.form['image'])
-        return redirect(f'/question/{question_id}')
-    else:
-        return render_template('form.html')'''
 
 
 if __name__ == '__main__':

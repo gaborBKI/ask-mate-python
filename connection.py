@@ -6,23 +6,20 @@ import database_common
 from psycopg2 import sql
 
 def change_vote(type, direction, type_id):
-    data = data_manager.get_all_data(f'{type}.csv')
+    questions = get_all_questions()
+    answers = get_all_answers()
     if type == 'question':
-        title_list = data_manager.TITLE_LIST_Q
-    else:
-        title_list = data_manager.TITLE_LIST_A
-    for row in data:
-        if row[0] == int(type_id) and direction == "up":
-            if type == 'question':
-                row[3] += 1
-            else:
-                row[2] += 1
-        elif row[0] == int(type_id) and direction == "down":
-            if type == 'question':
-                row[3] -= 1
-            else:
-                row[2] -= 1
-    data_manager.save_into_file(data, title_list, f'{type}.csv')
+        for question in questions:
+            if question['id'] == int(type_id) and direction == "up":
+                update_vote(type, 1, type_id)
+            elif question['id'] == int(type_id) and direction == "down":
+                update_vote(type, -1, type_id)
+    elif type == 'answer':
+        for answer in answers:
+            if answer['id'] == int(type_id) and direction == "up":
+                update_vote(type, 1, type_id)
+            elif answer['id'] == int(type_id) and direction == "down":
+                update_vote(type, -1, type_id)
 
 
 def get_order_by_user(order, questions, status):
@@ -32,18 +29,6 @@ def get_order_by_user(order, questions, status):
         else:
             questions = sorted(questions, key=operator.itemgetter(status))
     return questions
-
-
-def get_question_by_user(qid, question_list, title, question, image):
-    data = [qid, str(int(time.time())), '0', '0', title, question, image]
-    question_list.append(data)
-    data_manager.save_into_file(question_list, data_manager.TITLE_LIST_Q, 'question.csv')
-
-
-def get_answer_by_user(qid):
-    answers = data_manager.get_all_data("answer.csv")
-    id = util.generate_id(answers)
-    data_manager.append_answer_into_file(id, qid, request.form["answertext"])
 
 
 @database_common.connection_handler
@@ -113,3 +98,12 @@ def delete_from_db(cursor, id, tablename):
     return None
 
 
+
+
+@database_common.connection_handler
+def update_vote(cursor, tablename, direction, type_id):
+    cursor.execute(sql.SQL(""" UPDATE {table}
+                        SET vote_number = vote_number + %(direction)s
+                        WHERE id = %(type_id)s;
+                        """).format(table=sql.Identifier(tablename)), {'direction': direction, 'type_id': type_id})
+    return None
