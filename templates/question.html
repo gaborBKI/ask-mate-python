@@ -34,18 +34,23 @@
     }
 
     .question {
-        border-radius: 25px;
-        background-color: #A0907F;
+        border-style: ridge;
+        border-width: 5px;
+        border-color: coral;
+        background-color: white;
         color: black;
         margin: 1%;
         padding: 1%;
         padding-top: 3px;
         padding-bottom: 0px;
-        border: 3px black;
         width: 80%;
         position: relative;
         left: 8%;
         }
+
+    .message {
+        padding-top: 3%;
+    }
 
     .answers {
         border-radius: 25px;
@@ -105,6 +110,14 @@
         text-align: right;
         padding: 0%;
         margin: 0%;
+        float: right;
+    }
+
+    .edit {
+        text-align: right;
+        padding: 0%;
+        margin: 0%;
+        float: right;
     }
 
     .wrap {
@@ -138,30 +151,50 @@
     .spoilerbutton[value="Hide Image"]+.spoiler>div {
         max-height: 400px;
     }
+
 </style>
+
 <body>
     <h3>{{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
-    <div class="question">
-        <form action="/delete" method="POST">
-            <input type="number" hidden name="questid" value="{{question['id']}}">
-            <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
-        </form>
-        <font size="4">{{ question['message'] }}</font><br>
-        {% if question['image'] %}
-        <br>
-        <input class="spoilerbutton" type="button" value="Show Image" onclick="this.value=this.value=='Show Image'?'Hide Image':'Show Image';">
-        <div class="spoiler">
-            <div><img src="{{ question['image'] }}" height="400"></div>
+    <div class="question" contenteditable="{{ editable }}">
+        <div class="edit">
+            {% if editable %}
+                <form action="/question/{{ question.id }}" method="POST">
+                    <input type="text" hidden name="save" value="save">
+                    <input type="submit" class="fas fa-save" value="&#xf0c7"; Input>
+                        <form>
+                            <input type="text" name="updated" value="{{ question['message'] }}">
+                        </form>
+            {% else %}
+                <form action="/edit/{{ question.id }}" method="POST">
+                    <input type="text" hidden name="edit" value="edit">
+                    <input type="submit" class="fas fa-edit" value="&#xf044"; Input>
+                </form>
+            {% endif %}
         </div>
-        {% endif %}
+        <div class="trash">
+            <form action="/delete" method="POST">
+                <input type="number" hidden name="questid" value="{{question['id']}}">
+                <input type="submit" class="fas fa-trash" value="&#xf1f8"; Input>
+            </form>
+        </div>
+        <div class="message">
+            <font size="4">{{ question['message'] }}</font><br>
+            {% if question['image'] %}
+            <br>
+            <input class="spoilerbutton" type="button" value="Show Image" onclick="this.value=this.value=='Show Image'?'Hide Image':'Show Image';">
+            <div class="spoiler">
+                <div><img src="{{ question['image'] }}" height="400"></div>
+            </div>
+            {% endif %}
+        </div>
         <p class="vote">
             <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
             <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
             {{ question['vote_number'] }}
         </p>
     </div>
-    <img class="line" src="http://clipart-library.com/images/qcBXgnM4i.png" >
     <p align="center"><button onclick="window.location.href='/'">Back</button></p>
     <div class="answers">
     {% if answers|length == 0 %}
