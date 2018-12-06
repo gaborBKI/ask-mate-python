@@ -52,6 +52,32 @@ def get_all_answers(cursor):
     answers = cursor.fetchall()
     return answers
 
+@database_common.connection_handler
+def get_all_comments(cursor, qa_type):
+    if qa_type == 'question':
+        cursor.execute("""
+                            SELECT id, question_id, message, submission_time FROM comment
+                            WHERE question_id NOT NULL;
+                        """)
+    else:
+        cursor.execute("""
+                            SELECT id, answer_id, message, submission_time FROM comment
+                            WHERE answer_id NOT NULL;
+                        """)
+    comments = cursor.fetchall()
+    return comments
+
+
+@database_common.connection_handler
+def add_comment(cursor, qa_type, qa_id, text):
+    dt = str(datetime.now())[:19]
+    cursor.execute(sql.SQL("""
+                        INSERT INTO comment
+                        ({qa_type}, message, submission_time)
+                        VALUES (%(qa_id)s, %(text)s, %(dt)s)
+                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id':qa_id, 'text': text, 'dt': dt})
+    return None
+
 
 @database_common.connection_handler
 def add_question(cursor, q_title, question, im_link):
@@ -79,7 +105,6 @@ def add_answer(cursor, question_id, message):
 
 @database_common.connection_handler
 def delete_from_db(cursor, id, tablename, var_id):
-    print(id)
     if tablename == "question":
         delete_from_db(id, 'comment', 'question_id')
         delete_from_db(id, 'answer', 'question_id')
