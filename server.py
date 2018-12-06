@@ -79,7 +79,7 @@ def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
         connection.add_comment('question_id', qid, comment_text)
-    else:
+    elif type == 'answer':
         comment_text = request.form["commenttext"]
         connection.add_comment('answer_id', qid, comment_text)
         qid = request.form['question_id']

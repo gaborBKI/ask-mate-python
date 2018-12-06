@@ -320,14 +320,15 @@
             </form>
                 <div class="even wrap">
                     <p class="date">{{ answer['submission_time'] }}</p>
-                    <font size="4">{{ answer['message'] }}</font>
+                    <font size="4">{{ answer['message'] }}</font><br>
+                    <br>
+                    <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
                     <div class="spoiler">
                         <div>
                             {% for comment in answer['comments'] %}
                                 <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
                                 <br>
                             {% endfor %}
-                            <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
                             <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
                                 <div class="spoiler">
                                     <div>
