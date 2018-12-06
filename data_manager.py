@@ -14,6 +14,8 @@ def get_answers_to_question(answers, qid):
     for answer in answers:
         if answer['question_id'] == qid:
             filtered_answers.append(answer)
+
+            answer["comments"] = connection.get_all_comments('answer', answer['id'])
     return filtered_answers
 
 
