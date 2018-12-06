@@ -25,7 +25,7 @@ def get_all_questions_asc(cursor, order_by_what):
 def get_all_questions(cursor, order_by_what, searchvalue, limit):
     if not searchvalue and limit:
         cursor.execute(sql.SQL(""" SELECT * FROM question
-                                ORDER BY {order_by_what} limit 5;
+                                ORDER BY {order_by_what} DESC limit 5;
                                 """).format(order_by_what=sql.Identifier(order_by_what)))
     elif not searchvalue and not limit:
         cursor.execute(sql.SQL(""" SELECT * FROM question

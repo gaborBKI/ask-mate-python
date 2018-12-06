@@ -68,17 +68,18 @@ def get_order_by_user(order, questions, status):
     return questions
 
 
-def get_question_list():
+def get_question_list(limit):
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
     order_direction = ['Ascending', 'Descending']
-    order = get_order_by_what(sort_options)
-    direction = get_order_direction(order_direction)
-    if direction == 'DESC':
-        questions = connection.get_all_questions_desc(order)
-    elif direction == 'ASC':
-        questions = connection.get_all_questions_asc(order)
+    if not limit:
+        order = get_order_by_what(sort_options)
+        direction = get_order_direction(order_direction)
+        if direction == 'DESC':
+            questions = connection.get_all_questions_desc(order)
+        elif direction == 'ASC':
+            questions = connection.get_all_questions_asc(order)
     else:
-        questions = connection.get_all_questions('submission_time', "")
+        questions = connection.get_all_questions('submission_time', "", 1)
     return order_direction, questions, sort_options
 
 

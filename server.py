@@ -19,7 +19,7 @@ def route_list():
     else:
         order_direction, questions, sort_options = data_manager.get_question_list(1)
 
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction, current=status, corder=order)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -46,7 +46,7 @@ def route_submit_question():
 @app.route('/question/<int:qid>', methods=['post'])
 @app.route('/question/<int:qid>')
 def route_question(qid):
-    editable = check_for_edit_or_save(qid)
+    editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
