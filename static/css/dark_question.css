@@ -20,6 +20,8 @@ h1{
 h3 {
     margin-right: 100px;
     text-align: right;
+    color: white;
+    text-shadow: 2px 2px grey;
     }
 
 .vote{
