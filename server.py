@@ -15,11 +15,11 @@ def route_list():
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     if request.path == "/list":
-        order_direction, questions, sort_options = data_manager.get_question_list()
+        order_direction, questions, sort_options = data_manager.get_question_list(0)
     else:
-        order_direction, questions, sort_options = data_manager.get_limited_questions()
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order)
+        order_direction, questions, sort_options = data_manager.get_question_list(1)
+
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -46,8 +46,8 @@ def route_submit_question():
 @app.route('/question/<int:qid>', methods=['post'])
 @app.route('/question/<int:qid>')
 def route_question(qid):
-    editable = data_manager.check_for_edit_or_save(qid)
-    questions = connection.get_all_questions('id', "")
+    editable = check_for_edit_or_save(qid)
+    questions = connection.get_all_questions('id', "", 0)
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
     filtered_answers = data_manager.get_answers_to_question(answers, qid)
@@ -82,7 +82,7 @@ def search():
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
     orderby = ['Ascending', 'Descending']
     searchvalue = '%' + request.args['searchval'] + '%'
-    questions = connection.get_all_questions('id', searchvalue)
+    questions = connection.get_all_questions('id', searchvalue, 0)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
 
 
