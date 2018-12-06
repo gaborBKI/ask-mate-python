@@ -43,7 +43,7 @@ def get_order_direction(order_direction):
 
 
 def change_vote(type, direction, type_id):
-    questions = connection.get_all_questions('id', '')
+    questions = connection.get_all_questions('id', '', 0)
     answers = connection.get_all_answers()
     if type == 'question':
         for question in questions:
