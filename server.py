@@ -48,14 +48,9 @@ def route_submit_question():
 def route_question(qid):
     editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
-    answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
-    filtered_answers = data_manager.get_answers_to_question(answers, qid)
-    question_comments = connection.get_all_comments('question', qid)
-    answer_comments = connection.get_all_comments('answer', qid)
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, answers=filtered_answers, editable=editable,
-                           question_comments = question_comments, answer_comments = answer_comments)
+    return render_template('question.html', question=returned_question, editable=editable)
 
 
 @app.route('/delete', methods=['post'])

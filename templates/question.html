@@ -184,6 +184,13 @@
         max-height: 400px;
     }
 
+    .commentarea {
+        background-color: azure;
+    }
+
+    .comment {
+        background-color: antiquewhite;
+    }
 </style>
 
 <body>
@@ -223,7 +230,7 @@
             </div>
             {% endif %}
             <input class="spoilerbutton2" type="button" value="Hide Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
-            <div class="spoiler">
+            <div class="spoiler commentarea">
                 <div>
                     {% for comment in question_comments %}
                         <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>

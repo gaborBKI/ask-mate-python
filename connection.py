@@ -1,7 +1,7 @@
 from datetime import datetime
 import database_common
 from psycopg2 import sql
-
+import data_manager
 
 @database_common.connection_handler
 def get_all_questions_desc(cursor, order_by_what):
@@ -9,6 +9,10 @@ def get_all_questions_desc(cursor, order_by_what):
                             ORDER BY {order_by_what} DESC;
                             """).format(order_by_what=sql.Identifier(order_by_what)))
     questions = cursor.fetchall()
+    for question in questions:
+        question['comments'] = get_all_comments('question', question['id'])
+        question['answers'] = data_manager.get_answers_to_question(get_all_answers(), question['id'])
+
     return questions
 
 
@@ -18,6 +22,10 @@ def get_all_questions_asc(cursor, order_by_what):
                             ORDER BY {order_by_what} ASC;
                             """).format(order_by_what=sql.Identifier(order_by_what)))
     questions = cursor.fetchall()
+    for question in questions:
+        question['comments'] = get_all_comments('question', question['id'])
+        question['answers'] = data_manager.get_answers_to_question(get_all_answers(), question['id'])
+
     return questions
 
 
@@ -41,6 +49,10 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
                        {'searchvalue': searchvalue})
 
     questions = cursor.fetchall()
+    for question in questions:
+        question['comments'] = get_all_comments('question', question['id'])
+        question['answers'] = data_manager.get_answers_to_question(get_all_answers(), question['id'])
+
     return questions
 
 @database_common.connection_handler
