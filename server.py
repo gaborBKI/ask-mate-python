@@ -44,7 +44,7 @@ def route_submit_question():
 @app.route('/question/<int:qid>')
 def route_question(qid):
     editable = check_for_edit_or_save(qid)
-    questions = connection.get_all_questions('id', "")
+    questions = connection.get_all_questions('id', "", 0)
     answers = connection.get_all_answers()
     returned_question = data_manager.get_question_to_show(qid, questions)
     filtered_answers = data_manager.get_answers_to_question(answers, qid)
