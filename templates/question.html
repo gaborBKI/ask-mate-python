@@ -5,12 +5,11 @@
     <title>{{ question[4]}}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 <style>
     html{
         height: 100%;
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
     body {
@@ -44,37 +43,36 @@
         margin: 1%;
         padding: 1%;
         padding-top: 3px;
-        padding-bottom: 0px;
+        padding-bottom: 0;
         width: 80%;
         position: relative;
         left: 8%;
     }
 
-
     .answers {
-        border-radius: 25px;
-        background-color: #3B211F;
+        border-style: ridge;
+        border-width: 3px;
+        border-color: coral;
+        background-color: grey;
         color: black;
         margin: 1% ;
         padding: 1%;
-        border: 3px black;
-        width: 60%;
+        width: 70%;
         position: relative;
-        left: 20%;
+        left: 15%;
         overflow: auto;
-        height: 55%;
+        height: 51%;
     }
-
 
     .even {
         border-radius: 25px;
-        background-color: #A0907F;
+        background-color: white;
         color: black;
         margin: 5px auto;
         padding: 20px;
-        padding-bottom: 0px;
-        padding-top: 0px;
-        width: 50%;
+        padding-bottom: 0;
+        padding-top: 0;
+        width: 70%;
         border: 3px black;
     }
 
@@ -87,13 +85,13 @@
 
     .odd {
         border-radius: 25px;
-        background-color: #A0907F;
+        background-color: white;
         color: black;
         margin: 5px auto;
         padding: 20px;
-        padding-bottom: 0px;
-        padding-top: 0px;
-        width: 50%;
+        padding-bottom: 0;
+        padding-top: 0;
+        width: 70%;
         border: 3px black;
     }
 
@@ -109,15 +107,15 @@
 
     .trash {
         text-align: right;
-        padding: 0%;
-        margin: 0%;
+        padding: 0;
+        margin: 0;
         float: right;
     }
 
     .edit {
         text-align: right;
-        padding: 0%;
-        margin: 0%;
+        padding: 0;
+        margin: 0;
         float: right;
     }
 
@@ -145,6 +143,19 @@
         height: fit-content;
     }
 
+    .spoilerbutton{
+        background-color: black;
+        border: none;
+        color: white;
+        width: 130px;
+        padding: 10px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
     .spoilerbutton[value="Show Image"]+.spoiler>div {
       max-height: 0;
     }
@@ -168,12 +179,38 @@
         white-space: pre-wrap;
     }
 
-    .spoilerbutton2[value="Hide Comments"]+.spoiler>div {
-      max-height: 400px;
+    .spoilerbutton2{
+        background-color: cornflowerblue;
+        border: none;
+        color: white;
+        width: 130px;
+        padding: 10px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     }
 
     .spoilerbutton2[value="Show Comments"]+.spoiler>div {
-        max-height: 0px;
+      max-height: 0;
+    }
+
+    .spoilerbutton2[value="Hide Comments"]+.spoiler>div {
+        max-height: 400px;
+    }
+
+    .spoilerbutton3{
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        width: 130px;
+        padding: 10px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     }
 
     .spoilerbutton3[value="Add Comment"]+.spoiler>div {
@@ -184,8 +221,31 @@
         max-height: 400px;
     }
 
-</style>
+    .backbutton{
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        width: 130px;
+        padding: 10px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
 
+
+    .spoilerbutton, .spoilerbutton2, .spoilerbutton3, .backbutton {
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+    }
+
+    .spoilerbutton:hover, .spoilerbutton2:hover, .spoilerbutton3:hover, .backbutton:hover {
+      background-color: black;
+      color: white;
+    }
+
+</style>
 <body>
     <h3>{{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
@@ -222,7 +282,7 @@
                 <div><img src="{{ question['image'] }}" height="400"></div>
             </div>
             {% endif %}
-            <input class="spoilerbutton2" type="button" value="Hide Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
+            <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
             <div class="spoiler">
                 <div>
                     {% for comment in question_comments %}
@@ -247,7 +307,7 @@
             {{ question['vote_number'] }}
         </p>
     </div>
-    <p align="center"><button onclick="window.location.href='/'">Back</button></p>
+    <p align="center"><button class="backbutton" onclick="window.location.href='/list'">Back</button></p>
     <div class="answers">
     {% if answers|length == 0 %}
         <p class="even wrap"><font size="4">No answers found</font></p>
