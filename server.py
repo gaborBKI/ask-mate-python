@@ -80,6 +80,13 @@ def answer(qid):
     return redirect(f"/question/{qid}")
 
 
+@app.route('/comment/<qid>', methods=['POST'])
+def add_comment(qid):
+    comment_text = request.form["commenttext"]
+    connection.add_comment('question_id', qid, comment_text)
+    return redirect(f"/question/{qid}")
+
+
 @app.route('/search')
 def search():
     sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
