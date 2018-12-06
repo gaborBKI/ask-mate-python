@@ -167,6 +167,15 @@
     .question_message{
         white-space: pre-wrap;
     }
+
+    .spoilerbutton2[value="Show Comments"]+.spoiler>div {
+      max-height: 0;
+    }
+
+    .spoilerbutton2[value="Hide Comments"]+.spoiler>div {
+        max-height: 400px;
+    }
+
 </style>
 
 <body>
@@ -205,6 +214,13 @@
                 <div><img src="{{ question['image'] }}" height="400"></div>
             </div>
             {% endif %}
+            <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
+            <div class="spoiler">
+                {% for comment in question_comments %}
+                <div>
+                    {{ comment }}
+                </div>
+            </div>
         </div>
         <p class="vote">
             <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
