@@ -21,7 +21,6 @@ def get_answers_to_question(answers, qid):
 
 def get_question_to_show(qid, questions):
     for question in questions:
-        print(question)
         if question['id'] == qid:
             returned_question = question
     return returned_question

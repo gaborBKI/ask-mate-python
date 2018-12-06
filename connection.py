@@ -155,3 +155,20 @@ def update_question_text(cursor, qid, edited_text):
                         WHERE id = %(qid)s;
                         """, {'qid': qid, 'edited_text': edited_text})
     return None
+
+
+@database_common.connection_handler
+def get_style(cursor):
+    cursor.execute("""
+                        SELECT colour FROM style
+                       """)
+    style = cursor.fetchall()
+    return style
+
+@database_common.connection_handler
+def make_style(cursor, colour):
+    cursor.execute(""" UPDATE style SET colour = %(colour)s;
+                        SELECT colour FROM style;
+                        """, {'colour': colour})
+    style = cursor.fetchall()
+    return style

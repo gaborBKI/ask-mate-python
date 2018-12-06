@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Ask a Question</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_form.css') }}">
+    {% for colour in style %}
+        {% if colour['colour'] == 'light' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_form.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_form.css') }}">
+        {% endif %}
+    {% endfor %}
 </head>
 <body>
 <div class="content">

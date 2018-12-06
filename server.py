@@ -5,20 +5,22 @@ import connection
 app = Flask(__name__)
 
 
-#TODO make sure question comments are scrollable as SEND button is out of the page
-
-
 @app.route('/')
 @app.route('/list')
 def route_list():
+    if request.args.get('style'):
+        colour = request.args['style']
+        style = connection.make_style(colour)
+    else:
+        style = connection.get_style()
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     if request.path == "/list":
         order_direction, questions, sort_options = data_manager.get_question_list(0)
     else:
         order_direction, questions, sort_options = data_manager.get_question_list(1)
-
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction, current=status, corder=order)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
+                           current=status, corder=order, style=style)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -38,7 +40,7 @@ def route_submit_question():
         question_id = data_manager.get_latest_id(question)
         return redirect(f"/question/{question_id}")
     else:
-        return render_template('form.html')
+        return render_template('form.html', style=connection.get_style())
 
 
 @app.route('/edit/<int:qid>', methods=['post'])
@@ -49,7 +51,7 @@ def route_question(qid):
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, editable=editable)
+    return render_template('question.html', question=returned_question, editable=editable, style=connection.get_style())
 
 
 @app.route('/delete', methods=['post'])
@@ -92,7 +94,7 @@ def search():
     orderby = ['Ascending', 'Descending']
     searchvalue = '%' + request.args['searchval'] + '%'
     questions = connection.get_all_questions('id', searchvalue, 0)
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby, style=connection.get_style())
 
 
 if __name__ == '__main__':

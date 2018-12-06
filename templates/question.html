@@ -5,7 +5,13 @@
     <title>{{ question[4]}}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
+    {% for colour in style %}
+        {% if colour['colour'] == 'light' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_question.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
+        {% endif %}
+    {% endfor %}
 </head>
 <body>
     <h3>{{ question['submission_time'] }}</h3>
