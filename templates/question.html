@@ -218,8 +218,9 @@
             <div class="spoiler">
                 {% for comment in question_comments %}
                 <div>
-                    {{ comment }}
+                    {{ comment['submission_time'] }}: {{ comment['message'] }}
                 </div>
+                {% endfor %}
             </div>
         </div>
         <p class="vote">

@@ -53,17 +53,17 @@ def get_all_answers(cursor):
     return answers
 
 @database_common.connection_handler
-def get_all_comments(cursor, qa_type):
+def get_all_comments(cursor, qa_type, qa_id):
     if qa_type == 'question':
         cursor.execute("""
                             SELECT id, question_id, message, submission_time FROM comment
-                            WHERE question_id NOT NULL;
-                        """)
+                            WHERE question_id = %(qa_id)s ;
+                        """, {'qa_id': qa_id})
     else:
         cursor.execute("""
                             SELECT id, answer_id, message, submission_time FROM comment
-                            WHERE answer_id NOT NULL;
-                        """)
+                            WHERE answer_id = %(qa_id)s;
+                        """, {'qa_id': qa_id})
     comments = cursor.fetchall()
     return comments
 
