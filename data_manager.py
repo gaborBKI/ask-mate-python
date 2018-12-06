@@ -83,13 +83,6 @@ def get_question_list(limit):
     return order_direction, questions, sort_options
 
 
-def get_limited_questions():
-    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    order_direction = ['Ascending', 'Descending']
-    questions = connection.get_limited_questions('submission_time')
-    return order_direction, questions, sort_options
-
-
 def check_for_edit_or_save(qid):
     if request.form.get('edit'):
         editable = True

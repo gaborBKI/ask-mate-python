@@ -168,12 +168,12 @@
         white-space: pre-wrap;
     }
 
-    .spoilerbutton2[value="Show Comments"]+.spoiler>div {
-      max-height: 0;
+    .spoilerbutton2[value="Hide Comments"]+.spoiler>div {
+      max-height: 400px;
     }
 
-    .spoilerbutton2[value="Hide Comments"]+.spoiler>div {
-        max-height: 400px;
+    .spoilerbutton2[value="Show Comments"]+.spoiler>div {
+        max-height: 0px;
     }
 
     .spoilerbutton3[value="Add Comment"]+.spoiler>div {
@@ -222,22 +222,23 @@
                 <div><img src="{{ question['image'] }}" height="400"></div>
             </div>
             {% endif %}
-            <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
+            <input class="spoilerbutton2" type="button" value="Hide Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
             <div class="spoiler">
-                {% for comment in question_comments %}
                 <div>
-                    {{ comment['submission_time'] }}: {{ comment['message'] }}<br>
-                    <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
-                        <div class="spoiler">
-                            <div>
-                            <form action="/comment/{{question['id']}}" method="post">
-                                <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
-                                <p align="right"><input type="submit" value="Send"></p>
-                            </form>
+                    {% for comment in question_comments %}
+                        <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                        <br>
+                    {% endfor %}
+                        <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
+                            <div class="spoiler">
+                                <div>
+                                <form action="/comment/{{question['id']}}" method="post">
+                                    <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
+                                    <p align="right"><input type="submit" value="Send"></p>
+                                </form>
+                                </div>
                             </div>
-                        </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
         <p class="vote">
