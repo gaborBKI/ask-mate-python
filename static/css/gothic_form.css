@@ -1,0 +1,18 @@
+.content {
+    max-width: 500px;
+    margin: auto;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background: fixed, no-repeat, url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+
+h3, h4{
+    color: pink;
+}

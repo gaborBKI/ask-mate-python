@@ -1,0 +1,233 @@
+html{
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: fixed, no-repeat, url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+h1{
+    position: relative;
+    left: 5%;
+    color: pink;
+    text-shadow: 2px 2px black;
+}
+h3 {
+    margin-right: 100px;
+    text-align: right;
+    color: pink;
+    text-shadow: 2px 2px black;
+    }
+
+.vote{
+    padding-top: 12px;
+    text-align: right;
+}
+
+.question {
+    border-style: ridge;
+    border-width: 5px;
+    border-color: coral;
+    background-color: hotpink;
+    color: black;
+    margin: 1%;
+    padding: 1%;
+    padding-top: 3px;
+    padding-bottom: 0;
+    width: 80%;
+    position: relative;
+    left: 8%;
+    overflow-y: auto;
+}
+
+.answers {
+    border-style: ridge;
+    border-width: 3px;
+    border-color: coral;
+    background-color: pink;
+    color: black;
+    margin: 1% ;
+    padding: 1%;
+    width: 70%;
+    position: relative;
+    left: 15%;
+    overflow: auto;
+    height: 51%;
+}
+
+.even {
+    border-radius: 25px;
+    background-color: hotpink;
+    color: black;
+    margin: 5px auto;
+    padding: 20px;
+    padding-bottom: 0;
+    padding-top: 0;
+    width: 70%;
+    border: 3px black;
+}
+
+textarea{
+    border: 1px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.odd {
+    border-radius: 25px;
+    background-color: white;
+    color: black;
+    margin: 5px auto;
+    padding: 20px;
+    padding-bottom: 0;
+    padding-top: 0;
+    width: 70%;
+    border: 3px black;
+}
+
+.line {
+    width: 20%;
+    position: relative;
+    left: 40%;
+}
+
+.date {
+    padding: 5px;
+}
+
+.trash {
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+
+.edit {
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+
+.wrap {
+   word-wrap: break-word;
+}
+
+.spoilerbutton {
+    display: block;
+    margin: 0;
+}
+
+.spoiler {
+    overflow: hidden;
+    background: #f5f5f5;
+    width: fit-content;
+    height: fit-content;
+}
+
+.spoiler>div {
+    margin: 0;
+    overflow: hidden;
+    transition: all 1s ease;
+    width: fit-content;
+    height: fit-content;
+}
+
+.spoilerbutton{
+    background-color: black;
+    border: none;
+    color: white;
+    width: 130px;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.spoilerbutton[value="Show Image"]+.spoiler>div {
+  max-height: 0;
+}
+
+.spoilerbutton[value="Hide Image"]+.spoiler>div {
+    max-height: 400px;
+}
+
+.update_question{
+    font-size: 11pt;
+    height: 200px;
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    white-space: pre-wrap;
+    resize: none;
+}
+
+.question_message{
+    white-space: pre-wrap;
+}
+
+.spoilerbutton2[value="Show Comments"]+.spoiler>div {
+  max-height: 0;
+}
+
+.spoilerbutton2[value="Hide Comments"]+.spoiler>div {
+    max-height: 400px;
+}
+
+.spoilerbutton3[value="Add Comment"]+.spoiler>div {
+  max-height: 0;
+}
+
+.spoilerbutton3[value="Cancel"]+.spoiler>div {
+    max-height: 400px;
+}
+
+.backbutton, .spoilerbutton3{
+    background-color: deeppink;
+    border: none;
+    color: white;
+    width: 130px;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.spoilerbutton2{
+    background-color: deeppink;
+    border: none;
+    color: white;
+    width: 130px;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.comment {
+    background-color: pink;
+    margin-top: 5px;
+}
+
+.spoilerbutton, .spoilerbutton2, .spoilerbutton3, .backbutton {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.spoilerbutton:hover, .spoilerbutton2:hover, .spoilerbutton3:hover, .backbutton:hover {
+  background-color: black;
+  color: white;
+}

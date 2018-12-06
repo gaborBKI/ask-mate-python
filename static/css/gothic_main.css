@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: fixed, no-repeat, url("http://s1.picswalls.com/wallpapers/2015/09/08/beautiful-white-wallpaper_021209399_265.jpg");
+    background: fixed, no-repeat, url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
     background-size: cover;
 }
 
@@ -20,16 +20,16 @@ tr {
 }
 
 h1 {
-    color: black;
-    text-shadow: 2px 2px white;
+    color: pink;
+    text-shadow: 2px 2px black;
 }
 
 a:visited {
-  color: black;
+  color: purple;
 }
 
 #rows:hover{
-    background: gray;
+    background: pink;
 }
 
 .searchfield {

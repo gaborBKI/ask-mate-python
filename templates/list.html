@@ -7,8 +7,10 @@
     {% for colour in style %}
         {% if colour['colour'] == 'light' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/light_main.css') }}">
-        {% else %}
+        {% elif colour['colour'] == 'dark' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_main.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_main.css') }}">
         {% endif %}
     {% endfor %}
 </head>
@@ -78,15 +80,15 @@
             <option value="choose" name="style" id="choose">Choose A Style</option>
             <option value="dark" name="style" id="dark">Dark</option>
             <option value="light" name="style" id="light">Light</option>
+            <option value="gothic" name="style" id="gothic">Gothic</option>
         </select>
     </form>
 </div>
 <div class="audio">
     <audio controls>
-      <source src="https://medea-music.com/wp-content/uploads/2018/05/The-Avengers-Theme-Song.mp3" type="audio/mpeg">
+      <source src="https://media.singing-bell.com/download_mp3.php?mp3=https%3A//media.singing-bell.com/wp-content/uploads/2013/09/Jingle-Bells-Singing-Bell.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
     </audio>
 </div>
-
 </body>
 </html>
