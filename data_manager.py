@@ -19,9 +19,11 @@ def get_answers_to_question(answers, qid):
 
 def get_question_to_show(qid, questions):
     for question in questions:
+        print(question)
         if question['id'] == qid:
             returned_question = question
     return returned_question
+
 
 def get_order_by_what(sort_options):
     sort_by = {'ID': 'id', 'Submitted': 'submission_time', 'Views': 'view_number', 'Rating': 'vote_number',
@@ -64,3 +66,34 @@ def get_order_by_user(order, questions, status):
         else:
             questions = sorted(questions, key=operator.itemgetter(status))
     return questions
+
+
+def get_question_list():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    order_direction = ['Ascending', 'Descending']
+    order = get_order_by_what(sort_options)
+    direction = get_order_direction(order_direction)
+    if direction == 'DESC':
+        questions = connection.get_all_questions_desc(order)
+    elif direction == 'ASC':
+        questions = connection.get_all_questions_asc(order)
+    else:
+        questions = connection.get_all_questions('submission_time', "")
+    return order_direction, questions, sort_options
+
+
+def get_limited_questions():
+    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
+    order_direction = ['Ascending', 'Descending']
+    questions = connection.get_limited_questions('submission_time')
+    return order_direction, questions, sort_options
+
+
+def check_for_edit_or_save(qid):
+    if request.form.get('edit'):
+        editable = True
+    else:
+        editable = False
+    if request.form.get('save'):
+        connection.update_question_text(qid, request.form['updated'])
+    return editable

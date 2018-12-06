@@ -24,7 +24,7 @@
     }
 
 
-    tr:hover{
+    #rows:hover{
         background: pink;
     }
 
@@ -33,7 +33,7 @@
     }
 
     .audio {
-        margin-left: 40%;
+        margin-left: 43%;
     }
 </style>
 <body>
@@ -45,14 +45,14 @@
     <p align="center">
         <select id="status" name="status">
             {% for option in sort_options %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-                'selected' if current==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                        {{ 'selected' if current==loop.index0 }}>{{ option }}</option>
             {% endfor %}
         </select>
         <select id="order" name="order">
             {% for option in orderby %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}" {{
-                'selected' if corder==loop.index0 }}>{{ option }}</option>
+                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                        {{ 'selected' if corder==loop.index0 }}>{{ option }}</option>
             {% endfor %}
         </select>
         <button type="submit">Sort</button>
@@ -78,7 +78,7 @@
         <th>Image</th>
     </tr>
     {% for item in questions %}
-     <tr>
+     <tr id="rows">
         <td>{{ item.id }}</td>
         <td>{{ item.submission_time }}</td>
         <td>{{ item.view_number }}</td>
@@ -95,7 +95,7 @@
 </table>
 <p>
 </p>
-
+<p align="center"><button onclick="window.location.href='/'">Home</button></p>
 <audio controls class="audio">
   <source src="https://medea-music.com/wp-content/uploads/2018/05/The-Avengers-Theme-Song.mp3" type="audio/mpeg">
 Your browser does not support the audio element.

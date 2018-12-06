@@ -1,6 +1,3 @@
-import data_manager
-import operator
-import time
 from datetime import datetime
 import database_common
 from psycopg2 import sql
@@ -45,7 +42,6 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 
     questions = cursor.fetchall()
     return questions
-
 
 @database_common.connection_handler
 def get_all_answers(cursor):

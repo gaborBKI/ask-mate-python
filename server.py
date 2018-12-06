@@ -6,15 +6,18 @@ app = Flask(__name__)
 
 
 #TODO make sure check_for_edit_or_save and get_question_list functions are moved to data_manager
+#TODO add corder and order back so the html order menus remember that status
 
 
 @app.route('/')
 @app.route('/list')
 def route_list():
+    status = request.args.get('status', default=0, type=int)
+    order = request.args.get('order', default=0, type=int)
     if request.path == "/list":
-        order_direction, questions, sort_options = get_question_list(0)
+        order_direction, questions, sort_options = data_manager.get_question_list(0)
     else:
-        order_direction, questions, sort_options = get_question_list(1)
+        order_direction, questions, sort_options = data_manager.get_question_list(1)
 
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction)
 
@@ -82,31 +85,6 @@ def search():
     questions = connection.get_all_questions('id', searchvalue, 0)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby)
 
-
-def get_question_list(limit):
-
-    sort_options = ['ID', 'Submitted', 'Views', 'Rating', 'Title']
-    order_direction = ['Ascending', 'Descending']
-    if not limit:
-        order = data_manager.get_order_by_what(sort_options)
-        direction = data_manager.get_order_direction(order_direction)
-        if direction == 'DESC':
-            questions = connection.get_all_questions_desc(order)
-        elif direction == 'ASC':
-            questions = connection.get_all_questions_asc(order)
-    else:
-        questions = connection.get_all_questions('submission_time', "", 1)
-    return order_direction, questions, sort_options
-
-
-def check_for_edit_or_save(qid):
-    if request.form.get('edit'):
-        editable = True
-    else:
-        editable = False
-    if request.form.get('save'):
-        connection.update_question_text(qid, request.form['updated'])
-    return editable
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
