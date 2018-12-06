@@ -285,14 +285,14 @@
             <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
             <div class="spoiler">
                 <div>
-                    {% for comment in question_comments %}
+                    {% for comment in question['comments'] %}
                         <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
                         <br>
                     {% endfor %}
                         <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
                             <div class="spoiler">
                                 <div>
-                                <form action="/comment/{{question['id']}}" method="post">
+                                <form action="/comment/question/{{question['id']}}" method="post">
                                     <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
                                     <p align="right"><input type="submit" value="Send"></p>
                                 </form>
@@ -309,41 +309,43 @@
     </div>
     <p align="center"><button class="backbutton" onclick="window.location.href='/list'">Back</button></p>
     <div class="answers">
-    {% if answers|length == 0 %}
+    {% if not question['answers'] %}
         <p class="even wrap"><font size="4">No answers found</font></p>
     {% else %}
-        {% for i in range(answers|length) %}
-            {% if i % 2 == 0 %}
+        {% for answer in question['answers'] %}
             <form action="/delete_answer" method="POST">
-                <input type="number" hidden name="answer_id" value="{{ answers[i]['id'] }}">
-                <input type="number" hidden name="question_id" value="{{ answers[i]['question_id'] }}">
+                <input type="number" hidden name="answer_id" value="{{ answer.id }}">
+                <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
-                    <p class="date">{{ answers[i]['submission_time'] }}</p>
-                    <font size="4">{{ answers[i]['message'] }}</font>
+                    <p class="date">{{ answer['submission_time'] }}</p>
+                    <font size="4">{{ answer['message'] }}</font>
+                    <div class="spoiler">
+                        <div>
+                            {% for comment in answer['comments'] %}
+                                <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                                <br>
+                            {% endfor %}
+                            <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
+                            <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
+                                <div class="spoiler">
+                                    <div>
+                                    <form action="/comment/answer/{{answer['id']}}" method="post">
+                                        <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
+                                        <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
+                                        <p align="right"><input type="submit" value="Send"></p>
+                                    </form>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                     <p class="vote">
-                    <a href="{{ url_for("vote", type="answer", question_id=answers[i]['question_id'], type_id=answers[i]['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
-                    <a href="{{ url_for("vote", type="answer", question_id=answers[i]['question_id'], type_id=answers[i]['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
-                    {{ answers[i]['vote_number'] }}
+                    <a href="{{ url_for("vote", type="answer", question_id=answer['question_id'], type_id=answer['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+                    <a href="{{ url_for("vote", type="answer", question_id=answer['question_id'], type_id=answer['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
+                    {{ answer['vote_number'] }}
                     </p>
                 </div>
-            {% else %}
-            <form action="/delete_answer" method="POST">
-                <input type="number" hidden name="answer_id" value="{{answers[i]['id']}}">
-                <input type="number" hidden name="question_id" value="{{ answers[i]['question_id'] }}">
-                <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
-            </form>
-                <div class="odd wrap">
-                    <p class="date">{{ answers[i]['submission_time']}}</p>
-                    <font size="4">{{ answers[i]['message'] }}</font>
-                    <p class="vote">
-                    <a href="{{ url_for("vote", type="answer", question_id=answers[i]['question_id'], type_id=answers[i]['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
-                    <a href="{{ url_for("vote", type="answer", question_id=answers[i]['question_id'], type_id=answers[i]['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
-                    {{ answers[i]['vote_number'] }}
-                    </p>
-                </div>
-            {% endif %}
         {% endfor %}
     {% endif %}
         <form action="/answer/{{question['id']}}" method="post">

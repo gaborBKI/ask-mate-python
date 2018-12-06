@@ -25,7 +25,6 @@ def get_all_questions_asc(cursor, order_by_what):
     for question in questions:
         question['comments'] = get_all_comments('question', question['id'])
         question['answers'] = data_manager.get_answers_to_question(get_all_answers(), question['id'])
-
     return questions
 
 

@@ -5,8 +5,7 @@ import connection
 app = Flask(__name__)
 
 
-#TODO make sure check_for_edit_or_save and get_question_list functions are moved to data_manager
-#TODO add corder and order back so the html order menus remember that status
+#TODO make sure question comments are scrollable as SEND button is out of the page
 
 
 @app.route('/')
@@ -75,10 +74,15 @@ def answer(qid):
     return redirect(f"/question/{qid}")
 
 
-@app.route('/comment/<qid>', methods=['POST'])
-def add_comment(qid):
-    comment_text = request.form["commenttext"]
-    connection.add_comment('question_id', qid, comment_text)
+@app.route('/comment/<type>/<qid>', methods=['POST'])
+def add_comment(type, qid):
+    if type == 'question':
+        comment_text = request.form["commenttext"]
+        connection.add_comment('question_id', qid, comment_text)
+    else:
+        comment_text = request.form["commenttext"]
+        connection.add_comment('answer_id', qid, comment_text)
+        qid = request.form['question_id']
     return redirect(f"/question/{qid}")
 
 
