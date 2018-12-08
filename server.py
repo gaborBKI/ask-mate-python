@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import connection
 
@@ -8,11 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list')
 def route_list():
-    if request.args.get('style'):
-        colour = request.args['style']
-        style = connection.make_style(colour)
-    else:
-        style = connection.get_style()
+    style = data_manager.get_style()
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     if request.path == "/list":
@@ -37,8 +33,7 @@ def route_submit_question():
         message = request.form['question']
         image = request.form['image']
         question = connection.add_question(title, message, image)
-        question_id = data_manager.get_latest_id(question)
-        return redirect(f"/question/{question_id}")
+        return redirect(url_for('route_question', qid=question['id']))
     else:
         return render_template('form.html', style=connection.get_style())
 

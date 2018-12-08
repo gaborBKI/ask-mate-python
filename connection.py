@@ -30,6 +30,11 @@ def get_all_questions_asc(cursor, order_by_what):
 
 @database_common.connection_handler
 def get_all_questions(cursor, order_by_what, searchvalue, limit):
+    '''    query = 'SELECT * FROM question'
+        if limit:
+            query += ' LIMIT'
+
+            query += " ORDER BY {order_by_what} DESC".format(order_by_what=sql.Identifier(order_by_what))'''
     if not searchvalue and limit:
         cursor.execute(sql.SQL(""" SELECT * FROM question
                                 ORDER BY {order_by_what} DESC limit 5;
@@ -95,11 +100,11 @@ def add_question(cursor, q_title, question, im_link):
     dt = str(datetime.now())[:19]
     cursor.execute("""
                         INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);
+                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);-- RETURNING id;
                         SELECT id FROM question WHERE id=(SELECT max(id) FROM question);
                        """,
                    {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
-    submitted_question = cursor.fetchall()
+    submitted_question = cursor.fetchone()
     return submitted_question
 
 

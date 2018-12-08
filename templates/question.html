@@ -39,7 +39,10 @@
                     <input type="text" hidden name="save" value="save">
                         <form action="/question/{{ question.id }}" method="POST">
                             <textarea oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' class="update_question" name="updated" value="{{ question['message'] }}">{{ question['message'] }}</textarea>
-                            <input type="submit" class="fas fa-save trash" value="UPDATE"; Input>
+                            <button type="submit" class="trash">
+                                <i class="fas fa-save"></i>
+                                UPDATE
+                            </button>
                         </form>
             {% else %}
                     <p class="question_message"><font size="4">{{ question['message'] }}</font></p>
@@ -62,7 +65,7 @@
                             <div class="spoiler">
                                 <div>
                                 <form action="/comment/question/{{question['id']}}" method="post">
-                                    <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
+                                    <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
                                     <p align="right"><input type="submit" value="Send"></p>
                                 </form>
                                 </div>
@@ -71,7 +74,7 @@
             </div>
         </div>
         <p class="vote">
-            <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="up") }}"><i class="fas fa-arrow-up"></i></a>
+            <a href="{{ url_for('vote', type='question', question_id=question['id'], type_id=question['id'], direction='up') }}"><i class="fas fa-arrow-up"></i></a>
             <a href="{{ url_for("vote", type="question", question_id=question['id'], type_id=question['id'], direction="down") }}"><i class="fas fa-arrow-down"></i></a>
             {{ question['vote_number'] }}
         </p>
@@ -103,7 +106,7 @@
                                     <div>
                                     <form action="/comment/answer/{{answer['id']}}" method="post">
                                         <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
-                                        <textarea name="commenttext" rows="6" cols="60" minlength="10" placeholder="Write a comment..."></textarea>
+                                        <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
                                         <p align="right"><input type="submit" value="Send"></p>
                                     </form>
                                     </div>

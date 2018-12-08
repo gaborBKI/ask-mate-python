@@ -92,3 +92,12 @@ def check_for_edit_or_save(qid):
     if request.form.get('save'):
         connection.update_question_text(qid, request.form['updated'])
     return editable
+
+
+def get_style():
+    if request.args.get('style'):
+        colour = request.args['style']
+        style = connection.make_style(colour)
+    else:
+        style = connection.get_style()
+    return style
