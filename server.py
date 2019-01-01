@@ -5,9 +5,10 @@ import connection
 app = Flask(__name__)
 
 
-@app.route('/')
-@app.route('/list')
-def route_list():
+@app.route('/', defaults={'error': None})
+@app.route('/list', defaults={'error': None})
+@app.route('/list/<error>')
+def route_list(error):
     style = data_manager.get_style()
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
@@ -16,7 +17,7 @@ def route_list():
     else:
         order_direction, questions, sort_options = data_manager.get_question_list(1)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order, style=style)
+                           current=status, corder=order, style=style, error = error)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -117,12 +118,16 @@ def login():
         print('POST request received!')
         username = request.form['username']
         password_input = request.form['password']
-        user_pw = connection.get_user_password(username).get('password')
+        try:
+            user_pw = connection.get_user_password(username).get('password')
+        except AttributeError:
+            return redirect(url_for('route_list'))
         if data_manager.verify_password(password_input, user_pw):
             print('OK')
+            return redirect(url_for('route_list'))
         else:
             print('NOT OK')
-        return redirect(url_for('route_list'))
+            return redirect("/list/error")
 
 
 if __name__ == '__main__':
