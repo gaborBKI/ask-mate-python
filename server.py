@@ -123,10 +123,8 @@ def login():
         except AttributeError:
             return redirect(url_for('route_list'))
         if data_manager.verify_password(password_input, user_pw):
-            print('OK')
             return redirect(url_for('route_list'))
         else:
-            print('NOT OK')
             return redirect("/list/error")
 
 
