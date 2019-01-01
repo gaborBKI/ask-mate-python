@@ -103,12 +103,13 @@ def register():
             connection.register_user(username, password, profile_picture)
         except:
             pass
-        return redirect('/list')
+        return redirect(url_for('route_list'))
     else:
         return render_template('register.html', style=connection.get_style())
 
 
-#TODO now checks if password if valid, still need to do something about it, but it works - in theory
+#TODO now checks if password if valid, still need to do something about it, but it works - in theory.
+#TODO Next step is to have user in session.
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -121,7 +122,7 @@ def login():
             print('OK')
         else:
             print('NOT OK')
-        return redirect('/list')
+        return redirect(url_for('route_list'))
 
 
 if __name__ == '__main__':
