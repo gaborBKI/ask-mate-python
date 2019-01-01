@@ -16,11 +16,13 @@
 </head>
 <body>
 <div class="content">
+
     <h1 align="center">Rakás Túlfolyás</h1>
     <p align="center">
         <button onclick="window.location.href='/ask_question'">Ask a Question</button>
         <button onclick="window.location.href='/list'">Show All Questions</button>
     </p>
+
     <form action="/list">
         <p align="center">
             <select id="status" name="status">
@@ -40,10 +42,10 @@
     </form>
 
     <div class="userlogin">
-        <form action="/login">
+        <form action="/login" method="post">
             <div class="loginfield">
                 <input name="username" type="text" placeholder="username">
-                <input name="password" type="text" placeholder="password">
+                <input name="password" type="text" placeholder="password" autocomplete="off">
                 <input type="submit" value="Login">
             </div>
         </form>
@@ -57,7 +59,7 @@
     <div class="search">
         <form action="/search">
             <div class="searchfield">
-                <input name="searchval" type="text" placeholder="Search for something..">
+                <input name="searchval" type="text" placeholder="Search for something...">
                 <input type="submit" value="Search">
 
             </div>

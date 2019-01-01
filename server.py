@@ -108,6 +108,22 @@ def register():
         return render_template('register.html', style=connection.get_style())
 
 
+#TODO now checks if password if valid, still need to do something about it, but it works - in theory
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        print('POST request received!')
+        username = request.form['username']
+        password_input = request.form['password']
+        user_pw = connection.get_user_password(username).get('password')
+        if data_manager.verify_password(password_input, user_pw):
+            print('OK')
+        else:
+            print('NOT OK')
+        return redirect('/list')
+
+
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
     app.run(

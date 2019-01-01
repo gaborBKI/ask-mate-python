@@ -189,3 +189,14 @@ def register_user(cursor, username, password, profile_picture):
                        """,
                    {'dt': dt, 'username': username, 'password': password, 'profile_picture': profile_picture})
     return None
+
+
+@database_common.connection_handler
+def get_user_password(cursor, username):
+    cursor.execute("""
+                        SELECT password FROM users
+                            WHERE username = %(username)s;
+                       """,
+                   {'username': username})
+    password = cursor.fetchone()
+    return password
