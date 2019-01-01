@@ -170,6 +170,7 @@ def get_style(cursor):
     style = cursor.fetchall()
     return style
 
+
 @database_common.connection_handler
 def make_style(cursor, colour):
     cursor.execute(""" UPDATE style SET colour = %(colour)s;
@@ -177,3 +178,14 @@ def make_style(cursor, colour):
                         """, {'colour': colour})
     style = cursor.fetchall()
     return style
+
+
+@database_common.connection_handler
+def register_user(cursor, username, password, profile_picture):
+    dt = str(datetime.now())[:19]
+    cursor.execute("""
+                        INSERT INTO users (registered, username, password, profile_picture)
+                        VALUES (%(dt)s, %(username)s, %(password)s, %(profile_picture)s);
+                       """,
+                   {'dt': dt, 'username': username, 'password': password, 'profile_picture': profile_picture})
+    return None

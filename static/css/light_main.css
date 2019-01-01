@@ -39,3 +39,13 @@ a:visited {
 .audio {
     margin-left: 43%;
 }
+
+.userlogin {
+    display: flex;
+    margin-left: 64%;
+}
+
+.register {
+    display: flex;
+    margin-left: 18%;
+}

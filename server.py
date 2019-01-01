@@ -92,6 +92,22 @@ def search():
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby, style=connection.get_style())
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        print('POST request received!')
+        username = request.form['username']
+        password = data_manager.hash_password(request.form['password'])
+        profile_picture = request.form.get('image')
+        try:
+            connection.register_user(username, password, profile_picture)
+        except:
+            pass
+        return redirect('/list')
+    else:
+        return render_template('register.html', style=connection.get_style())
+
+
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
     app.run(

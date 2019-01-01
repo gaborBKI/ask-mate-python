@@ -15,81 +15,101 @@
     {% endfor %}
 </head>
 <body>
-<h1 align="center">Rakás Túlfolyás</h1>
-<p align="center">
-    <button onclick="window.location.href='/ask_question'">Ask a Question</button>
-    <button onclick="window.location.href='/list'">Show All Questions</button>
-</p>
-<form action="/list">
+<div class="content">
+    <h1 align="center">Rakás Túlfolyás</h1>
     <p align="center">
-        <select id="status" name="status">
-            {% for option in sort_options %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
-                        {{ 'selected' if current==loop.index0 }}>{{ option }}</option>
-            {% endfor %}
-        </select>
-        <select id="order" name="order">
-            {% for option in orderby %}
-                <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
-                        {{ 'selected' if corder==loop.index0 }}>{{ option }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Sort</button>
+        <button onclick="window.location.href='/ask_question'">Ask a Question</button>
+        <button onclick="window.location.href='/list'">Show All Questions</button>
     </p>
-</form>
-
-<form action="/search"
-    <div class="searchfield">
-        <input name="searchval" type="text" placeholder="Search for something..">
-        <input type="submit" value="Search">
-
-    </div>
-</form>
-<div>
-    <table style="width:80%" align="center">
-        <tr>
-            <th>ID</th>
-            <th>Submission Time</th>
-            <th>View Number</th>
-            <th>Vote Number</th>
-            <th>Title</th>
-            <th>Message</th>
-            <th>Image</th>
-        </tr>
-        {% for item in questions %}
-         <tr id="rows">
-            <td>{{ item.id }}</td>
-            <td>{{ item.submission_time }}</td>
-            <td>{{ item.view_number }}</td>
-            <td>{{ item.vote_number }}</td>
-            <td><a href="/question/{{ item.id }}">{{ item.title }}</a></td>
-            <td>{{ item.message }}</td>
-            {% if item.image %}
-                <td><img src="{{ item.image }}" width="100" height="80"></td>
-            {% else %}
-                <td>{{ item.image }}</td>
-            {% endif %}
-         </tr>
-        {% endfor %}
-    </table>
-    <br>
-</div>
-<div class="style" align="center">
-    <button onclick="window.location.href='/'">Latest</button>
-    <form action="/" id="style_change">
-        <select id="style" name="style" onchange="this.form.submit()">
-            <option value="choose" name="style" id="choose">Choose A Style</option>
-            <option value="dark" name="style" id="dark">Dark</option>
-            <option value="light" name="style" id="light">Light</option>
-            <option value="gothic" name="style" id="gothic">Gothic</option>
-        </select>
+    <form action="/list">
+        <p align="center">
+            <select id="status" name="status">
+                {% for option in sort_options %}
+                    <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                            {{ 'selected' if current==loop.index0 }}>{{ option }}</option>
+                {% endfor %}
+            </select>
+            <select id="order" name="order">
+                {% for option in orderby %}
+                    <option value="{{ loop.index0 }}" name="{{ option }}" id="{{ option }}"
+                            {{ 'selected' if corder==loop.index0 }}>{{ option }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Sort</button>
+        </p>
     </form>
-</div>
-<div class="audio">
-    <audio controls>
-      <source src="https://media.singing-bell.com/download_mp3.php?mp3=https%3A//media.singing-bell.com/wp-content/uploads/2013/09/Jingle-Bells-Singing-Bell.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-    </audio>
+
+    <div class="userlogin">
+        <form action="/login">
+            <div class="loginfield">
+                <input name="username" type="text" placeholder="username">
+                <input name="password" type="text" placeholder="password">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+        <form>
+            <div class="register">
+                <input type="button" value="Register" onclick="window.location.href='/register'" />
+            </div>
+        </form>
+    </div>
+
+    <div class="search">
+        <form action="/search">
+            <div class="searchfield">
+                <input name="searchval" type="text" placeholder="Search for something..">
+                <input type="submit" value="Search">
+
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <table style="width:80%" align="center">
+            <tr>
+                <th>ID</th>
+                <th>Submission Time</th>
+                <th>View Number</th>
+                <th>Vote Number</th>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Image</th>
+            </tr>
+            {% for item in questions %}
+             <tr id="rows">
+                <td>{{ item.id }}</td>
+                <td>{{ item.submission_time }}</td>
+                <td>{{ item.view_number }}</td>
+                <td>{{ item.vote_number }}</td>
+                <td><a href="/question/{{ item.id }}">{{ item.title }}</a></td>
+                <td>{{ item.message }}</td>
+                {% if item.image %}
+                    <td><img src="{{ item.image }}" width="100" height="80"></td>
+                {% else %}
+                    <td>{{ item.image }}</td>
+                {% endif %}
+             </tr>
+            {% endfor %}
+        </table>
+        <br>
+    </div>
+    <div class="style" align="center">
+        <button onclick="window.location.href='/'">Latest</button>
+        <form action="/" id="style_change">
+            <select id="style" name="style" onchange="this.form.submit()">
+                <option value="choose" name="style" id="choose">Choose A Style</option>
+                <option value="dark" name="style" id="dark">Dark</option>
+                <option value="light" name="style" id="light">Light</option>
+                <option value="gothic" name="style" id="gothic">Gothic</option>
+            </select>
+        </form>
+    </div>
+    <div class="audio">
+        <audio controls>
+          <source src="https://media.singing-bell.com/download_mp3.php?mp3=https%3A//media.singing-bell.com/wp-content/uploads/2013/09/Jingle-Bells-Singing-Bell.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio>
+    </div>
 </div>
 </body>
 </html>
