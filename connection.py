@@ -199,11 +199,20 @@ def register_user(cursor, username, password, profile_picture):
 def get_user_password(cursor, username):
     cursor.execute("""
                         SELECT password FROM users
-                            WHERE username = %(username)s;
+                        WHERE username = %(username)s;
                        """,
                    {'username': username})
     password = cursor.fetchone()
     return password
+
+
+@database_common.connection_handler
+def get_all_users(cursor):
+    cursor.execute("""
+                        SELECT username, registered, id FROM users;
+                       """)
+    usernames = cursor.fetchall()
+    return usernames
 
 
 @database_common.connection_handler
@@ -215,3 +224,39 @@ def get_user(cursor, userid):
                    {'userid': userid})
     userdata = cursor.fetchone()
     return userdata
+
+  
+@database_common.connection_handler
+def get_questions_by_user(cursor, userid):
+    cursor.execute("""
+                        SELECT id, title FROM question
+                        WHERE user_id = %(userid)s
+                        ORDER BY submission_time DESC;
+                       """,
+                   {'userid': userid})
+    questions = cursor.fetchall()
+    return questions
+
+
+@database_common.connection_handler
+def get_answers_by_user(cursor, userid):
+    cursor.execute("""
+                        SELECT id, message, question_id FROM answer
+                        WHERE user_id = %(userid)s
+                        ORDER BY submission_time DESC;
+                       """,
+                   {'userid': userid})
+    questions = cursor.fetchall()
+    return questions
+
+
+@database_common.connection_handler
+def get_comments_by_user(cursor, userid):
+    cursor.execute("""
+                        SELECT comment.id, comment.message, comment.question_id, answer_id, answer.question_id AS qid FROM comment LEFT JOIN answer on comment.answer_id = answer.id
+                        WHERE comment.user_id = %(userid)s
+                        ORDER BY comment.submission_time DESC;
+                       """,
+                   {'userid': userid})
+    comments = cursor.fetchall()
+    return comments

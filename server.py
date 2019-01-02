@@ -114,7 +114,7 @@ def register():
         print('POST request received!')
         username = request.form['username']
         password = data_manager.hash_password(request.form['password'])
-        profile_picture = request.form.get('image')
+        profile_picture = request.form.get('profile_picture')
         try:
             connection.register_user(username, password, profile_picture)
         except:
@@ -144,10 +144,26 @@ def login():
             return redirect("/list/error")
 
 
+@app.route('/users')
+def all_users():
+    users = connection.get_all_users()
+    return render_template('users.html', users = users, style=connection.get_style())
+
+
+@app.route('/user/<int:uid>')
+def show_user_profile(uid):
+    userdata = connection.get_user(uid)
+    question_data = connection.get_questions_by_user(uid)
+    answer_data = connection.get_answers_by_user(uid)
+    comment_data = connection.get_comments_by_user(uid)
+    return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
+                           comments = comment_data, style=connection.get_style())
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('route_list'))
+
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"

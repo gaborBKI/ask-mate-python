@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 3%;
+    background: fixed, no-repeat, url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
+    background-size: cover;
+}
+
+h1, h4 {
+    color: pink;
+    text-shadow: 2px 2px black;
+}
+
+table{
+    background: rgba(255, 255, 255, 0.75);
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border-bottom: 1px solid;
+    padding: 5px;
+}
+
+tr {
+    border: 1px solid;
+}
+
+h1 {
+    color: pink;
+    text-shadow: 2px 2px black;
+}
+
+.backbutton{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    width: 130px;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
