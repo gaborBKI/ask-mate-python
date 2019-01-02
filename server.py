@@ -93,7 +93,7 @@ def add_comment(type, qid):
     elif type == 'answer':
         comment_text = request.form["commenttext"]
         user_id = connection.get_user_by_name(session.get('username')).get('id')
-        print(connection.add_comment('answer_id', qid, comment_text, user_id))
+        connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
 

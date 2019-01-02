@@ -63,7 +63,7 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 @database_common.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
-                        SELECT *, username FROM answer LEFT JOIN users on answer.user_id = users.id
+                        SELECT answer.id, answer.submission_time, answer.vote_number, answer.question_id, answer.message, answer.image, answer.user_id, users.username FROM answer JOIN users on answer.user_id = users.id
                         ORDER BY answer.id;
                        """)
     answers = cursor.fetchall()
