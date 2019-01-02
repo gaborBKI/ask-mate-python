@@ -59,25 +59,29 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 
     return questions
 
+
 @database_common.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
-                        SELECT * FROM answer
-                        ORDER BY id;
+                        SELECT *, username FROM answer LEFT JOIN users on answer.user_id = users.id
+                        ORDER BY answer.id;
                        """)
     answers = cursor.fetchall()
     return answers
+
 
 @database_common.connection_handler
 def get_all_comments(cursor, qa_type, qa_id):
     if qa_type == 'question':
         cursor.execute("""
-                            SELECT id, question_id, message, submission_time FROM comment
+                            SELECT comment.id, question_id, message, submission_time, username
+                            FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE question_id = %(qa_id)s ;
                         """, {'qa_id': qa_id})
     else:
         cursor.execute("""
-                            SELECT id, answer_id, message, submission_time FROM comment
+                            SELECT comment.id, answer_id, message, submission_time, username
+                            FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE answer_id = %(qa_id)s;
                         """, {'qa_id': qa_id})
     comments = cursor.fetchall()
@@ -85,37 +89,37 @@ def get_all_comments(cursor, qa_type, qa_id):
 
 
 @database_common.connection_handler
-def add_comment(cursor, qa_type, qa_id, text):
+def add_comment(cursor, qa_type, qa_id, text, uid):
     dt = str(datetime.now())[:19]
     cursor.execute(sql.SQL("""
                         INSERT INTO comment
-                        ({qa_type}, message, submission_time)
-                        VALUES (%(qa_id)s, %(text)s, %(dt)s)
-                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id':qa_id, 'text': text, 'dt': dt})
+                        ({qa_type}, message, submission_time, user_id)
+                        VALUES (%(qa_id)s, %(text)s, %(dt)s, %(uid)s)
+                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id': qa_id, 'text': text, 'dt': dt, 'uid': uid})
     return None
 
 
 @database_common.connection_handler
-def add_question(cursor, q_title, question, im_link):
+def add_question(cursor, q_title, question, im_link, uid):
     dt = str(datetime.now())[:19]
     cursor.execute("""
-                        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);-- RETURNING id;
+                        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s, %(uid)s);-- RETURNING id;
                         SELECT id FROM question WHERE id=(SELECT max(id) FROM question);
                        """,
-                   {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
+                   {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link, 'uid': uid})
     submitted_question = cursor.fetchone()
     return submitted_question
 
 
 @database_common.connection_handler
-def add_answer(cursor, question_id, message):
+def add_answer(cursor, question_id, message, uid):
     dt = str(datetime.now())[:19]
     cursor.execute("""
-                        INSERT INTO answer (submission_time, vote_number, question_id, message)
-                        VALUES (%(dt)s, 0, %(question_id)s, %(message)s);
+                        INSERT INTO answer (submission_time, vote_number, question_id, message, user_id)
+                        VALUES (%(dt)s, 0, %(question_id)s, %(message)s, %(uid)s);
                        """,
-                   {'dt': dt, 'question_id': question_id, 'message': message})
+                   {'dt': dt, 'question_id': question_id, 'message': message, 'uid': uid})
     return None
 
 

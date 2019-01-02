@@ -42,7 +42,8 @@ def route_submit_question():
         title = request.form['title']
         message = request.form['question']
         image = request.form['image']
-        question = connection.add_question(title, message, image)
+        user_id = request.form['question_user_id']
+        question = connection.add_question(title, message, image, user_id)
         return redirect(url_for('route_question', qid=question['id']))
     else:
         return render_template('form.html', style=connection.get_style())
@@ -55,8 +56,10 @@ def route_question(qid):
     editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
+    user = connection.get_user(returned_question.get('user_id'))
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, editable=editable, style=connection.get_style())
+    return render_template('question.html', question=returned_question, editable=editable,
+                           style=connection.get_style(), user_name=user['username'])
 
 
 @app.route('/delete', methods=['post'])
@@ -77,7 +80,8 @@ def delete_answer():
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answer_text = request.form["answertext"]
-    connection.add_answer(qid, answer_text)
+    user_id = request.form["answer_user_id"]
+    connection.add_answer(qid, answer_text, user_id)
     return redirect(f"/question/{qid}")
 
 
@@ -85,10 +89,12 @@ def answer(qid):
 def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
-        connection.add_comment('question_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('question_id', qid, comment_text, user_id)
     elif type == 'answer':
         comment_text = request.form["commenttext"]
-        connection.add_comment('answer_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
 
