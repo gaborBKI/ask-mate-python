@@ -28,7 +28,27 @@
         {% endfor %}
         </table>
     <h4>Answers by {{ userdata.username }}</h4>
+        <table>
+        {% for answer in answers %}
+            <tr>
+                <td><a href="/question/{{ answer.question_id }}">{{ answer.message }}</a></td>
+            </tr>
+        {% endfor %}
+        </table>
     <h4>Comments by {{ userdata.username }}</h4>
+        <table>
+        {% for comment in comments %}
+            {% if comment.question_id %}
+                <tr>
+                    <td><a href="/question/{{ comment.question_id }}">{{ comment.message }}</a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td><a href="/question/{{ comment.qid }}">{{ comment.message }}</a></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>
     <p align="center"><button class="backbutton" onclick="window.location.href='/users'">Back</button></p>
 </body>
 </html>

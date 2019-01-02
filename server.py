@@ -138,7 +138,10 @@ def all_users():
 def show_user_profile(uid):
     userdata = connection.get_user(uid)
     question_data = connection.get_questions_by_user(uid)
-    return render_template('profile.html', userdata=userdata, questions = question_data, style=connection.get_style())
+    answer_data = connection.get_answers_by_user(uid)
+    comment_data = connection.get_comments_by_user(uid)
+    return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
+                           comments = comment_data, style=connection.get_style())
 
 
 if __name__ == '__main__':
