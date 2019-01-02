@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, escape
 import data_manager
 import connection
 
+
 app = Flask(__name__)
+app.secret_key = 'fogaddmarel\n\xec]/'
 
 
 @app.route('/', defaults={'error': None})
@@ -20,6 +22,13 @@ def route_list(error):
                            current=status, corder=order, style=style, error = error)
 
 
+@app.route('/test')
+def testlogin():
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'nope'
+
+
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
 def vote(type, type_id, direction, question_id):
     data_manager.change_vote(type, direction, type_id)
@@ -33,7 +42,8 @@ def route_submit_question():
         title = request.form['title']
         message = request.form['question']
         image = request.form['image']
-        question = connection.add_question(title, message, image)
+        user_id = request.form['question_user_id']
+        question = connection.add_question(title, message, image, user_id)
         return redirect(url_for('route_question', qid=question['id']))
     else:
         return render_template('form.html', style=connection.get_style())
@@ -46,8 +56,10 @@ def route_question(qid):
     editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
+    user = connection.get_user(returned_question.get('user_id'))
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, editable=editable, style=connection.get_style())
+    return render_template('question.html', question=returned_question, editable=editable,
+                           style=connection.get_style(), user_name=user['username'])
 
 
 @app.route('/delete', methods=['post'])
@@ -68,7 +80,8 @@ def delete_answer():
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answer_text = request.form["answertext"]
-    connection.add_answer(qid, answer_text)
+    user_id = request.form["answer_user_id"]
+    connection.add_answer(qid, answer_text, user_id)
     return redirect(f"/question/{qid}")
 
 
@@ -76,10 +89,12 @@ def answer(qid):
 def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
-        connection.add_comment('question_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('question_id', qid, comment_text, user_id)
     elif type == 'answer':
         comment_text = request.form["commenttext"]
-        connection.add_comment('answer_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
 
@@ -123,7 +138,8 @@ def login():
         except AttributeError:
             return redirect(url_for('route_list'))
         if data_manager.verify_password(password_input, user_pw):
-            return redirect(url_for('route_list'))
+            session['username'] = username
+            return redirect(url_for('testlogin'))
         else:
             return redirect("/list/error")
 
@@ -142,6 +158,11 @@ def show_user_profile(uid):
     comment_data = connection.get_comments_by_user(uid)
     return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
                            comments = comment_data, style=connection.get_style())
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('route_list'))
 
 
 if __name__ == '__main__':

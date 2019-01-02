@@ -16,7 +16,7 @@
     {% endfor %}
 </head>
 <body>
-    <h3>{{ question['submission_time'] }}</h3>
+    <h3>Posted by: {{ user_name }} at {{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">
@@ -44,6 +44,7 @@
                                 UPDATE
                             </button>
                         </form>
+                </form>
             {% else %}
                     <p class="question_message"><font size="4">{{ question['message'] }}</font></p>
             {% endif %}
@@ -58,7 +59,7 @@
             <div class="spoiler">
                 <div class="comment">
                     {% for comment in question['comments'] %}
-                        <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                        <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
                         <br>
                     {% endfor %}
                         <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
@@ -66,6 +67,7 @@
                                 <div>
                                 <form action="/comment/question/{{question['id']}}" method="post">
                                     <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
+                                    <input type="hidden" id="comment_user_id" name="comment_user_id" value="1">
                                     <p align="right"><input type="submit" value="Send"></p>
                                 </form>
                                 </div>
@@ -91,14 +93,14 @@
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
-                    <p class="date">{{ answer['submission_time'] }}</p>
+                    <p class="date">Posted by: {{ answer['username'] }} at {{ answer['submission_time'] }}</p>
                     <font size="4">{{ answer['message'] }}</font><br>
                     <br>
                     <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
                     <div class="spoiler commentarea">
                         <div class="comment">
                             {% for comment in answer['comments'] %}
-                                <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                                <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
                                 <br>
                             {% endfor %}
                             <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
@@ -107,6 +109,7 @@
                                     <form action="/comment/answer/{{answer['id']}}" method="post">
                                         <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
                                         <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
+                                        <input type="hidden" id="comment_user_id" name="comment_user_id" value="1">
                                         <p align="right"><input type="submit" value="Send"></p>
                                     </form>
                                     </div>
@@ -124,6 +127,7 @@
         <form action="/answer/{{question['id']}}" method="post">
             <div class="wrap" align="center">
                 <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
+                <input type="hidden" id="answer_user_id" name="answer_user_id" value="1">
                 <p align="right"><input type="submit" value="Send"></p>
             </div>
         </form>
