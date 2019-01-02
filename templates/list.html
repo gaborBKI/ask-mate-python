@@ -54,7 +54,7 @@
         <form action="/login" method="post">
             <div class="loginfield">
                 <input name="username" type="text" placeholder="username">
-                <input name="password" type="text" placeholder="password" autocomplete="off">
+                <input name="password" type="password" placeholder="password" autocomplete="off">
                 <input type="submit" value="Login">
             </div>
         </form>
@@ -106,7 +106,7 @@
     </div>
     <div class="style" align="center">
         <button onclick="window.location.href='/'">Latest</button>
-        <button onclick="window.location.href='/users'">Users</button>
+        <button onclick="window.location.href='/users'">Users</button><br><br>
         <form action="/" id="style_change">
             <select id="style" name="style" onchange="this.form.submit()">
                 <option value="choose" name="style" id="choose">Choose A Style</option>
@@ -116,6 +116,7 @@
             </select>
         </form>
     </div>
+    <br>
     <div class="audio">
         <audio controls>
           <source src="https://media.singing-bell.com/download_mp3.php?mp3=https%3A//media.singing-bell.com/wp-content/uploads/2013/09/Jingle-Bells-Singing-Bell.mp3" type="audio/mpeg">

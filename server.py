@@ -99,7 +99,7 @@ def register():
         print('POST request received!')
         username = request.form['username']
         password = data_manager.hash_password(request.form['password'])
-        profile_picture = request.form.get('image')
+        profile_picture = request.form.get('profile_picture')
         try:
             connection.register_user(username, password, profile_picture)
         except:
