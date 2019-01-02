@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: fixed, no-repeat, url("https://hdqwalls.com/download/dark-abstract-shapes-qp-2880x1800.jpg");
+    background-size: cover;
+    height: 100%;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border-bottom: 1px solid;
+    padding: 5px;
+}
+
+tr {
+    border: 1px solid;
+}
+
+h1 {
+    color: white;
+    text-shadow: 2px 2px grey;
+}
+
+a:visited {
+  color: black;
+}
+
+#rows:hover{
+    background: white;
+}
+
+.backbutton{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    width: 130px;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}

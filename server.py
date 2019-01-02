@@ -128,6 +128,18 @@ def login():
             return redirect("/list/error")
 
 
+@app.route('/users')
+def all_users():
+    users = connection.get_all_users()
+    return render_template('users.html', users = users, style=connection.get_style())
+
+
+@app.route('/user/<int:uid>')
+def show_user_profile(uid):
+    userdata = connection.get_user(uid)
+    return render_template('profile.html', userdata=userdata, style=connection.get_style())
+
+
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
     app.run(

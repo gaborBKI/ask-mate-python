@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+    {% for colour in style %}
+        {% if colour['colour'] == 'light' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_users.css') }}">
+        {% elif colour['colour'] == 'dark' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_users.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_users.css') }}">
+        {% endif %}
+    {% endfor %}
+</head>
+<body>
+    <div class="user_table">
+        <h1 align="center">Users:</h1>
+        <table align="center">
+            <tr>
+                <th>Username</th>
+                <th>Registered</th>
+            </tr>
+            {% for user in users %}
+                <tr id="rows">
+                    <td><a href="/user/{{user.id}}">{{ user.username }}</a></td>
+                    <td> {{ user.registered }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p align="center"><button class="backbutton" onclick="window.location.href='/list'">Back</button></p>
+    </div>
+</body>
+</html>

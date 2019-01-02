@@ -195,8 +195,28 @@ def register_user(cursor, username, password, profile_picture):
 def get_user_password(cursor, username):
     cursor.execute("""
                         SELECT password FROM users
-                            WHERE username = %(username)s;
+                        WHERE username = %(username)s;
                        """,
                    {'username': username})
     password = cursor.fetchone()
     return password
+
+
+@database_common.connection_handler
+def get_all_users(cursor):
+    cursor.execute("""
+                        SELECT username, registered, id FROM users;
+                       """)
+    usernames = cursor.fetchall()
+    return usernames
+
+
+@database_common.connection_handler
+def get_user(cursor, userid):
+    cursor.execute("""
+                        SELECT username, registered, profile_picture FROM users
+                        WHERE id = %(userid)s;
+                       """,
+                   {'userid': userid})
+    userdata = cursor.fetchone()
+    return userdata

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ userdata.username }}</title>
+</head>
+<body>
+    <h1> {{ userdata.username }}</h1>
+    <h4> registered: {{ userdata.registered }}</h4>
+    {% if userdata.profile_picture %}
+        <img src="{{ userdata.profile_picture }}" width="200" height="200">
+    {% endif %}
+    <p align="center"><button class="backbutton" onclick="window.location.href='/users'">Back</button></p>
+</body>
+</html>
