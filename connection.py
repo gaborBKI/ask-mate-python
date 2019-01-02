@@ -96,14 +96,14 @@ def add_comment(cursor, qa_type, qa_id, text):
 
 
 @database_common.connection_handler
-def add_question(cursor, q_title, question, im_link):
+def add_question(cursor, q_title, question, im_link, uid):
     dt = str(datetime.now())[:19]
     cursor.execute("""
-                        INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
-                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s);-- RETURNING id;
+                        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id)
+                        VALUES (%(dt)s, 0, 0, %(q_title)s, %(question)s, %(im_link)s, %(uid)s);-- RETURNING id;
                         SELECT id FROM question WHERE id=(SELECT max(id) FROM question);
                        """,
-                   {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link})
+                   {'dt': dt, 'q_title': q_title, 'question': question, 'im_link': im_link, 'uid': uid})
     submitted_question = cursor.fetchone()
     return submitted_question
 
@@ -200,3 +200,14 @@ def get_user_password(cursor, username):
                    {'username': username})
     password = cursor.fetchone()
     return password
+
+
+@database_common.connection_handler
+def get_user(cursor, userid):
+    cursor.execute("""
+                        SELECT username, registered, profile_picture FROM users
+                        WHERE id = %(userid)s;
+                       """,
+                   {'userid': userid})
+    userdata = cursor.fetchone()
+    return userdata

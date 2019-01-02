@@ -16,7 +16,7 @@
     {% endfor %}
 </head>
 <body>
-    <h3>{{ question['submission_time'] }}</h3>
+    <h3>Posted by: {{ user_name }} at {{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">

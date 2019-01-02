@@ -33,7 +33,8 @@ def route_submit_question():
         title = request.form['title']
         message = request.form['question']
         image = request.form['image']
-        question = connection.add_question(title, message, image)
+        user_id = request.form['question_user_id']
+        question = connection.add_question(title, message, image, user_id)
         return redirect(url_for('route_question', qid=question['id']))
     else:
         return render_template('form.html', style=connection.get_style())
@@ -46,8 +47,10 @@ def route_question(qid):
     editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
+    user = connection.get_user(returned_question.get('user_id'))
     connection.update_view_number(qid)
-    return render_template('question.html', question=returned_question, editable=editable, style=connection.get_style())
+    return render_template('question.html', question=returned_question, editable=editable,
+                           style=connection.get_style(), user_name=user['username'])
 
 
 @app.route('/delete', methods=['post'])
