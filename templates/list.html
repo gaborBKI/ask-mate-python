@@ -49,21 +49,27 @@
             <button type="submit">Sort</button>
         </p>
     </form>
-
-    <div class="userlogin">
-        <form action="/login" method="post">
-            <div class="loginfield">
-                <input name="username" type="text" placeholder="username">
-                <input name="password" type="password" placeholder="password" autocomplete="off">
-                <input type="submit" value="Login">
-            </div>
+    {% if username %}
+        <p>Logged in as: {{ username }}</p>
+        <form action="/logout">
+            <input type="submit" value="Logout">
         </form>
-        <form>
-            <div class="register">
-                <input type="button" value="Register" onclick="window.location.href='/register'" />
-            </div>
-        </form>
-    </div>
+    {% else %}
+        <div class="userlogin">
+            <form action="/login" method="post">
+                <div class="loginfield">
+                    <input name="username" type="text" placeholder="username">
+                    <input name="password" type="password" placeholder="password" autocomplete="off">
+                    <input type="submit" value="Login">
+                </div>
+            </form>
+            <form>
+                <div class="register">
+                    <input type="button" value="Register" onclick="window.location.href='/register'" />
+                </div>
+            </form>
+        </div>
+    {% endif %}
 
     <div class="search">
         <form action="/search">

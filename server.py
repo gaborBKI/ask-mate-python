@@ -18,7 +18,7 @@ def route_list(error):
     else:
         order_direction, questions, sort_options = data_manager.get_question_list(1)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order, style=style, error = error)
+                           current=status, corder=order, style=style, error = error, username = session.get('username'))
 
 
 @app.route('/test')
@@ -136,7 +136,7 @@ def login():
             return redirect(url_for('route_list'))
         if data_manager.verify_password(password_input, user_pw):
             session['username'] = username
-            return redirect(url_for('testlogin'))
+            return redirect(url_for('route_list'))
         else:
             return redirect("/list/error")
 
