@@ -5,6 +5,8 @@ import connection
 
 app = Flask(__name__)
 
+#TODO format h3 and a links in light_question, dark_question according to gothic_question.css
+#TODO set 'Back' button to previous on profile page
 
 @app.route('/', defaults={'error': None})
 @app.route('/list', defaults={'error': None})
@@ -58,7 +60,7 @@ def route_question(qid):
     user = connection.get_user(returned_question.get('user_id'))
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           style=connection.get_style(), user_name=user['username'])
+                           style=connection.get_style(), user_name=user['username'], user_id=user['id'])
 
 
 @app.route('/delete', methods=['post'])

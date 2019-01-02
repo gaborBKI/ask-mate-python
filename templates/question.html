@@ -21,7 +21,7 @@
     </script>
 </head>
 <body>
-    <h3>Posted by: {{ user_name }} at {{ question['submission_time'] }}</h3>
+<h3>Posted by: <a href="/user/{{ user_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">
@@ -64,7 +64,7 @@
             <div class="spoiler">
                 <div class="comment">
                     {% for comment in question['comments'] %}
-                        <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
+                        <br>{{ comment['submission_time'] }} by <a href="/user/{{ comment['user_id'] }}">{{ comment['username'] }}</a>: {{ comment['message'] }}<br>
                         <br>
                     {% endfor %}
                         <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
@@ -100,14 +100,14 @@
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
-                    <p class="date">Posted by: {{ answer['username'] }} at {{ answer['submission_time'] }}</p>
+                    <p class="date">Posted by: <a href="/user/{{ answer['user_id'] }}">{{ answer['username'] }}</a> at {{ answer['submission_time'] }}</p>
                     <font size="4">{{ answer['message'] }}</font><br>
                     <br>
                     <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
                     <div class="spoiler commentarea">
                         <div class="comment">
                             {% for comment in answer['comments'] %}
-                                <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
+                                <br>{{ comment['submission_time'] }} by <a href="/user/{{ comment['user_id'] }}">{{ comment['username'] }}</a>: {{ comment['message'] }}<br>
                                 <br>
                             {% endfor %}
                             <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
