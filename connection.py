@@ -260,3 +260,14 @@ def get_comments_by_user(cursor, userid):
                    {'userid': userid})
     comments = cursor.fetchall()
     return comments
+
+
+@database_common.connection_handler
+def get_user_by_name(cursor, username):
+    cursor.execute("""
+                        SELECT id, registered, profile_picture FROM users
+                        WHERE username = %(username)s;
+                       """,
+                   {'username': username})
+    userdata = cursor.fetchone()
+    return userdata

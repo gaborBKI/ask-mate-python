@@ -4,7 +4,6 @@ import connection
 
 
 app = Flask(__name__)
-app.secret_key = 'fogaddmarel\n\xec]/'
 
 
 @app.route('/', defaults={'error': None})
@@ -42,7 +41,7 @@ def route_submit_question():
         title = request.form['title']
         message = request.form['question']
         image = request.form['image']
-        user_id = request.form['question_user_id']
+        user_id = connection.get_user_by_name(session['username'])
         question = connection.add_question(title, message, image, user_id)
         return redirect(url_for('route_question', qid=question['id']))
     else:
@@ -80,7 +79,7 @@ def delete_answer():
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answer_text = request.form["answertext"]
-    user_id = request.form["answer_user_id"]
+    user_id = connection.get_user_by_name(session['username'])
     connection.add_answer(qid, answer_text, user_id)
     return redirect(f"/question/{qid}")
 
@@ -89,11 +88,11 @@ def answer(qid):
 def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
-        user_id = request.form["comment_user_id"]
+        user_id = connection.get_user_by_name(session['username'])
         connection.add_comment('question_id', qid, comment_text, user_id)
     elif type == 'answer':
         comment_text = request.form["commenttext"]
-        user_id = request.form["comment_user_id"]
+        user_id = connection.get_user_by_name(session['username'])
         connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
@@ -124,8 +123,6 @@ def register():
         return render_template('register.html', style=connection.get_style())
 
 
-#TODO now checks if password if valid, still need to do something about it, but it works - in theory.
-#TODO Next step is to have user in session.
 
 @app.route('/login', methods=['POST'])
 def login():
