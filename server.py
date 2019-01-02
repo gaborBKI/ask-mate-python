@@ -41,7 +41,7 @@ def route_submit_question():
         title = request.form['title']
         message = request.form['question']
         image = request.form['image']
-        user_id = connection.get_user_by_name(session.get('username'))
+        user_id = connection.get_user_by_name(session.get('username')).get('id')
         question = connection.add_question(title, message, image, user_id)
         return redirect(url_for('route_question', qid=question['id']))
     else:
@@ -79,7 +79,7 @@ def delete_answer():
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answer_text = request.form["answertext"]
-    user_id = connection.get_user_by_name(session.get('username'))
+    user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.add_answer(qid, answer_text, user_id)
     return redirect(f"/question/{qid}")
 
@@ -88,11 +88,11 @@ def answer(qid):
 def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
-        user_id = connection.get_user_by_name(session.get('username'))
+        user_id = connection.get_user_by_name(session.get('username')).get('id')
         connection.add_comment('question_id', qid, comment_text, user_id)
     elif type == 'answer':
         comment_text = request.form["commenttext"]
-        user_id = connection.get_user_by_name(session.get('username'))
+        user_id = connection.get_user_by_name(session.get('username')).get('id')
         connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
