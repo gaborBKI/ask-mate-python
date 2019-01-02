@@ -6,31 +6,9 @@ body {
     height: 100%;
 }
 
-table{
-    background: rgba(255, 255, 255, 0.75);
-}
-
-table, th, td {
-    border-collapse: collapse;
-    border-bottom: 1px solid;
-    padding: 5px;
-}
-
-tr {
-    border: 1px solid;
-}
-
-h1 {
+h1, h4 {
     color: white;
     text-shadow: 2px 2px grey;
-}
-
-a:visited {
-  color: black;
-}
-
-#rows:hover{
-    background: white;
 }
 
 .backbutton{

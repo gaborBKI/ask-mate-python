@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ userdata.username }}</title>
+    {% for colour in style %}
+        {% if colour['colour'] == 'light' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_profile.css') }}">
+        {% elif colour['colour'] == 'dark' %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_profile.css') }}">
+        {% else %}
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_profile.css') }}">
+        {% endif %}
+    {% endfor %}
 </head>
 <body>
     <h1> {{ userdata.username }}</h1>
@@ -10,6 +19,16 @@
     {% if userdata.profile_picture %}
         <img src="{{ userdata.profile_picture }}" width="200" height="200">
     {% endif %}
+    <h4>Questions by {{ userdata.username }}</h4>
+        <table>
+        {% for question in questions %}
+            <tr>
+                <td><a href="/question/{{ question.id }}">{{ question.title }}</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+    <h4>Answers by {{ userdata.username }}</h4>
+    <h4>Comments by {{ userdata.username }}</h4>
     <p align="center"><button class="backbutton" onclick="window.location.href='/users'">Back</button></p>
 </body>
 </html>

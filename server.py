@@ -137,7 +137,8 @@ def all_users():
 @app.route('/user/<int:uid>')
 def show_user_profile(uid):
     userdata = connection.get_user(uid)
-    return render_template('profile.html', userdata=userdata, style=connection.get_style())
+    question_data = connection.get_questions_by_user(uid)
+    return render_template('profile.html', userdata=userdata, questions = question_data, style=connection.get_style())
 
 
 if __name__ == '__main__':

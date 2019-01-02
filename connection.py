@@ -68,6 +68,7 @@ def get_all_answers(cursor):
     answers = cursor.fetchall()
     return answers
 
+
 @database_common.connection_handler
 def get_all_comments(cursor, qa_type, qa_id):
     if qa_type == 'question':
@@ -220,3 +221,15 @@ def get_user(cursor, userid):
                    {'userid': userid})
     userdata = cursor.fetchone()
     return userdata
+
+
+@database_common.connection_handler
+def get_questions_by_user(cursor, userid):
+    cursor.execute("""
+                        SELECT id, title FROM question
+                        WHERE user_id = %(userid)s
+                        ORDER BY submission_time DESC;
+                       """,
+                   {'userid': userid})
+    questions = cursor.fetchall()
+    return questions
