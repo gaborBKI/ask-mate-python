@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, escape
 import data_manager
 import connection
 
+
 app = Flask(__name__)
+app.secret_key = 'fogaddmarel\n\xec]/'
 
 
 @app.route('/', defaults={'error': None})
@@ -18,6 +20,13 @@ def route_list(error):
         order_direction, questions, sort_options = data_manager.get_question_list(1)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
                            current=status, corder=order, style=style, error = error)
+
+
+@app.route('/test')
+def testlogin():
+    if 'username' in session:
+        return 'Logged in as %s' % escape(session['username'])
+    return 'nope'
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -123,10 +132,16 @@ def login():
         except AttributeError:
             return redirect(url_for('route_list'))
         if data_manager.verify_password(password_input, user_pw):
-            return redirect(url_for('route_list'))
+            session['username'] = username
+            return redirect(url_for('testlogin'))
         else:
             return redirect("/list/error")
 
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('route_list'))
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
