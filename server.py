@@ -80,10 +80,12 @@ def answer(qid):
 def add_comment(type, qid):
     if type == 'question':
         comment_text = request.form["commenttext"]
-        connection.add_comment('question_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('question_id', qid, comment_text, user_id)
     elif type == 'answer':
         comment_text = request.form["commenttext"]
-        connection.add_comment('answer_id', qid, comment_text)
+        user_id = request.form["comment_user_id"]
+        connection.add_comment('answer_id', qid, comment_text, user_id)
         qid = request.form['question_id']
     return redirect(f"/question/{qid}")
 

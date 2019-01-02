@@ -59,6 +59,7 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 
     return questions
 
+
 @database_common.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
@@ -68,16 +69,19 @@ def get_all_answers(cursor):
     answers = cursor.fetchall()
     return answers
 
+
 @database_common.connection_handler
 def get_all_comments(cursor, qa_type, qa_id):
     if qa_type == 'question':
         cursor.execute("""
-                            SELECT id, question_id, message, submission_time FROM comment
+                            SELECT comment.id, question_id, message, submission_time, username
+                            FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE question_id = %(qa_id)s ;
                         """, {'qa_id': qa_id})
     else:
         cursor.execute("""
-                            SELECT id, answer_id, message, submission_time FROM comment
+                            SELECT comment.id, answer_id, message, submission_time, username
+                            FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE answer_id = %(qa_id)s;
                         """, {'qa_id': qa_id})
     comments = cursor.fetchall()
@@ -85,13 +89,13 @@ def get_all_comments(cursor, qa_type, qa_id):
 
 
 @database_common.connection_handler
-def add_comment(cursor, qa_type, qa_id, text):
+def add_comment(cursor, qa_type, qa_id, text, uid):
     dt = str(datetime.now())[:19]
     cursor.execute(sql.SQL("""
                         INSERT INTO comment
-                        ({qa_type}, message, submission_time)
-                        VALUES (%(qa_id)s, %(text)s, %(dt)s)
-                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id': qa_id, 'text': text, 'dt': dt})
+                        ({qa_type}, message, submission_time, user_id)
+                        VALUES (%(qa_id)s, %(text)s, %(dt)s, %(uid)s)
+                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id': qa_id, 'text': text, 'dt': dt, 'uid': uid})
     return None
 
 

@@ -59,7 +59,7 @@
             <div class="spoiler">
                 <div class="comment">
                     {% for comment in question['comments'] %}
-                        <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                        <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
                         <br>
                     {% endfor %}
                         <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
@@ -67,6 +67,7 @@
                                 <div>
                                 <form action="/comment/question/{{question['id']}}" method="post">
                                     <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
+                                    <input type="hidden" id="comment_user_id" name="comment_user_id" value="1">
                                     <p align="right"><input type="submit" value="Send"></p>
                                 </form>
                                 </div>
@@ -99,7 +100,7 @@
                     <div class="spoiler commentarea">
                         <div class="comment">
                             {% for comment in answer['comments'] %}
-                                <br>{{ comment['submission_time'] }}: {{ comment['message'] }}<br>
+                                <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
                                 <br>
                             {% endfor %}
                             <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
@@ -108,6 +109,7 @@
                                     <form action="/comment/answer/{{answer['id']}}" method="post">
                                         <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
                                         <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
+                                        <input type="hidden" id="comment_user_id" name="comment_user_id" value="1">
                                         <p align="right"><input type="submit" value="Send"></p>
                                     </form>
                                     </div>
