@@ -14,6 +14,11 @@
             <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
         {% endif %}
     {% endfor %}
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
 </head>
 <body>
     <h3>Posted by: {{ user_name }} at {{ question['submission_time'] }}</h3>
@@ -81,7 +86,10 @@
             {{ question['vote_number'] }}
         </p>
     </div>
-    <p align="center"><button class="backbutton" onclick="window.location.href='/list'">Back</button></p>
+    <p align="center">
+        <button class="backbutton" onclick="goBack()">Previous</button>
+        <button class="backbutton" onclick="window.location.href='/list'">Home</button>
+    </p>
     <div class="answers">
     {% if not question['answers'] %}
         <p class="even wrap"><font size="4">No answers found</font></p>
