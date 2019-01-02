@@ -62,8 +62,8 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 @database_common.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
-                        SELECT * FROM answer
-                        ORDER BY id;
+                        SELECT *, username FROM answer LEFT JOIN users on answer.user_id = users.id
+                        ORDER BY answer.id;
                        """)
     answers = cursor.fetchall()
     return answers
@@ -91,7 +91,7 @@ def add_comment(cursor, qa_type, qa_id, text):
                         INSERT INTO comment
                         ({qa_type}, message, submission_time)
                         VALUES (%(qa_id)s, %(text)s, %(dt)s)
-                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id':qa_id, 'text': text, 'dt': dt})
+                    """).format(qa_type=sql.Identifier(qa_type)), {'qa_id': qa_id, 'text': text, 'dt': dt})
     return None
 
 
@@ -109,13 +109,13 @@ def add_question(cursor, q_title, question, im_link, uid):
 
 
 @database_common.connection_handler
-def add_answer(cursor, question_id, message):
+def add_answer(cursor, question_id, message, uid):
     dt = str(datetime.now())[:19]
     cursor.execute("""
-                        INSERT INTO answer (submission_time, vote_number, question_id, message)
-                        VALUES (%(dt)s, 0, %(question_id)s, %(message)s);
+                        INSERT INTO answer (submission_time, vote_number, question_id, message, user_id)
+                        VALUES (%(dt)s, 0, %(question_id)s, %(message)s, %(uid)s);
                        """,
-                   {'dt': dt, 'question_id': question_id, 'message': message})
+                   {'dt': dt, 'question_id': question_id, 'message': message, 'uid': uid})
     return None
 
 

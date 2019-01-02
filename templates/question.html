@@ -92,7 +92,7 @@
                 <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
             </form>
                 <div class="even wrap">
-                    <p class="date">{{ answer['submission_time'] }}</p>
+                    <p class="date">Posted by: {{ answer['username'] }} at {{ answer['submission_time'] }}</p>
                     <font size="4">{{ answer['message'] }}</font><br>
                     <br>
                     <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
@@ -125,6 +125,7 @@
         <form action="/answer/{{question['id']}}" method="post">
             <div class="wrap" align="center">
                 <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
+                <input type="hidden" id="answer_user_id" name="answer_user_id" value="1">
                 <p align="right"><input type="submit" value="Send"></p>
             </div>
         </form>

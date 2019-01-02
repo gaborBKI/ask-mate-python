@@ -71,7 +71,8 @@ def delete_answer():
 @app.route('/answer/<qid>', methods=['POST'])
 def answer(qid):
     answer_text = request.form["answertext"]
-    connection.add_answer(qid, answer_text)
+    user_id = request.form["answer_user_id"]
+    connection.add_answer(qid, answer_text, user_id)
     return redirect(f"/question/{qid}")
 
 
