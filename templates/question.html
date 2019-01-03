@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ question[4]}}</title>
+    <title>{{ question['title']}}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     {% for colour in style %}
@@ -26,18 +26,22 @@
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">
             {% if not editable %}
-                <form action="/edit/{{ question.id }}" method="POST">
-                    <input type="text" hidden name="edit" value="edit">
-                    <input type="submit" class="fas fa-edit" value="&#xf044"; Input>
-                </form>
+                {% if user_id == question['user_id'] or user_id == 1 %}
+                    <form action="/edit/{{ question.id }}" method="POST">
+                        <input type="text" hidden name="edit" value="edit">
+                        <input type="submit" class="fas fa-edit" value="&#xf044"; Input>
+                    </form>
+                {% endif %}
             {% endif %}
         </div>
-        <div class="trash">
-            <form action="/delete" method="POST">
-                <input type="number" hidden name="questid" value="{{question['id']}}">
-                <input type="submit" class="fas fa-trash" value="&#xf1f8"; Input>
-            </form>
-        </div>
+        {% if user_id == question['user_id'] or user_id == 1 %}
+            <div class="trash">
+                <form action="/delete" method="POST">
+                    <input type="number" hidden name="questid" value="{{question['id']}}">
+                    <input type="submit" class="fas fa-trash" value="&#xf1f8"; Input>
+                </form>
+            </div>
+        {% endif %}
         <div class="message">
             {% if editable %}
                 <form action="/question/{{ question.id }}" method="POST">
@@ -67,15 +71,21 @@
                         <br>{{ comment['submission_time'] }} by {{ comment['username'] }}: {{ comment['message'] }}<br>
                         <br>
                     {% endfor %}
-                        <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
-                            <div class="spoiler">
+                    <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
+                        <div class="spoiler">
+                            {% if user_id %}
                                 <div>
                                 <form action="/comment/question/{{question['id']}}" method="post">
                                     <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
                                     <p align="right"><input type="submit" value="Send"></p>
                                 </form>
                                 </div>
-                            </div>
+                            {% else %}
+                                <div>
+                                Please login to post a comment!
+                                </div>
+                            {% endif %}
+                        </div>
                 </div>
             </div>
         </div>
@@ -94,11 +104,13 @@
         <p class="even wrap"><font size="4">No answers found</font></p>
     {% else %}
         {% for answer in question['answers'] %}
-            <form action="/delete_answer" method="POST">
-                <input type="number" hidden name="answer_id" value="{{ answer.id }}">
-                <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
-                <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
-            </form>
+            {% if user_id == question['user_id'] or user_id == 1 %}
+                <form action="/delete_answer" method="POST">
+                    <input type="number" hidden name="answer_id" value="{{ answer.id }}">
+                    <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
+                    <p class="trash"><input type="submit" class="fas fa-trash" value="&#xf1f8"; Input><br></p>
+                </form>
+            {% endif %}
                 <div class="even wrap">
                     <p class="date">Posted by: {{ answer['username'] }} at {{ answer['submission_time'] }}</p>
                     <font size="4">{{ answer['message'] }}</font><br>
@@ -112,13 +124,19 @@
                             {% endfor %}
                             <input class="spoilerbutton3" type="button" value="Add Comment" onclick="this.value=this.value=='Add Comment'?'Cancel':'Add Comment';">
                                 <div class="spoiler">
-                                    <div>
-                                    <form action="/comment/answer/{{answer['id']}}" method="post">
-                                        <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
-                                        <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
-                                        <p align="right"><input type="submit" value="Send"></p>
-                                    </form>
-                                    </div>
+                                    {% if user_id %}
+                                        <div>
+                                        <form action="/comment/answer/{{answer['id']}}" method="post">
+                                            <input type="number" hidden name="question_id" value="{{ answer.question_id }}">
+                                            <textarea name="commenttext" rows="6" cols="60" minlength="1" placeholder="Write a comment..."></textarea>
+                                            <p align="right"><input type="submit" value="Send"></p>
+                                        </form>
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                        Please login to post a comment!
+                                        </div>
+                                    {% endif %}
                                 </div>
                         </div>
                     </div>
@@ -130,13 +148,19 @@
                 </div>
         {% endfor %}
     {% endif %}
-        <form action="/answer/{{question['id']}}" method="post">
+        {% if user_id %}
+            <form action="/answer/{{question['id']}}" method="post">
+                <div class="wrap" align="center">
+                    <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
+                    <input type="hidden" id="answer_user_id" name="answer_user_id" value="1">
+                    <p align="right"><input type="submit" value="Send"></p>
+                </div>
+            </form>
+        {% else %}
             <div class="wrap" align="center">
-                <textarea name="answertext" rows="12" cols="60" minlength="10" placeholder="Write an answer..."></textarea>
-                <input type="hidden" id="answer_user_id" name="answer_user_id" value="1">
-                <p align="right"><input type="submit" value="Send"></p>
+                Please login to write an answer!
             </div>
-        </form>
+        {% endif %}
     </div>
 </body>
 </html>
