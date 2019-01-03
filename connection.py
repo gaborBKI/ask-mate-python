@@ -173,7 +173,7 @@ def get_style(cursor, usname):
     cursor.execute("""
                         SELECT style FROM users where username = %(usname)s
                        """, {'usname': usname})
-    style = cursor.fetchall()
+    style = cursor.fetchone()
     return style
 
 
@@ -181,8 +181,7 @@ def get_style(cursor, usname):
 def make_style(cursor, colour, usname):
     cursor.execute(""" UPDATE users SET style = %(colour)s where username = %(usname)s;
                         """, {'colour': colour, 'usname': usname})
-    style = cursor.fetchall()
-    return style
+    return None
 
 
 @database_common.connection_handler

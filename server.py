@@ -13,7 +13,6 @@ app = Flask(__name__)
 @app.route('/', defaults={'type': None})
 def route_list(type):
     style = data_manager.get_style(session.get('username'))
-
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     order_direction, questions, sort_options = data_manager.get_question_list(request.args.get

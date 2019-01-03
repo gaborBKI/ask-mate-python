@@ -99,10 +99,8 @@ def get_style(username):
     if username:
         if request.args.get('style'):
             colour = request.args['style']
-
             connection.make_style(colour, username)
-        style = connection.get_style(username)
-
+        style = connection.get_style(username).get('style')
     else:
         style = "dark"
     return style

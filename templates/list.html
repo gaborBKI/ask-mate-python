@@ -5,12 +5,12 @@
     <title>Rakás Túlfolyás</title>
     <link rel="icon" href="/favicon.png">
     {% if colour == 'light' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_question.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_main.css') }}">
     {% elif colour == 'dark' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
-        {% else %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
-        {% endif %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_main.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_main.css') }}">
+    {% endif %}
 
     <script>
         let problem = '{{ error }}';
