@@ -12,13 +12,14 @@ app = Flask(__name__)
 @app.route('/error/<type>')
 @app.route('/', defaults={'type': None})
 def route_list(type):
-    style = data_manager.get_style()
+    style = data_manager.get_style(session.get('username'))
+
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
     order_direction, questions, sort_options = data_manager.get_question_list(request.args.get
                                                                               ('latest', default=False, type=bool))
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order, style=style, error = type, username = session.get('username'))
+                           current=status, corder=order, colour=style, error=type, username=session.get('username'))
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -39,7 +40,7 @@ def route_submit_question():
             question = connection.add_question(title, message, image, user_id)
             return redirect(url_for('route_question', qid=question['id']))
         else:
-            return render_template('form.html', style=connection.get_style())
+            return render_template('form.html', colour=connection.get_style(session.get('username')))
     else:
         return redirect('/error/login_error')
 
@@ -57,7 +58,8 @@ def route_question(qid):
         user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           style=connection.get_style(), user_name=user['username'], user_id=user_id,
+                           colour=connection.get_style(session.get('username')), user_name=user['username'],
+                           user_id=user_id,
                            sessionusername=session.get('username'))
 
 
@@ -104,7 +106,8 @@ def search():
     orderby = ['Ascending', 'Descending']
     searchvalue = '%' + request.args['searchval'] + '%'
     questions = connection.get_all_questions('id', searchvalue, 0)
-    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby, style=connection.get_style())
+    return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby,
+                           colour=connection.get_style(session.get('username')))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -120,7 +123,7 @@ def register():
             pass
         return redirect(url_for('route_list'))
     else:
-        return render_template('register.html', style=connection.get_style())
+        return render_template('register.html', colour=connection.get_style(session.get('username')))
 
 
 @app.route('/login', methods=['POST'])
@@ -145,7 +148,8 @@ def login():
 @app.route('/users')
 def all_users():
     users = connection.get_all_users()
-    return render_template('users.html', users = users, style=connection.get_style(), username = session.get('username'))
+    return render_template('users.html', users=users, colour=connection.get_style(session.get('username')),
+                           username=session.get('username'))
 
 
 @app.route('/user/<int:uid>')
@@ -155,7 +159,8 @@ def show_user_profile(uid):
     answer_data = connection.get_answers_by_user(uid)
     comment_data = connection.get_comments_by_user(uid)
     return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
-                           comments = comment_data, style=connection.get_style(), username = session.get('username'))
+                           comments=comment_data, colour=connection.get_style(session.get('username')),
+                           username=session.get('username'))
 
 
 

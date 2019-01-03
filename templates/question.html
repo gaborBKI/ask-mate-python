@@ -5,15 +5,13 @@
     <title>{{ question['title']}}</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    {% for colour in style %}
-        {% if colour['colour'] == 'light' %}
+    {% if colour == 'light' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/light_question.css') }}">
-        {% elif colour['colour'] == 'dark' %}
+    {% elif colour == 'dark' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
         {% else %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
         {% endif %}
-    {% endfor %}
     <script>
         function goBack() {
           window.history.back();

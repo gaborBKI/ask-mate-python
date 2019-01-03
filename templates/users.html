@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>All Users</title>
-    {% for colour in style %}
-        {% if colour['colour'] == 'light' %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_users.css') }}">
-        {% elif colour['colour'] == 'dark' %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_users.css') }}">
+    {% if colour == 'light' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_question.css') }}">
+    {% elif colour == 'dark' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
         {% else %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_users.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
         {% endif %}
-    {% endfor %}
 </head>
 <body>
 {% with username=username %}

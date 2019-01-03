@@ -169,19 +169,18 @@ def update_question_text(cursor, qid, edited_text):
 
 
 @database_common.connection_handler
-def get_style(cursor):
+def get_style(cursor, usname):
     cursor.execute("""
-                        SELECT colour FROM style
-                       """)
+                        SELECT style FROM users where username = %(usname)s
+                       """, {'usname': usname})
     style = cursor.fetchall()
     return style
 
 
 @database_common.connection_handler
-def make_style(cursor, colour):
-    cursor.execute(""" UPDATE style SET colour = %(colour)s;
-                        SELECT colour FROM style;
-                        """, {'colour': colour})
+def make_style(cursor, colour, usname):
+    cursor.execute(""" UPDATE users SET style = %(colour)s where username = %(usname)s;
+                        """, {'colour': colour, 'usname': usname})
     style = cursor.fetchall()
     return style
 
