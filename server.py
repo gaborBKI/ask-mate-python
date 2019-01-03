@@ -8,26 +8,17 @@ app = Flask(__name__)
 #TODO format h3 and a links in light_question, dark_question according to gothic_question.css
 #TODO set 'Back' button to previous on profile page
 
+
+@app.route('/<error>')
 @app.route('/', defaults={'error': None})
-@app.route('/list', defaults={'error': None})
-@app.route('/list/<error>')
 def route_list(error):
     style = data_manager.get_style()
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
-    if request.path == "/list":
-        order_direction, questions, sort_options = data_manager.get_question_list(0)
-    else:
-        order_direction, questions, sort_options = data_manager.get_question_list(1)
+    order_direction, questions, sort_options = data_manager.get_question_list(request.args.get
+                                                                              ('latest', default=False, type=bool))
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
                            current=status, corder=order, style=style, error = error, username = session.get('username'))
-
-
-@app.route('/test')
-def testlogin():
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    return 'nope'
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -125,7 +116,6 @@ def register():
         return render_template('register.html', style=connection.get_style())
 
 
-
 @app.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
@@ -140,7 +130,7 @@ def login():
             session['username'] = username
             return redirect(url_for('route_list'))
         else:
-            return redirect("/list/error")
+            return redirect("/error")
 
 
 @app.route('/users')
@@ -158,11 +148,11 @@ def show_user_profile(uid):
     return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
                            comments = comment_data, style=connection.get_style())
 
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('route_list'))
-
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"

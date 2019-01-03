@@ -81,7 +81,7 @@ def get_question_list(limit):
         elif direction == 'ASC':
             questions = connection.get_all_questions_asc(order)
     else:
-        questions = connection.get_all_questions('submission_time', "", 1)
+        questions = connection.get_all_questions('submission_time', "", True)
     return order_direction, questions, sort_options
 
 
