@@ -57,7 +57,7 @@ def route_question(qid):
         user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           style=connection.get_style(), user_name=user['username'], user_id=user['id'],
+                           style=connection.get_style(), user_name=user['username'], user_id=user_id,
                            sessionusername=session.get('username'))
 
 
