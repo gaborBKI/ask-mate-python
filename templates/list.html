@@ -16,8 +16,10 @@
 
     <script>
         let problem = '{{ error }}';
-        if (problem === 'error') {
+        if (problem === 'invalid_login') {
             window.alert('Invalid username or password');
+        } if (problem === 'login_error'){
+            window.alert('Please log in to ask a question');
         } else {
         }
     </script>
@@ -29,7 +31,7 @@
     <h1 align="center">Rakás Túlfolyás</h1>
     <p align="center">
         <button onclick="window.location.href='/ask_question'">Ask a Question</button>
-        <button onclick="window.location.href='/list'">Show All Questions</button>
+        <button onclick="window.location.href='/'">Show All Questions</button>
     </p>
 
     <form action="/list">
@@ -49,34 +51,16 @@
             <button type="submit">Sort</button>
         </p>
     </form>
-    {% if username %}
-        <p>Logged in as: {{ username }}</p>
-        <form action="/logout">
-            <input type="submit" value="Logout">
-        </form>
-    {% else %}
-        <div class="userlogin">
-            <form action="/login" method="post">
-                <div class="loginfield">
-                    <input name="username" type="text" placeholder="username">
-                    <input name="password" type="password" placeholder="password" autocomplete="off">
-                    <input type="submit" value="Login">
-                </div>
-            </form>
-            <form>
-                <div class="register">
-                    <input type="button" value="Register" onclick="window.location.href='/register'" />
-                </div>
-            </form>
-        </div>
-    {% endif %}
+    {% with username=username %}
+        {% include "login.html" %}
+    {% endwith %}
+
 
     <div class="search">
         <form action="/search">
             <div class="searchfield">
                 <input name="searchval" type="text" placeholder="Search for something...">
                 <input type="submit" value="Search">
-
             </div>
         </form>
     </div>
@@ -111,7 +95,10 @@
         <br>
     </div>
     <div class="style" align="center">
-        <button onclick="window.location.href='/'">Latest</button>
+        <form>
+            <input type="hidden" value="latest" name="latest">
+            <button type="submit">Latest</button>
+        </form>
         <button onclick="window.location.href='/users'">Users</button><br><br>
         <form action="/" id="style_change">
             <select id="style" name="style" onchange="this.form.submit()">

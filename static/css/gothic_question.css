@@ -24,6 +24,15 @@ h3 {
     text-shadow: 2px 2px black;
     }
 
+a:visited {
+  color: white;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
 .vote{
     padding-top: 12px;
     text-align: right;
@@ -230,4 +239,14 @@ textarea{
 .spoilerbutton:hover, .spoilerbutton2:hover, .spoilerbutton3:hover, .backbutton:hover {
   background-color: black;
   color: white;
+}
+
+.logged_in {
+    display: flex;
+    margin-left: 10%;
+    color: white;
+}
+
+.logged_in a:visited {
+    color: white
 }

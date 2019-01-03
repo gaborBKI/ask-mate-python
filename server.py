@@ -1,31 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for, session, escape
+from flask import Flask, render_template, request, redirect, url_for, session
 import data_manager
 import connection
 
 
 app = Flask(__name__)
 
+#TODO format h3 and a links in light_question, dark_question according to gothic_question.css
+#TODO set 'Back' button to previous on profile page
 
-@app.route('/', defaults={'error': None})
-@app.route('/list', defaults={'error': None})
-@app.route('/list/<error>')
-def route_list(error):
+
+@app.route('/error/<type>')
+@app.route('/', defaults={'type': None})
+def route_list(type):
     style = data_manager.get_style()
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
-    if request.path == "/list":
-        order_direction, questions, sort_options = data_manager.get_question_list(0)
-    else:
-        order_direction, questions, sort_options = data_manager.get_question_list(1)
+    order_direction, questions, sort_options = data_manager.get_question_list(request.args.get
+                                                                              ('latest', default=False, type=bool))
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order, style=style, error = error, username = session.get('username'))
-
-
-@app.route('/test')
-def testlogin():
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    return 'nope'
+                           current=status, corder=order, style=style, error = type, username = session.get('username'))
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
@@ -64,7 +57,8 @@ def route_question(qid):
         user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           style=connection.get_style(), user_name=user['username'], user_id=user_id)
+                           style=connection.get_style(), user_name=user['username'], user_id=user['id'],
+                           sessionusername=session.get('username'))
 
 
 @app.route('/delete', methods=['post'])
@@ -143,7 +137,7 @@ def login():
             session['username'] = username
             return redirect(url_for('route_list'))
         else:
-            return redirect("/list/error")
+            return redirect("/error/invalid_login")
 
 
 @app.route('/users')
@@ -162,11 +156,11 @@ def show_user_profile(uid):
                            comments = comment_data, style=connection.get_style(), username = session.get('username'))
 
 
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('route_list'))
-
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"
