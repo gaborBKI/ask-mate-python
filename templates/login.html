@@ -1,8 +1,7 @@
 {% if username %}
-    <p>Logged in as: {{ username }}</p>
-    <form action="/logout">
-        <input type="submit" value="Logout">
-    </form>
+    <div class="logged_in">
+        Logged in as: {{ username }}&nbsp;<b>| <a href="/logout">LOGOUT</a> |</b>
+    </div>
 {% else %}
     <div class="userlogin">
         <form action="/login" method="post">
@@ -17,5 +16,5 @@
                 <input type="button" value="Register" onclick="window.location.href='/register'"/>
             </div>
         </form>
-    </div>
+</div>
 {% endif %}
