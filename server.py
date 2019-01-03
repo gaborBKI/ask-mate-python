@@ -39,7 +39,7 @@ def route_submit_question():
             question = connection.add_question(title, message, image, user_id)
             return redirect(url_for('route_question', qid=question['id']))
         else:
-            return render_template('form.html', colour=connection.get_style(session.get('username')))
+            return render_template('form.html', colour=data_manager.get_style(session.get('username')))
     else:
         return redirect('/error/login_error')
 
@@ -57,10 +57,9 @@ def route_question(qid):
         user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           colour=connection.get_style(session.get('username')), user_name=user['username'],
-                           user_id=user_id,
-                           sessionusername=session.get('username'))
-                           profile_id = user['id'])
+                           user_name=user['username'],
+                           user_id=user_id, sessionusername=session.get('username'),
+                           profile_id = user['id'], colour=data_manager.get_style(session.get('username')))
 
 
 @app.route('/delete', methods=['post'])
@@ -107,7 +106,7 @@ def search():
     searchvalue = '%' + request.args['searchval'] + '%'
     questions = connection.get_all_questions('id', searchvalue, 0)
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=orderby,
-                           colour=connection.get_style(session.get('username')))
+                           colour=data_manager.get_style(session.get('username')))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -123,7 +122,7 @@ def register():
             pass
         return redirect(url_for('route_list'))
     else:
-        return render_template('register.html', colour=connection.get_style(session.get('username')))
+        return render_template('register.html', colour=data_manager.get_style(session.get('username')))
 
 
 @app.route('/login', methods=['POST'])
@@ -148,7 +147,7 @@ def login():
 @app.route('/users')
 def all_users():
     users = connection.get_all_users()
-    return render_template('users.html', users=users, colour=connection.get_style(session.get('username')),
+    return render_template('users.html', users=users, colour=data_manager.get_style(session.get('username')),
                            username=session.get('username'))
 
 
@@ -159,7 +158,7 @@ def show_user_profile(uid):
     answer_data = connection.get_answers_by_user(uid)
     comment_data = connection.get_comments_by_user(uid)
     return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
-                           comments=comment_data, colour=connection.get_style(session.get('username')),
+                           comments=comment_data, colour=data_manager.get_style(session.get('username')),
                            username=session.get('username'))
 
 

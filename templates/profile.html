@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ userdata.username }}</title>
-    {% for colour in style %}
-        {% if colour['colour'] == 'light' %}
+        {% if colour == 'light' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/light_profile.css') }}">
-        {% elif colour['colour'] == 'dark' %}
+        {% elif colour == 'dark' %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_profile.css') }}">
         {% else %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_profile.css') }}">
         {% endif %}
-    {% endfor %}
     <script>
         function goBack() {
           window.history.back();
