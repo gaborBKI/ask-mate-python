@@ -60,7 +60,8 @@ def route_question(qid):
     user = connection.get_user(returned_question.get('user_id'))
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
-                           style=connection.get_style(), user_name=user['username'], user_id=user['id'])
+                           style=connection.get_style(), user_name=user['username'], user_id=user['id'],
+                           sessionusername=session.get('username'))
 
 
 @app.route('/delete', methods=['post'])
