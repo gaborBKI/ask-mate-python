@@ -25,7 +25,7 @@
     {% include "login.html" %}
 {% endwith %}
 
-<h3>Posted by: <a href="/user/{{ user_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</h3>
+<h3>Posted by: <a href="/user/{{ profile_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</h3>
     <h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">

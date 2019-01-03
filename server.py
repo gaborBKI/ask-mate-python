@@ -58,7 +58,7 @@ def route_question(qid):
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
                            style=connection.get_style(), user_name=user['username'], user_id=user_id,
-                           sessionusername=session.get('username'))
+                           sessionusername=session.get('username'), profile_id = user['id'])
 
 
 @app.route('/delete', methods=['post'])
@@ -158,11 +158,11 @@ def show_user_profile(uid):
                            comments = comment_data, style=connection.get_style(), username = session.get('username'))
 
 
-
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('route_list'))
+
 
 if __name__ == '__main__':
     app.secret_key = "wWeRt56"

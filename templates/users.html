@@ -12,6 +12,11 @@
             <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_users.css') }}">
         {% endif %}
     {% endfor %}
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
 </head>
 <body>
 {% with username=username %}
@@ -31,7 +36,7 @@
                 </tr>
             {% endfor %}
         </table>
-        <p align="center"><button class="backbutton" onclick="window.location.href='/list'">Back</button></p>
+        <p align="center"><button class="backbutton" onclick="goBack()">Back</button></p>
     </div>
 </body>
 </html>
