@@ -29,16 +29,19 @@ def vote(type, type_id, direction, question_id):
 
 @app.route('/ask_question', methods=['GET', 'POST'])
 def route_submit_question():
-    if request.method == 'POST':
-        print('POST request received!')
-        title = request.form['title']
-        message = request.form['question']
-        image = request.form['image']
-        user_id = connection.get_user_by_name(session.get('username')).get('id')
-        question = connection.add_question(title, message, image, user_id)
-        return redirect(url_for('route_question', qid=question['id']))
+    if 'username' in session:
+        if request.method == 'POST':
+            print('POST request received!')
+            title = request.form['title']
+            message = request.form['question']
+            image = request.form['image']
+            user_id = connection.get_user_by_name(session.get('username')).get('id')
+            question = connection.add_question(title, message, image, user_id)
+            return redirect(url_for('route_question', qid=question['id']))
+        else:
+            return render_template('form.html', style=connection.get_style())
     else:
-        return render_template('form.html', style=connection.get_style())
+        return redirect('/error/login_error')
 
 
 @app.route('/edit/<int:qid>', methods=['post'])
@@ -49,6 +52,9 @@ def route_question(qid):
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
     user = connection.get_user(returned_question.get('user_id'))
+    user_id = False
+    if 'username' in session:
+        user_id = connection.get_user_by_name(session.get('username')).get('id')
     connection.update_view_number(qid)
     return render_template('question.html', question=returned_question, editable=editable,
                            style=connection.get_style(), user_name=user['username'], user_id=user['id'],
@@ -137,7 +143,7 @@ def login():
 @app.route('/users')
 def all_users():
     users = connection.get_all_users()
-    return render_template('users.html', users = users, style=connection.get_style())
+    return render_template('users.html', users = users, style=connection.get_style(), username = session.get('username'))
 
 
 @app.route('/user/<int:uid>')
@@ -147,7 +153,8 @@ def show_user_profile(uid):
     answer_data = connection.get_answers_by_user(uid)
     comment_data = connection.get_comments_by_user(uid)
     return render_template('profile.html', userdata=userdata, questions = question_data, answers = answer_data,
-                           comments = comment_data, style=connection.get_style())
+                           comments = comment_data, style=connection.get_style(), username = session.get('username'))
+
 
 
 @app.route('/logout')
