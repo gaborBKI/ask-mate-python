@@ -16,8 +16,10 @@
 
     <script>
         let problem = '{{ error }}';
-        if (problem === 'error') {
+        if (problem === 'invalid_login') {
             window.alert('Invalid username or password');
+        } if (problem === 'login_error'){
+            window.alert('Please log in to ask a question');
         } else {
         }
     </script>
