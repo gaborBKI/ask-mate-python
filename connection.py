@@ -76,13 +76,15 @@ def get_all_comments(cursor, qa_type, qa_id):
         cursor.execute("""
                             SELECT comment.id, question_id, message, submission_time, username, u.id as user_id
                             FROM comment LEFT JOIN users u on comment.user_id = u.id
-                            WHERE question_id = %(qa_id)s ;
+                            WHERE question_id = %(qa_id)s
+                            ORDER BY submission_time DESC;
                         """, {'qa_id': qa_id})
     else:
         cursor.execute("""
                             SELECT comment.id, answer_id, message, submission_time, username, u.id as user_id
                             FROM comment LEFT JOIN users u on comment.user_id = u.id
-                            WHERE answer_id = %(qa_id)s;
+                            WHERE answer_id = %(qa_id)s
+                            ORDER BY submission_time DESC;
                         """, {'qa_id': qa_id})
     comments = cursor.fetchall()
     return comments
