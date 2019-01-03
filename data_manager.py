@@ -95,12 +95,14 @@ def check_for_edit_or_save(qid):
     return editable
 
 
-def get_style():
-    if request.args.get('style'):
-        colour = request.args['style']
-        style = connection.make_style(colour)
+def get_style(username):
+    if username:
+        if request.args.get('style'):
+            colour = request.args['style']
+            connection.make_style(colour, username)
+        style = connection.get_style(username).get('style')
     else:
-        style = connection.get_style()
+        style = "dark"
     return style
 
 

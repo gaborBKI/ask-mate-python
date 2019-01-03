@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <title>Rakás Túlfolyás</title>
     <link rel="icon" href="/favicon.png">
-    {% for colour in style %}
-        {% if colour['colour'] == 'light' %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/light_main.css') }}">
-        {% elif colour['colour'] == 'dark' %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_main.css') }}">
-        {% else %}
-            <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_main.css') }}">
-        {% endif %}
-    {% endfor %}
+    {% if colour == 'light' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_main.css') }}">
+    {% elif colour == 'dark' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_main.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_main.css') }}">
+    {% endif %}
 
     <script>
         let problem = '{{ error }}';
