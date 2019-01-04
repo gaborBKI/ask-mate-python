@@ -56,7 +56,8 @@ def route_question(qid):
     return render_template('question.html', question=returned_question, editable=editable,
                            user_name=user['username'],
                            user_id=user_id, sessionusername=session.get('username'),
-                           profile_id = user['id'], colour=data_manager.get_style(session.get('username')))
+                           profile_id=user['id'], profile_picture=user['profile_picture'],
+                           colour=data_manager.get_style(session.get('username')))
 
 
 @app.route('/delete', methods=['post'])
