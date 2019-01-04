@@ -63,7 +63,7 @@ def get_all_questions(cursor, order_by_what, searchvalue, limit):
 @database_common.connection_handler
 def get_all_answers(cursor):
     cursor.execute("""
-                        SELECT answer.id, answer.submission_time, answer.vote_number, answer.question_id, answer.message, answer.image, answer.user_id, users.username, users.id as user_id FROM answer JOIN users on answer.user_id = users.id
+                        SELECT answer.id, answer.submission_time, answer.vote_number, answer.question_id, answer.message, answer.image, answer.user_id, users.username, users.profile_picture, users.id as user_id FROM answer JOIN users on answer.user_id = users.id
                         ORDER BY answer.id;
                        """)
     answers = cursor.fetchall()
@@ -74,14 +74,14 @@ def get_all_answers(cursor):
 def get_all_comments(cursor, qa_type, qa_id):
     if qa_type == 'question':
         cursor.execute("""
-                            SELECT comment.id, question_id, message, submission_time, username, u.id as user_id
+                            SELECT comment.id, question_id, message, submission_time, profile_picture, username, u.id as user_id
                             FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE question_id = %(qa_id)s
                             ORDER BY submission_time DESC;
                         """, {'qa_id': qa_id})
     else:
         cursor.execute("""
-                            SELECT comment.id, answer_id, message, submission_time, username, u.id as user_id
+                            SELECT comment.id, answer_id, message, submission_time, username, profile_picture, u.id as user_id
                             FROM comment LEFT JOIN users u on comment.user_id = u.id
                             WHERE answer_id = %(qa_id)s
                             ORDER BY submission_time DESC;
