@@ -246,3 +246,16 @@ textarea{
   background-color: black;
   color: white;
 }
+
+.userlogin {
+    display: flex;
+}
+
+.register {
+    display: flex;
+    margin-left: 18%;
+}
+
+a, a:visited {
+    color: black;
+}

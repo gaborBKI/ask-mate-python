@@ -49,3 +49,17 @@ a:visited {
     display: flex;
     margin-left: 18%;
 }
+
+.logged_in {
+    display: flex;
+    margin-left: 10%;
+    color: white;
+}
+
+.logged_in a:visited {
+    color: white
+}
+
+a, a:visited {
+    color: black;
+}
