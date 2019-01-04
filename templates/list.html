@@ -98,14 +98,16 @@
             <button type="submit">Latest</button>
         </form>
         <button onclick="window.location.href='/users'">Users</button><br><br>
-        <form action="/" id="style_change">
-            <select id="style" name="style" onchange="this.form.submit()">
-                <option value="choose" name="style" id="choose">Choose A Style</option>
-                <option value="dark" name="style" id="dark">Dark</option>
-                <option value="light" name="style" id="light">Light</option>
-                <option value="gothic" name="style" id="gothic">Gothic</option>
-            </select>
-        </form>
+        {% if 'username' in session %}
+            <form action="/" id="style_change">
+                <select id="style" name="style" onchange="this.form.submit()">
+                    <option value="choose" name="style" id="choose">Choose A Style</option>
+                    <option value="dark" name="style" id="dark">Dark</option>
+                    <option value="light" name="style" id="light">Light</option>
+                    <option value="gothic" name="style" id="gothic">Gothic</option>
+                </select>
+            </form>
+        {% endif %}
     </div>
     <br>
     <div class="audio">

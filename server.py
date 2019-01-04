@@ -6,7 +6,6 @@ import connection
 app = Flask(__name__)
 
 #TODO format login forms and logged in mesages on every page in dark / light
-#TODO hide style changer if user is not logged in
 
 
 @app.route('/error/<type>')
