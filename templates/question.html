@@ -12,6 +12,28 @@
         {% else %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
         {% endif %}
+    <style>
+        .avatar {
+            width: 70px;
+            height: 70px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+
+        }
+
+        .qavatar {
+            width: 150px;
+            height: 150px;
+
+        }
+
+        .submissiontext {
+            line-height: 150px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+    </style>
     <script>
         function goBack() {
           window.history.back();
@@ -23,8 +45,12 @@
     {% include "login.html" %}
 {% endwith %}
 
-<h3>Posted by: <a href="/user/{{ profile_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</h3>
-    <h1>{{ question['title'] }}</h1>
+<h3>
+    <span class="submissiontext">Posted by: <a
+            href="/user/{{ profile_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</span>
+    <img src="{{ profile_picture }}" class="qavatar w3-round">
+</h3>
+<h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
         <div class="edit">
             {% if not editable %}
@@ -114,7 +140,9 @@
                 </form>
             {% endif %}
                 <div class="even wrap">
-                    <p class="date">Posted by: <a href="/user/{{ answer['user_id'] }}">{{ answer['username'] }}</a> at {{ answer['submission_time'] }}</p>
+                    <p class="date">Posted by: <a href="/user/{{ answer['user_id'] }}">{{ answer['username'] }}</a>
+                        at {{ answer['submission_time'] }}</p><br>
+                    <img src="{{ profile_picture }}" class="avatar w3-round">
                     <font size="4">{{ answer['message'] }}</font><br>
                     <br>
                     <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
