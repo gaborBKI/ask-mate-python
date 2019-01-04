@@ -113,7 +113,10 @@ def register():
         print('POST request received!')
         username = request.form['username']
         password = data_manager.hash_password(request.form['password'])
-        profile_picture = request.form.get('profile_picture')
+        if request.form.get('profile_picture'):
+            profile_picture = request.form.get('profile_picture')
+        else:
+            profile_picture='http://icreatived.com/wp-content/uploads/2014/10/Interesting-Creative-Facebook-Profile-Picture-Ideas-5.jpg'
         try:
             connection.register_user(username, password, profile_picture)
         except:
