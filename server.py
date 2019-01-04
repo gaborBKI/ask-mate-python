@@ -5,8 +5,6 @@ import connection
 
 app = Flask(__name__)
 
-#TODO format login forms and logged in mesages on every page in dark / light
-
 
 @app.route('/error/<type>')
 @app.route('/', defaults={'type': None})

@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    {% if colour == 'light' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_form.css') }}">
+    {% elif colour == 'dark' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_form.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_form.css') }}">
+    {% endif %}
 </head>
 <body>
+    <div class="content">
         <form action="/register" method="post">
             <label for="username"><h3>Username:<br></h3></label>
             <input type="text" id="username" name="username" minlength="5" placeholder="username" required>
@@ -17,5 +25,6 @@
             <br>
             <button type="submit">Create User</button>
         </form>
+    </div>
 </body>
 </html>

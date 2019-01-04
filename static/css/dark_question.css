@@ -264,3 +264,7 @@ textarea{
 a, a:visited {
     color: white
 }
+
+.even a:visited {
+    color: black;
+}
