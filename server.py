@@ -12,6 +12,7 @@ app = Flask(__name__)
 @app.route('/error/<type>')
 @app.route('/', defaults={'type': None})
 def route_list(type):
+    session['currenturl'] = request.url
     style = data_manager.get_style(session.get('username'))
     status = request.args.get('status', default=0, type=int)
     order = request.args.get('order', default=0, type=int)
@@ -48,6 +49,7 @@ def route_submit_question():
 @app.route('/question/<int:qid>', methods=['post'])
 @app.route('/question/<int:qid>')
 def route_question(qid):
+    session['currenturl'] = request.url
     editable = data_manager.check_for_edit_or_save(qid)
     questions = connection.get_all_questions('id', "", 0)
     returned_question = data_manager.get_question_to_show(qid, questions)
@@ -132,22 +134,22 @@ def login():
         print('POST request received!')
         username = request.form['username']
         password_input = request.form['password']
-
         if not connection.get_user_by_name(username):
             return redirect("/error/invalid_login")
         try:
             user_pw = connection.get_user_password(username).get('password')
         except AttributeError:
-            return redirect(url_for('route_list'))
+            return redirect(session['currenturl'])
         if data_manager.verify_password(password_input, user_pw):
             session['username'] = username
-            return redirect(url_for('route_list'))
+            return redirect(session['currenturl'])
         else:
             return redirect("/error/invalid_login")
 
 
 @app.route('/users')
 def all_users():
+    session['currenturl'] = request.url
     users = connection.get_all_users()
     return render_template('users.html', users=users, colour=data_manager.get_style(session.get('username')),
                            username=session.get('username'))
@@ -155,6 +157,7 @@ def all_users():
 
 @app.route('/user/<int:uid>')
 def show_user_profile(uid):
+    session['currenturl'] = request.url
     userdata = connection.get_user(uid)
     question_data = connection.get_questions_by_user(uid)
     answer_data = connection.get_answers_by_user(uid)
@@ -167,7 +170,7 @@ def show_user_profile(uid):
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('route_list'))
+    return redirect(session['currenturl'])
 
 
 if __name__ == '__main__':
