@@ -129,6 +129,7 @@ def login():
         print('POST request received!')
         username = request.form['username']
         password_input = request.form['password']
+
         if not connection.get_user_by_name(username):
             return redirect("/error/invalid_login")
         try:
