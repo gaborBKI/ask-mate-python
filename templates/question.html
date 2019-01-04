@@ -48,7 +48,7 @@
 <h3>
     <span class="submissiontext">Posted by: <a
             href="/user/{{ profile_id }}">{{ user_name }}</a> at {{ question['submission_time'] }}</span>
-    <img src="{{ profile_picture }}" class="qavatar w3-round">
+    <img src="{{ profile_picture }}" alt='' class="qavatar w3-round">
 </h3>
 <h1>{{ question['title'] }}</h1>
     <div class="question" contenteditable="{{ editable }}">
@@ -142,7 +142,7 @@
                 <div class="even wrap">
                     <p class="date">Posted by: <a href="/user/{{ answer['user_id'] }}">{{ answer['username'] }}</a>
                         at {{ answer['submission_time'] }}</p><br>
-                    <img src="{{ answer['profile_picture'] }}" class="avatar w3-round">
+                    <img src="{{ answer['profile_picture'] }}" alt='' class="avatar w3-round">
                     <font size="4">{{ answer['message'] }}</font><br>
                     <br>
                     <input class="spoilerbutton2" type="button" value="Show Comments" onclick="this.value=this.value=='Show Comments'?'Hide Comments':'Show Comments';">
