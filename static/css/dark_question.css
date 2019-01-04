@@ -23,7 +23,6 @@ h3 {
     margin-right: 100px;
     text-align: right;
     color: white;
-    text-shadow: 2px 2px grey;
     }
 
 .vote{
@@ -264,7 +263,7 @@ textarea{
 }
 
 a, a:visited {
-    color: white
+    color: grey;
 }
 
 .even a:visited {
