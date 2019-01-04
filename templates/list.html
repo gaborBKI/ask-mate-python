@@ -15,9 +15,17 @@
     <script>
         let problem = '{{ error }}';
         if (problem === 'invalid_login') {
-            window.alert('Invalid username or password');
-        } if (problem === 'login_error'){
-            window.alert('Please log in to ask a question');
+            if (window.confirm('Invalid username or password')) {
+                document.location = '/';
+            } else {
+                document.location = '/';
+            }
+        } if (problem === 'login_error') {
+            if (window.confirm('Invalid username or password')) {
+                document.location = '/';
+            } else {
+                document.location = '/';
+            }
         } else {
         }
     </script>
