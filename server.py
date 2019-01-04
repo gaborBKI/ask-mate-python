@@ -6,7 +6,6 @@ import connection
 app = Flask(__name__)
 
 
-@app.route('/error/<type>')
 @app.route('/', defaults={'type': None})
 def route_list(type):
     session['currenturl'] = request.url
