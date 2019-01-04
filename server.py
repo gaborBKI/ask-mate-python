@@ -5,8 +5,8 @@ import connection
 
 app = Flask(__name__)
 
-#TODO format h3 and a links in light_question, dark_question according to gothic_question.css
-#TODO set 'Back' button to previous on profile page
+#TODO format login forms and logged in mesages on every page in dark / light
+#TODO hide style changer if user is not logged in
 
 
 @app.route('/error/<type>')
