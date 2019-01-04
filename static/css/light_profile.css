@@ -36,3 +36,16 @@ tr {
     font-size: 14px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
+
+.userlogin {
+    display: flex;
+}
+
+.register {
+    display: flex;
+    margin-left: 18%;
+}
+
+a, a:visited {
+    color: black;
+}

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>Ask a Question</title>
     {% if colour == 'light' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_question.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/light_form.css') }}">
     {% elif colour == 'dark' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_question.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/dark_form.css') }}">
         {% else %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_question.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_form.css') }}">
         {% endif %}
 </head>
 <body>
