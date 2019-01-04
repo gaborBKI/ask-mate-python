@@ -12,24 +12,6 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/gothic_main.css') }}">
     {% endif %}
 
-    <script>
-        let problem = '{{ error }}';
-        if (problem === 'invalid_login') {
-            if (window.confirm('Invalid username or password')) {
-                document.location = '/';
-            } else {
-                document.location = '/';
-            }
-        } if (problem === 'login_error') {
-            if (window.confirm('Invalid username or password')) {
-                document.location = '/';
-            } else {
-                document.location = '/';
-            }
-        } else {
-        }
-    </script>
-
 </head>
 <body>
 <div class="content">

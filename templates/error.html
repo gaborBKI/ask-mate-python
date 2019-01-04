@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <script>
+        let problem = '{{ error }}';
+        if (problem === 'invalid_login') {
+            if (window.confirm('Invalid username or password')) {
+                document.location = '{{ url }}';
+            } else {
+                document.location = '{{ url }}';
+            }
+        } if (problem === 'login_error') {
+            if (window.confirm('Invalid username or password')) {
+                document.location = '/';
+            } else {
+                document.location = '/';
+            }
+        } else {
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

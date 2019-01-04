@@ -6,8 +6,8 @@ import connection
 app = Flask(__name__)
 
 
-@app.route('/', defaults={'type': None})
-def route_list(type):
+@app.route('/')
+def route_list():
     session['currenturl'] = request.url
     style = data_manager.get_style(session.get('username'))
     status = request.args.get('status', default=0, type=int)
@@ -15,7 +15,12 @@ def route_list(type):
     order_direction, questions, sort_options = data_manager.get_question_list(request.args.get
                                                                               ('latest', default=False, type=bool))
     return render_template('list.html', questions=questions, sort_options=sort_options, orderby=order_direction,
-                           current=status, corder=order, colour=style, error=type, username=session.get('username'))
+                           current=status, corder=order, colour=style, username=session.get('username'))
+
+
+@app.route('/error/<type>')
+def error_page(type):
+    return render_template('error.html', url=session['currenturl'], error=type)
 
 
 @app.route('/<type>/<int:type_id>/vote/<int:question_id>/<direction>')
