@@ -1,7 +1,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: fixed, no-repeat, url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
+    background: url("http://wallpapersqq.net/wp-content/uploads/2015/10/pink-abstract-wallpapers-6.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
 }
 

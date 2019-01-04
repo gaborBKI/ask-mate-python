@@ -1,7 +1,9 @@
 body {
     margin: 0;
     padding: 0;
-    background: fixed, no-repeat, url("http://s1.picswalls.com/wallpapers/2015/09/08/beautiful-white-wallpaper_021209399_265.jpg");
+    background: url("http://s1.picswalls.com/wallpapers/2015/09/08/beautiful-white-wallpaper_021209399_265.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
     height: 100%;
 }
